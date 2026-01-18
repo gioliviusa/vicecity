@@ -36,6 +36,16 @@
             object-fit: cover;
             z-index: -1;
             filter: brightness(0.7);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            #video-background {
+                object-fit: cover;
+                min-width: 100vw;
+                min-height: 100vh;
+            }
         }
 
         .video-overlay {
@@ -753,7 +763,8 @@
 </head>
 <body>
     <!-- Video Background -->
-    <video autoplay muted loop id="video-background">
+    <video autoplay muted loop playsinline id="video-background">
+        <source src="dd6be5554b734e97a11f627d57acd9.mov" type="video/quicktime">
         <source src="dd6be5554b734e97a11f627d57acd9.mov" type="video/mp4">
         Your browser does not support the video tag.
     </video>
