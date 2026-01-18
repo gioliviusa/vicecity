@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MIAMI LUXE | Downtown Miami & Brickell Properties</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #4fc3f7;
+            --primary-dark: #0a1929;
+            --accent-teal: #00e5ff;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --stories-gradient: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background: var(--primary-dark);
+            transition: transform 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body.menu-open,
+        body.stories-open {
+            overflow: hidden;
+        }
+
+        /* Video Background */
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.7) saturate(1.2);
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10, 25, 41, 0.9) 0%, rgba(32, 76, 119, 0.8) 100%);
+            z-index: -1;
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            z-index: 1002;
+        }
+
+        .logo i {
+            color: var(--primary-blue);
+            margin-right: 10px;
+        }
+
+        .mobile-menu-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            z-index: 1002;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .mobile-menu-btn.active {
+            background: var(--primary-blue);
+            color: var(--primary-dark);
+        }
+
+        /* Mobile Navigation Menu */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            max-width: 400px;
+            height: 100%;
+            background: rgba(16, 42, 67, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1001;
+            padding: 30px 25px;
+            overflow-y: auto;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.4);
+            border-left: 1px solid var(--glass-border);
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        /* Instagram Stories Style Gallery */
+        .stories-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .stories-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .story-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .story-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            z-index: 2002;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .story-progress-container {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            width: 100%;
+            padding: 0 20px;
+            display: flex;
+            gap: 5px;
+            z-index: 2003;
+        }
+
+        .story-progress-bar {
+            height: 3px;
+            flex: 1;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .story-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #fff;
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+
+        .story-progress-fill.active {
+            animation: progressFill 5s linear forwards;
+        }
+
+        @keyframes progressFill {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .story-user-info {
+            display: flex;
+            align-items: center;
+            margin-top: 25px;
+        }
+
+        .story-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--stories-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .story-avatar-inner {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+        }
+
+        .story-user-details {
+            flex: 1;
+        }
+
+        .story-username {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .story-time {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .story-close {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-left: 15px;
+        }
+
+        .story-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .story-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .story-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .story-navigation {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        .story-nav-area {
+            flex: 1;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .story-nav-area.prev {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='white' d='M20 6L10 16l10 10z'/%3E%3C/svg%3E"), auto;
+        }
+
+        .story-nav-area.next {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='white' d='M12 6l10 10-10 10z'/%3E%3C/svg%3E"), auto;
+        }
+
+        .story-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px 20px 20px;
+            z-index: 2002;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .story-property-info {
+            margin-bottom: 20px;
+        }
+
+        .story-property-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        .story-property-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .story-property-features {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .story-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .story-feature i {
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+        }
+
+        .story-feature span {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .story-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .story-action-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .story-action-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+        }
+
+        .story-action-btn.like.active {
+            background: rgba(255, 50, 50, 0.3);
+            color: #ff6b6b;
+        }
+
+        .story-action-btn.contact {
+            background: var(--primary-blue);
+            color: var(--primary-dark);
+            flex: 1;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .story-action-btn.contact:hover {
+            background: #29b6f6;
+        }
+
+        .story-pagination {
+            position: absolute;
+            bottom: 120px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            z-index: 2002;
+        }
+
+        /* Property Cards with Stories Indicator */
+        .property-card {
+            position: relative;
+        }
+
+        .stories-indicator {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--stories-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .stories-indicator-inner {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .stories-indicator i {
+            color: #fff;
+        }
+
+        /* Glassmorphism Card Design */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            padding: 25px;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+            border-color: rgba(79, 195, 247, 0.3);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 2.4rem;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            background: linear-gradient(90deg, #fff, var(--primary-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-subtitle {
+            font-weight: 300;
+            font-size: 1.15rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .primary-btn {
+            background: var(--primary-blue);
+            color: var(--primary-dark);
+            border: none;
+            padding: 16px 30px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.3);
+        }
+
+        .primary-btn:hover {
+            background: #29b6f6;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(79, 195, 247, 0.4);
+        }
+
+        .secondary-btn {
+            background: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 14px 28px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(79, 195, 247, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Property Listings */
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            color: var(--primary-blue);
+            margin-right: 12px;
+        }
+
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .property-image-container {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            border-radius: 18px 18px 0 0;
+            position: relative;
+        }
+
+        .property-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .property-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 2;
+        }
+
+        .property-info {
+            padding: 25px;
+        }
+
+        .property-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .property-title {
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .property-location {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+        }
+
+        .property-location i {
+            margin-right: 8px;
+            font-size: 0.9rem;
+            color: var(--primary-blue);
+        }
+
+        .property-price {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            text-shadow: 0 2px 10px rgba(79, 195, 247, 0.3);
+        }
+
+        .property-features {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature i {
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+
+        .feature-value {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .feature-label {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* Featured Property */
+        .featured-property {
+            margin-bottom: 50px;
+        }
+
+        .featured-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .featured-image-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            cursor: pointer;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .featured-image-container:hover .featured-image {
+            transform: scale(1.05);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 2;
+        }
+
+        .featured-stories-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--stories-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .featured-stories-indicator-inner {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .featured-details {
+            flex: 1;
+        }
+
+        .featured-price {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin: 15px 0;
+            text-shadow: 0 2px 10px rgba(79, 195, 247, 0.3);
+        }
+
+        .featured-description {
+            line-height: 1.7;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px);
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            padding: 35px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6rem;
+            color: var(--primary-blue);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--primary-blue);
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 3.2rem;
+            }
+
+            .featured-content {
+                flex-direction: row;
+            }
+
+            .featured-image-container {
+                width: 55%;
+                margin-right: 40px;
+                margin-bottom: 0;
+                height: 350px;
+            }
+
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .property-features {
+                flex-wrap: wrap;
+            }
+
+            .feature {
+                width: 50%;
+                margin-bottom: 15px;
+            }
+
+            .mobile-nav {
+                width: 90%;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .primary-btn, .secondary-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .story-property-features {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <video autoplay muted loop id="video-background">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-modern-city-with-skyscrapers-41574-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="video-overlay"></div>
+
+    <!-- Instagram Stories Overlay -->
+    <div class="stories-overlay" id="storiesOverlay">
+        <div class="story-container" id="storyContainer">
+            <div class="story-progress-container" id="storyProgressContainer">
+                <!-- Progress bars will be dynamically added here -->
+            </div>
+            
+            <div class="story-header">
+                <div class="story-user-info">
+                    <div class="story-avatar">
+                        <div class="story-avatar-inner">
+                            <i class="fas fa-home"></i>
+                        </div>
+                    </div>
+                    <div class="story-user-details">
+                        <div class="story-username" id="storyUsername">MIAMI LUXE</div>
+                        <div class="story-time" id="storyTime">Just now</div>
+                    </div>
+                </div>
+                <button class="story-close" id="storyCloseBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="story-content" id="storyContent">
+                <!-- Story image will be dynamically added here -->
+            </div>
+            
+            <div class="story-navigation">
+                <div class="story-nav-area prev" id="storyPrevArea"></div>
+                <div class="story-nav-area next" id="storyNextArea"></div>
+            </div>
+            
+            <div class="story-pagination" id="storyPagination">
+                <!-- Pagination will be dynamically added here -->
+            </div>
+            
+            <div class="story-footer">
+                <div class="story-property-info">
+                    <h3 class="story-property-name" id="storyPropertyName"></h3>
+                    <div class="story-property-price" id="storyPropertyPrice"></div>
+                    <div class="story-property-features" id="storyPropertyFeatures">
+                        <!-- Features will be dynamically added here -->
+                    </div>
+                </div>
+                <div class="story-actions">
+                    <button class="story-action-btn like" id="storyLikeBtn">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <button class="story-action-btn contact" id="storyContactBtn">
+                        <i class="fas fa-calendar-alt"></i> Schedule Viewing
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <span>MIAMI LUXE</span>
+            </div>
+
+            <button class="mobile-menu-btn glass-card" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title glass-card">Miami's Finest <span style="color: var(--primary-blue);">Luxury Properties</span></h1>
+            <p class="hero-subtitle">Swipe through stunning properties with our Instagram Stories-style gallery. Tap on the colorful circle to view property stories!</p>
+            
+            <div class="cta-buttons">
+                <button class="primary-btn" id="viewPropertiesBtn">
+                    <i class="fas fa-home"></i> View Properties
+                </button>
+                <button class="secondary-btn" id="virtualTourBtn">
+                    <i class="fas fa-vr-cardboard"></i> Virtual Tours
+                </button>
+            </div>
+        </section>
+
+        <!-- Featured Property -->
+        <section class="featured-property">
+            <h2 class="section-title"><i class="fas fa-crown"></i> Featured Property</h2>
+            <div class="glass-card featured-content">
+                <div class="featured-image-container">
+                    <div class="featured-badge">
+                        <i class="fas fa-star"></i> FEATURED
+                    </div>
+                    <div class="featured-stories-indicator" id="featuredStoriesTrigger">
+                        <div class="featured-stories-indicator-inner">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Brickell Penthouse" class="featured-image">
+                </div>
+                <div class="featured-details">
+                    <h3 class="property-title">Brickell Penthouse with Panoramic Views</h3>
+                    <div class="property-location"><i class="fas fa-map-marker-alt"></i> 123 Brickell Ave, Miami, FL</div>
+                    <div class="featured-price">$4,250,000</div>
+                    <p class="featured-description">Stunning 4,200 sq ft penthouse with 360-degree views of Miami skyline and Biscayne Bay. Features 4 bedrooms, 5.5 bathrooms, private rooftop pool, and smart home automation. This exclusive property includes a private elevator, wine cellar, and state-of-the-art chef's kitchen.</p>
+                    <button class="primary-btn" id="contact-featured"><i class="fas fa-phone-alt"></i> Schedule Private Viewing</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Property Listings -->
+        <section class="property-listings" id="properties">
+            <h2 class="section-title"><i class="fas fa-home"></i> Premium Properties</h2>
+            <div class="properties-grid" id="properties-container">
+                <!-- Properties will be loaded by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2023 Miami Luxe Real Estate. All rights reserved.</p>
+            <p>Specializing in luxury properties in Downtown Miami, Brickell, Edgewater, and South Beach.</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Property data with multiple images for each property
+        const properties = [
+            {
+                id: 1,
+                title: "Brickell Bayview Condo",
+                location: "888 Brickell Bay Drive, Miami, FL",
+                price: "$1,850,000",
+                images: [
+                    "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=958&q=80",
+                    "https://images.unsplash.com/photo-1558036117-15e82a2c9a9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                    "https://images.unsplash.com/photo-1613977257363-707ba9348227?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+                ],
+                bedrooms: 3,
+                bathrooms: 3,
+                sqft: 2200,
+                badge: "Waterfront",
+                description: "Luxurious waterfront condo with stunning bay views, modern finishes, and resort-style amenities."
+            },
+            {
+                id: 2,
+                title: "Downtown Miami Loft",
+                location: "200 SE 2nd St, Miami, FL",
+                price: "$2,750,000",
+                images: [
+                    "https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1465&q=80",
+                    "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                    "https://images.unsplash.com/photo-1556912167-f556f1f39fdf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80",
+                    "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+                ],
+                bedrooms: 4,
+                bathrooms: 3.5,
+                sqft: 3200,
+                badge: "Penthouse",
+                description: "Industrial chic loft with exposed brick, high ceilings, and panoramic downtown views."
+            },
+            {
+                id: 3,
+                title: "Brickell Financial District",
+                location: "1101 Brickell Ave, Miami, FL",
+                price: "$3,500,000",
+                images: [
+                    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                    "https://images.unsplash.com/photo-1560448205-4d9b3e6bb6db?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                    "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                    "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+                ],
+                bedrooms: 4,
+                bathrooms: 4,
+                sqft: 3800,
+                badge: "Luxury",
+                description: "Sophisticated residence in the heart of Brickell with designer finishes and concierge service."
+            },
+            {
+                id: 4,
+                title: "South Brickell Residence",
+                location: "55 SW 12th St, Miami, FL",
+                price: "$1,250,000",
+                images: [
+                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=958&q=80",
+                    "https://images.unsplash.com/photo-1556912167-f556f1f39fdf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80",
+                    "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+                ],
+                bedrooms: 2,
+                bathrooms: 2,
+                sqft: 1600,
+                badge: "Renovated",
+                description: "Completely renovated apartment with premium finishes and South Brickell location."
+            },
+            {
+                id: 5,
+                title: "Miami Riverfront Apartment",
+                location: "77 SE 5th St, Miami, FL",
+                price: "$950,000",
+                images: [
+                    "https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                    "https://images.unsplash.com/photo-1556912167-f556f1f39fdf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80",
+                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=958&q=80",
+                    "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+                ],
+                bedrooms: 2,
+                bathrooms: 2,
+                sqft: 1400,
+                badge: "River View",
+                description: "Charming apartment with direct river views and walking distance to downtown Miami."
+            }
+        ];
+
+        // Featured property data
+        const featuredProperty = {
+            id: 0,
+            title: "Brickell Penthouse with Panoramic Views",
+            location: "123 Brickell Ave, Miami, FL",
+            price: "$4,250,000",
+            images: [
+                "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80",
+                "https://images.unsplash.com/photo-1560448205-4d9b3e6bb6db?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+                "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+            ],
+            bedrooms: 4,
+            bathrooms: 5.5,
+            sqft: 4200,
+            badge: "Featured",
+            description: "Stunning 4,200 sq ft penthouse with 360-degree views of Miami skyline and Biscayne Bay."
+        };
+
+        // DOM Elements
+        const propertiesContainer = document.getElementById('properties-container');
+        const contactFeaturedBtn = document.getElementById('contact-featured');
+        const viewPropertiesBtn = document.getElementById('viewPropertiesBtn');
+        const virtualTourBtn = document.getElementById('virtualTourBtn');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const featuredStoriesTrigger = document.getElementById('featuredStoriesTrigger');
+        
+        // Stories elements
+        const storiesOverlay = document.getElementById('storiesOverlay');
+        const storyProgressContainer = document.getElementById('storyProgressContainer');
+        const storyContent = document.getElementById('storyContent');
+        const storyCloseBtn = document.getElementById('storyCloseBtn');
+        const storyPrevArea = document.getElementById('storyPrevArea');
+        const storyNextArea = document.getElementById('storyNextArea');
+        const storyUsername = document.getElementById('storyUsername');
+        const storyTime = document.getElementById('storyTime');
+        const storyPropertyName = document.getElementById('storyPropertyName');
+        const storyPropertyPrice = document.getElementById('storyPropertyPrice');
+        const storyPropertyFeatures = document.getElementById('storyPropertyFeatures');
+        const storyLikeBtn = document.getElementById('storyLikeBtn');
+        const storyContactBtn = document.getElementById('storyContactBtn');
+        const storyPagination = document.getElementById('storyPagination');
+
+        // Stories state
+        let currentStories = [];
+        let currentProperty = null;
+        let currentStoryIndex = 0;
+        let progressInterval = null;
+        let isStoriesPlaying = false;
+        let likedStories = new Set();
+
+        // Initialize the page
+        function init() {
+            renderProperties();
+            
+            // Event Listeners
+            contactFeaturedBtn.addEventListener('click', () => {
+                openContactModal(featuredProperty);
+            });
+            
+            viewPropertiesBtn.addEventListener('click', () => {
+                const propertiesSection = document.getElementById('properties');
+                window.scrollTo({
+                    top: propertiesSection.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+            
+            virtualTourBtn.addEventListener('click', () => {
+                alert('Virtual tour feature would launch here. In a full implementation, this would open a 3D tour of the featured property.');
+            });
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                alert('Mobile menu would open here. Focused on Stories feature for this implementation.');
+            });
+            
+            // Stories event listeners
+            storyCloseBtn.addEventListener('click', closeStories);
+            storyPrevArea.addEventListener('click', prevStory);
+            storyNextArea.addEventListener('click', nextStory);
+            storyLikeBtn.addEventListener('click', toggleLike);
+            storyContactBtn.addEventListener('click', openContactFromStory);
+            
+            // Keyboard navigation for stories
+            document.addEventListener('keydown', (e) => {
+                if (storiesOverlay.classList.contains('active')) {
+                    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                        prevStory();
+                    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                        nextStory();
+                    } else if (e.key === 'Escape') {
+                        closeStories();
+                    }
+                }
+            });
+            
+            // Touch swipe for stories
+            setupStoriesSwipe();
+            
+            // Setup smooth scrolling
+            setupSmoothScrolling();
+            
+            // Add animation to cards on load
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.glass-card');
+                cards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    
+                    setTimeout(() => {
+                        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 150);
+                });
+            }, 300);
+        }
+
+        // Render properties
+        function renderProperties() {
+            propertiesContainer.innerHTML = '';
+            
+            properties.forEach(property => {
+                const propertyCard = document.createElement('div');
+                propertyCard.className = 'property-card glass-card';
+                
+                propertyCard.innerHTML = `
+                    <div class="stories-indicator" data-property-id="${property.id}">
+                        <div class="stories-indicator-inner">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="property-image-container">
+                        ${property.badge ? `<div class="property-badge"><i class="fas fa-tag"></i> ${property.badge}</div>` : ''}
+                        <img src="${property.images[0]}" alt="${property.title}" class="property-image">
+                    </div>
+                    <div class="property-info">
+                        <div class="property-header">
+                            <div>
+                                <h3 class="property-title">${property.title}</h3>
+                                <div class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i> ${property.location}
+                                </div>
+                            </div>
+                            <div class="property-price">${property.price}</div>
+                        </div>
+                        <div class="property-features">
+                            <div class="feature">
+                                <i class="fas fa-bed"></i>
+                                <div class="feature-value">${property.bedrooms}</div>
+                                <div class="feature-label">Beds</div>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-bath"></i>
+                                <div class="feature-value">${property.bathrooms}</div>
+                                <div class="feature-label">Baths</div>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-ruler-combined"></i>
+                                <div class="feature-value">${property.sqft}</div>
+                                <div class="feature-label">Sq Ft</div>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-images"></i>
+                                <div class="feature-value">${property.images.length}</div>
+                                <div class="feature-label">Photos</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add click event to stories indicator
+                const storiesIndicator = propertyCard.querySelector('.stories-indicator');
+                storiesIndicator.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openStories(property);
+                });
+                
+                propertiesContainer.appendChild(propertyCard);
+            });
+            
+            // Add click event to featured property stories trigger
+            featuredStoriesTrigger.addEventListener('click', () => {
+                openStories(featuredProperty);
+            });
+        }
+
+        // Open Instagram Stories-style gallery
+        function openStories(property) {
+            currentProperty = property;
+            currentStories = property.images;
+            currentStoryIndex = 0;
+            
+            // Update UI with property info
+            storyUsername.textContent = 'MIAMI LUXE';
+            storyTime.textContent = 'Just now';
+            storyPropertyName.textContent = property.title;
+            storyPropertyPrice.textContent = property.price;
+            
+            // Update property features
+            storyPropertyFeatures.innerHTML = `
+                <div class="story-feature">
+                    <i class="fas fa-bed"></i>
+                    <span>${property.bedrooms} Beds</span>
+                </div>
+                <div class="story-feature">
+                    <i class="fas fa-bath"></i>
+                    <span>${property.bathrooms} Baths</span>
+                </div>
+                <div class="story-feature">
+                    <i class="fas fa-ruler-combined"></i>
+                    <span>${property.sqft} Sq Ft</span>
+                </div>
+            `;
+            
+            // Update like button state
+            updateLikeButton();
+            
+            // Create progress bars
+            createProgressBars();
+            
+            // Load first story
+            loadStory(currentStoryIndex);
+            
+            // Start auto-advance
+            startAutoAdvance();
+            
+            // Open stories overlay
+            storiesOverlay.classList.add('active');
+            document.body.classList.add('stories-open');
+        }
+
+        // Create progress bars for each story
+        function createProgressBars() {
+            storyProgressContainer.innerHTML = '';
+            
+            for (let i = 0; i < currentStories.length; i++) {
+                const progressBar = document.createElement('div');
+                progressBar.className = 'story-progress-bar';
+                progressBar.innerHTML = `<div class="story-progress-fill ${i === 0 ? 'active' : ''}"></div>`;
+                storyProgressContainer.appendChild(progressBar);
+            }
+            
+            // Update pagination
+            storyPagination.textContent = `${currentStoryIndex + 1} of ${currentStories.length}`;
+        }
+
+        // Load a specific story
+        function loadStory(index) {
+            if (index < 0 || index >= currentStories.length) return;
+            
+            currentStoryIndex = index;
+            
+            // Update content
+            storyContent.innerHTML = `<img src="${currentStories[index]}" alt="Property image ${index + 1}" class="story-image">`;
+            
+            // Update progress bars
+            document.querySelectorAll('.story-progress-fill').forEach((fill, i) => {
+                fill.classList.remove('active');
+                fill.style.width = '0%';
+                
+                if (i < index) {
+                    fill.style.width = '100%';
+                } else if (i === index) {
+                    fill.classList.add('active');
+                }
+            });
+            
+            // Update pagination
+            storyPagination.textContent = `${currentStoryIndex + 1} of ${currentStories.length}`;
+        }
+
+        // Start auto-advance timer
+        function startAutoAdvance() {
+            stopAutoAdvance();
+            isStoriesPlaying = true;
+            
+            progressInterval = setTimeout(() => {
+                nextStory();
+            }, 5000); // 5 seconds per story
+        }
+
+        // Stop auto-advance timer
+        function stopAutoAdvance() {
+            if (progressInterval) {
+                clearTimeout(progressInterval);
+                progressInterval = null;
+            }
+            isStoriesPlaying = false;
+            
+            // Pause progress bar animation
+            document.querySelectorAll('.story-progress-fill.active').forEach(fill => {
+                const currentWidth = fill.style.width || '0%';
+                fill.style.width = currentWidth;
+                fill.classList.remove('active');
+            });
+        }
+
+        // Resume auto-advance
+        function resumeAutoAdvance() {
+            if (!isStoriesPlaying) {
+                startAutoAdvance();
+            }
+        }
+
+        // Go to next story
+        function nextStory() {
+            if (currentStoryIndex < currentStories.length - 1) {
+                loadStory(currentStoryIndex + 1);
+                startAutoAdvance();
+            } else {
+                closeStories();
+            }
+        }
+
+        // Go to previous story
+        function prevStory() {
+            if (currentStoryIndex > 0) {
+                loadStory(currentStoryIndex - 1);
+                startAutoAdvance();
+            }
+        }
+
+        // Close stories
+        function closeStories() {
+            stopAutoAdvance();
+            storiesOverlay.classList.remove('active');
+            document.body.classList.remove('stories-open');
+        }
+
+        // Toggle like on current story
+        function toggleLike() {
+            const storyKey = `${currentProperty.id}-${currentStoryIndex}`;
+            
+            if (likedStories.has(storyKey)) {
+                likedStories.delete(storyKey);
+            } else {
+                likedStories.add(storyKey);
+            }
+            
+            updateLikeButton();
+        }
+
+        // Update like button appearance
+        function updateLikeButton() {
+            const storyKey = `${currentProperty.id}-${currentStoryIndex}`;
+            const isLiked = likedStories.has(storyKey);
+            
+            if (isLiked) {
+                storyLikeBtn.classList.add('active');
+                storyLikeBtn.innerHTML = '<i class="fas fa-heart"></i>';
+            } else {
+                storyLikeBtn.classList.remove('active');
+                storyLikeBtn.innerHTML = '<i class="far fa-heart"></i>';
+            }
+        }
+
+        // Open contact modal from story
+        function openContactFromStory() {
+            closeStories();
+            openContactModal(currentProperty);
+        }
+
+        // Open contact modal
+        function openContactModal(property) {
+            alert(`Contact form for: ${property.title}\n\nIn a full implementation, this would open a contact form to schedule a viewing for this property.`);
+        }
+
+        // Setup swipe gestures for stories
+        function setupStoriesSwipe() {
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+            
+            storiesOverlay.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+                stopAutoAdvance();
+            }, {passive: true});
+            
+            storiesOverlay.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipe();
+                resumeAutoAdvance();
+            }, {passive: true});
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const xDiff = touchStartX - touchEndX;
+                const yDiff = touchStartY - touchEndY;
+                
+                // Check if it's primarily a horizontal swipe
+                if (Math.abs(xDiff) > Math.abs(yDiff)) {
+                    if (Math.abs(xDiff) > swipeThreshold) {
+                        if (xDiff > 0) {
+                            // Swipe left - next story
+                            nextStory();
+                        } else {
+                            // Swipe right - previous story
+                            prevStory();
+                        }
+                    }
+                } else {
+                    // Vertical swipe
+                    if (Math.abs(yDiff) > swipeThreshold) {
+                        if (yDiff > 0) {
+                            // Swipe up - close stories
+                            closeStories();
+                        }
+                    }
+                }
+            }
+        }
+
+        // Smooth scrolling for anchor links
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
