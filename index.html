@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Luxury Properties | Downtown Miami & Brickell</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            background: #0a1929;
+            transition: transform 0.3s ease;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /* Video Background */
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.7);
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10, 25, 41, 0.85) 0%, rgba(32, 76, 119, 0.75) 100%);
+            z-index: -1;
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            z-index: 1002;
+        }
+
+        .logo i {
+            color: #4fc3f7;
+            margin-right: 10px;
+        }
+
+        .mobile-menu-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            z-index: 1002;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-menu-btn.active {
+            background: #4fc3f7;
+            color: #0a1929;
+        }
+
+        /* Mobile Navigation Menu */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            max-width: 400px;
+            height: 100%;
+            background: rgba(16, 42, 67, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1001;
+            padding: 30px 25px;
+            overflow-y: auto;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-nav-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            color: #4fc3f7;
+        }
+
+        .close-menu-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-menu-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .mobile-nav-links li {
+            margin-bottom: 15px;
+        }
+
+        .mobile-nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
+            background: rgba(79, 195, 247, 0.15);
+            color: #4fc3f7;
+            transform: translateX(5px);
+        }
+
+        .mobile-nav-links a i {
+            width: 25px;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .mobile-nav-contact {
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .mobile-nav-contact h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #4fc3f7;
+        }
+
+        .mobile-nav-contact p {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .mobile-nav-contact p i {
+            color: #4fc3f7;
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        /* Desktop Navigation */
+        .desktop-nav {
+            display: none;
+        }
+
+        /* Glassmorphism Card Design */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .hero-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-weight: 300;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 18px 20px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-btn {
+            background: #4fc3f7;
+            color: #0a1929;
+            border: none;
+            padding: 0 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #29b6f6;
+        }
+
+        /* Neighborhood Section */
+        .neighborhood-section {
+            margin-bottom: 40px;
+        }
+
+        .neighborhood-intro {
+            margin-bottom: 30px;
+        }
+
+        .neighborhood-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #4fc3f7;
+        }
+
+        .neighborhood-description {
+            line-height: 1.7;
+            opacity: 0.9;
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+        }
+
+        .neighborhood-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .highlight-card {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .highlight-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(79, 195, 247, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            color: #4fc3f7;
+        }
+
+        .highlight-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .highlight-description {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .attraction-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .attraction-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .attraction-info {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .attraction-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .attraction-name i {
+            color: #4fc3f7;
+            margin-right: 10px;
+        }
+
+        .attraction-details {
+            opacity: 0.8;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .attraction-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: rgba(79, 195, 247, 0.15);
+            color: #4fc3f7;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Property Listings */
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            color: #4fc3f7;
+            margin-right: 10px;
+        }
+
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .property-card {
+            overflow: hidden;
+        }
+
+        .property-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .property-info {
+            padding: 20px;
+        }
+
+        .property-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .property-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .property-location {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+        }
+
+        .property-location i {
+            margin-right: 5px;
+            font-size: 0.8rem;
+        }
+
+        .property-price {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #4fc3f7;
+        }
+
+        .property-features {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature i {
+            color: #4fc3f7;
+            margin-bottom: 5px;
+        }
+
+        .feature-value {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .feature-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Featured Property */
+        .featured-property {
+            margin-bottom: 40px;
+        }
+
+        .featured-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .featured-details {
+            flex: 1;
+        }
+
+        .featured-price {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #4fc3f7;
+            margin: 10px 0;
+        }
+
+        .featured-description {
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .contact-btn {
+            background: transparent;
+            border: 2px solid #4fc3f7;
+            color: #4fc3f7;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-btn i {
+            margin-right: 8px;
+        }
+
+        .contact-btn:hover {
+            background: #4fc3f7;
+            color: #0a1929;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: #4fc3f7;
+            transform: translateY(-3px);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .featured-content {
+                flex-direction: row;
+            }
+
+            .featured-image {
+                width: 50%;
+                margin-right: 30px;
+                margin-bottom: 0;
+            }
+
+            .mobile-menu-btn {
+                display: none;
+            }
+
+            .desktop-nav {
+                display: flex;
+                align-items: center;
+            }
+
+            .desktop-nav-links {
+                display: flex;
+                list-style: none;
+            }
+
+            .desktop-nav-links li {
+                margin-left: 25px;
+            }
+
+            .desktop-nav-links a {
+                color: #fff;
+                text-decoration: none;
+                font-weight: 500;
+                padding: 10px 15px;
+                border-radius: 10px;
+                transition: all 0.3s;
+            }
+
+            .desktop-nav-links a:hover,
+            .desktop-nav-links a.active {
+                background: rgba(79, 195, 247, 0.15);
+                color: #4fc3f7;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .property-features {
+                flex-wrap: wrap;
+            }
+
+            .feature {
+                width: 50%;
+                margin-bottom: 10px;
+            }
+
+            .mobile-nav {
+                width: 90%;
+            }
+            
+            .neighborhood-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <video autoplay muted loop id="video-background">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-modern-city-with-skyscrapers-41574-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="video-overlay"></div>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+
+    <!-- Mobile Navigation Menu -->
+    <nav class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <h2 class="mobile-nav-title">Menu</h2>
+            <button class="close-menu-btn" id="closeMenuBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <ul class="mobile-nav-links">
+            <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#properties"><i class="fas fa-building"></i> Properties</a></li>
+            <li><a href="#neighborhood"><i class="fas fa-map-marker-alt"></i> Neighborhood</a></li>
+            <li><a href="#"><i class="fas fa-dollar-sign"></i> Pricing</a></li>
+            <li><a href="#"><i class="fas fa-user-tie"></i> Agents</a></li>
+            <li><a href="#"><i class="fas fa-newspaper"></i> Blog</a></li>
+            <li><a href="#"><i class="fas fa-phone-alt"></i> Contact Us</a></li>
+        </ul>
+
+        <div class="mobile-nav-contact">
+            <h3>Contact Info</h3>
+            <p><i class="fas fa-phone"></i> (305) 123-4567</p>
+            <p><i class="fas fa-envelope"></i> info@miamiluxe.com</p>
+            <p><i class="fas fa-map-marker-alt"></i> 123 Brickell Ave, Miami, FL</p>
+            <p><i class="fas fa-clock"></i> Mon-Fri: 9AM-7PM</p>
+        </div>
+
+        <div class="mobile-nav-contact">
+            <h3>Quick Actions</h3>
+            <button class="contact-btn" style="width: 100%; margin-bottom: 15px;" id="scheduleMobile">
+                <i class="fas fa-calendar-alt"></i> Schedule Tour
+            </button>
+            <button class="contact-btn" style="width: 100%;" id="contactMobile">
+                <i class="fas fa-headset"></i> Contact Agent
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <span>MIAMI LUXE</span>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
+                <ul class="desktop-nav-links">
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#properties">Properties</a></li>
+                    <li><a href="#neighborhood">Neighborhood</a></li>
+                    <li><a href="#">Agents</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+
+            <button class="mobile-menu-btn glass-card" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title glass-card">Luxury Living in <span style="color: #4fc3f7;">Downtown Miami</span> & Brickell</h1>
+            <p class="hero-subtitle">Discover exclusive waterfront condos, penthouses, and luxury apartments in Miami's most prestigious neighborhoods</p>
+            
+            <!-- Search Bar -->
+            <div class="search-bar glass-card">
+                <input type="text" class="search-input" placeholder="Search by location, price, or property type...">
+                <button class="search-btn"><i class="fas fa-search"></i> Search</button>
+            </div>
+        </section>
+
+        <!-- Featured Property -->
+        <section class="featured-property">
+            <h2 class="section-title"><i class="fas fa-crown"></i> Featured Property</h2>
+            <div class="glass-card featured-content">
+                <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Brickell Penthouse" class="featured-image">
+                <div class="featured-details">
+                    <h3 class="property-title">Brickell Penthouse with Panoramic Views</h3>
+                    <div class="property-location"><i class="fas fa-map-marker-alt"></i> 123 Brickell Ave, Miami, FL</div>
+                    <div class="featured-price">$4,250,000</div>
+                    <p class="featured-description">Stunning 4,200 sq ft penthouse with 360-degree views of Miami skyline and Biscayne Bay. Features 4 bedrooms, 5.5 bathrooms, private rooftop pool, and smart home automation.</p>
+                    <button class="contact-btn" id="contact-featured"><i class="fas fa-phone-alt"></i> Schedule Viewing</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Neighborhood Section -->
+        <section class="neighborhood-section" id="neighborhood">
+            <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Living in Downtown Miami & Brickell</h2>
+            
+            <div class="glass-card neighborhood-intro">
+                <h3 class="neighborhood-title">The Heart of Miami's Luxury Lifestyle</h3>
+                <p class="neighborhood-description">
+                    Brickell and Downtown Miami represent the epicenter of luxury living in South Florida. These vibrant neighborhoods combine world-class amenities, breathtaking waterfront views, and an unparalleled urban lifestyle. From fine dining and high-end shopping to cultural attractions and lush parks, everything is within walking distance.
+                </p>
+                
+                <div class="neighborhood-highlights">
+                    <div class="glass-card highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h4 class="highlight-title">150+ Restaurants</h4>
+                        <p class="highlight-description">From Michelin-star dining to trendy cafes and waterfront eateries</p>
+                    </div>
+                    
+                    <div class="glass-card highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <h4 class="highlight-title">Luxury Shopping</h4>
+                        <p class="highlight-description">Brickell City Centre, Mary Brickell Village, and designer boutiques</p>
+                    </div>
+                    
+                    <div class="glass-card highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-walking"></i>
+                        </div>
+                        <h4 class="highlight-title">Walkability Score: 95</h4>
+                        <p class="highlight-description">One of the most walkable neighborhoods in the United States</p>
+                    </div>
+                    
+                    <div class="glass-card highlight-card">
+                        <div class="highlight-icon">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <h4 class="highlight-title">Waterfront Living</h4>
+                        <p class="highlight-description">Miles of baywalk, marinas, and breathtaking Biscayne Bay views</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="section-title" style="margin-top: 40px;"><i class="fas fa-star"></i> Top Attractions & Things to Do</h2>
+            
+            <div class="attractions-grid">
+                <div class="glass-card attraction-card">
+                    <img src="https://images.unsplash.com/photo-1586769852044-692eb57e5e17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Brickell City Centre" class="attraction-image">
+                    <div class="attraction-info">
+                        <h4 class="attraction-name"><i class="fas fa-shopping-cart"></i> Brickell City Centre</h4>
+                        <p class="attraction-details">A 500,000 sq ft luxury shopping destination with high-end retailers, fine dining, and entertainment.</p>
+                        <div class="attraction-tags">
+                            <span class="tag">Shopping</span>
+                            <span class="tag">Dining</span>
+                            <span class="tag">Entertainment</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card attraction-card">
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Bayside Marketplace" class="attraction-image">
+                    <div class="attraction-info">
+                        <h4 class="attraction-name"><i class="fas fa-umbrella-beach"></i> Bayside Marketplace</h4>
+                        <p class="attraction-details">Waterfront shopping and entertainment complex with live music, boat tours, and local vendors.</p>
+                        <div class="attraction-tags">
+                            <span class="tag">Waterfront</span>
+                            <span class="tag">Shopping</span>
+                            <span class="tag">Boat Tours</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card attraction-card">
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Pérez Art Museum" class="attraction-image">
+                    <div class="attraction-info">
+                        <h4 class="attraction-name"><i class="fas fa-landmark"></i> Pérez Art Museum</h4>
+                        <p class="attraction-details">Modern and contemporary art museum overlooking Biscayne Bay with stunning architecture.</p>
+                        <div class="attraction-tags">
+                            <span class="tag">Art</span>
+                            <span class="tag">Culture</span>
+                            <span class="tag">Museum</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card attraction-card">
+                    <img src="https://images.unsplash.com/photo-1590080876288-8b6b8b8b8b8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Brickell Key" class="attraction-image">
+                    <div class="attraction-info">
+                        <h4 class="attraction-name"><i class="fas fa-key"></i> Brickell Key</h4>
+                        <p class="attraction-details">Exclusive island community with waterfront parks, walking trails, and panoramic skyline views.</p>
+                        <div class="attraction-tags">
+                            <span class="tag">Island</span>
+                            <span class="tag">Parks</span>
+                            <span class="tag">Waterfront</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card attraction-card">
+                    <img src="https://images.unsplash.com/photo-1576675466969-38eeae4b41f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Bayfront Park" class="attraction-image">
+                    <div class="attraction-info">
+                        <h4 class="attraction-name"><i class="fas fa-tree"></i> Bayfront Park</h4>
+                        <p class="attraction-details">32-acre urban park with amphitheater, sculptures, and stunning views of Biscayne Bay.</p>
+                        <div class="attraction-tags">
+                            <span class="tag">Park</span>
+                            <span class="tag">Events</span>
+                            <span class="tag">Recreation</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card attraction-card">
+                    <img src="https://images.unsplash.com/photo-1551816230-ef5deaed4a26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Financial District" class="attraction-image">
+                    <div class="attraction-info">
+                        <h4 class="attraction-name"><i class="fas fa-building"></i> Financial District</h4>
+                        <p class="attraction-details">Miami's business hub with corporate headquarters, luxury hotels, and upscale dining.</p>
+                        <div class="attraction-tags">
+                            <span class="tag">Business</span>
+                            <span class="tag">Dining</span>
+                            <span class="tag">Luxury</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Property Listings -->
+        <section class="property-listings" id="properties">
+            <h2 class="section-title"><i class="fas fa-home"></i> Premium Properties</h2>
+            <div class="properties-grid" id="properties-container">
+                <!-- Properties will be loaded by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2023 Miami Luxe Real Estate. All rights reserved.</p>
+            <p>Specializing in luxury properties in Downtown Miami, Brickell, Edgewater, and South Beach.</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3 class="modal-title">Schedule a Viewing</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="contactForm">
+                <div style="margin-bottom: 20px;">
+                    <label for="name" style="display: block; margin-bottom: 8px;">Full Name</label>
+                    <input type="text" id="name" class="search-input" style="width: 100%; border-radius: 10px;" required>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="email" style="display: block; margin-bottom: 8px;">Email Address</label>
+                    <input type="email" id="email" class="search-input" style="width: 100%; border-radius: 10px;" required>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="phone" style="display: block; margin-bottom: 8px;">Phone Number</label>
+                    <input type="tel" id="phone" class="search-input" style="width: 100%; border-radius: 10px;" required>
+                </div>
+                <div style="margin-bottom: 25px;">
+                    <label for="property" style="display: block; margin-bottom: 8px;">Property Interest</label>
+                    <select id="property" class="search-input" style="width: 100%; border-radius: 10px;">
+                        <option value="featured">Brickell Penthouse</option>
+                        <option value="property1">Brickell Bayview Condo</option>
+                        <option value="property2">Downtown Miami Loft</option>
+                        <option value="property3">Brickell Financial District</option>
+                        <option value="property4">South Brickell Residence</option>
+                        <option value="property5">Miami Riverfront Apartment</option>
+                    </select>
+                </div>
+                <button type="submit" class="search-btn" style="width: 100%; padding: 18px; border-radius: 12px;">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Property data
+        const properties = [
+            {
+                id: 1,
+                title: "Brickell Bayview Condo",
+                location: "888 Brickell Bay Drive, Miami, FL",
+                price: "$1,850,000",
+                image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                bedrooms: 3,
+                bathrooms: 3,
+                sqft: 2200
+            },
+            {
+                id: 2,
+                title: "Downtown Miami Loft",
+                location: "200 SE 2nd St, Miami, FL",
+                price: "$2,750,000",
+                image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1465&q=80",
+                bedrooms: 4,
+                bathrooms: 3.5,
+                sqft: 3200
+            },
+            {
+                id: 3,
+                title: "Brickell Financial District",
+                location: "1101 Brickell Ave, Miami, FL",
+                price: "$3,500,000",
+                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                bedrooms: 4,
+                bathrooms: 4,
+                sqft: 3800
+            },
+            {
+                id: 4,
+                title: "South Brickell Residence",
+                location: "55 SW 12th St, Miami, FL",
+                price: "$1,250,000",
+                image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                bedrooms: 2,
+                bathrooms: 2,
+                sqft: 1600
+            },
+            {
+                id: 5,
+                title: "Miami Riverfront Apartment",
+                location: "77 SE 5th St, Miami, FL",
+                price: "$950,000",
+                image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+                bedrooms: 2,
+                bathrooms: 2,
+                sqft: 1400
+            }
+        ];
+
+        // DOM Elements
+        const propertiesContainer = document.getElementById('properties-container');
+        const contactFeaturedBtn = document.getElementById('contact-featured');
+        const contactModal = document.getElementById('contactModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const contactForm = document.getElementById('contactForm');
+        const searchInput = document.querySelector('.search-input');
+        const searchBtn = document.querySelector('.search-btn');
+        
+        // Mobile menu elements
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const scheduleMobileBtn = document.getElementById('scheduleMobile');
+        const contactMobileBtn = document.getElementById('contactMobile');
+
+        // Mobile menu state
+        let isMobileMenuOpen = false;
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            isMobileMenuOpen = !isMobileMenuOpen;
+            
+            if (isMobileMenuOpen) {
+                mobileNav.classList.add('active');
+                mobileNavOverlay.classList.add('active');
+                mobileMenuBtn.classList.add('active');
+                document.body.classList.add('menu-open');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                mobileNav.classList.remove('active');
+                mobileNavOverlay.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+                document.body.classList.remove('menu-open');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        }
+
+        // Close mobile menu
+        function closeMobileMenu() {
+            isMobileMenuOpen = false;
+            mobileNav.classList.remove('active');
+            mobileNavOverlay.classList.remove('active');
+            mobileMenuBtn.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+
+        // Render properties
+        function renderProperties() {
+            propertiesContainer.innerHTML = '';
+            
+            properties.forEach(property => {
+                const propertyCard = document.createElement('div');
+                propertyCard.className = 'property-card glass-card';
+                
+                propertyCard.innerHTML = `
+                    <img src="${property.image}" alt="${property.title}" class="property-image">
+                    <div class="property-info">
+                        <div class="property-header">
+                            <div>
+                                <h3 class="property-title">${property.title}</h3>
+                                <div class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i> ${property.location}
+                                </div>
+                            </div>
+                            <div class="property-price">${property.price}</div>
+                        </div>
+                        <div class="property-features">
+                            <div class="feature">
+                                <i class="fas fa-bed"></i>
+                                <div class="feature-value">${property.bedrooms}</div>
+                                <div class="feature-label">Beds</div>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-bath"></i>
+                                <div class="feature-value">${property.bathrooms}</div>
+                                <div class="feature-label">Baths</div>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-ruler-combined"></i>
+                                <div class="feature-value">${property.sqft}</div>
+                                <div class="feature-label">Sq Ft</div>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-eye"></i>
+                                <div class="feature-value">View</div>
+                                <div class="feature-label">Details</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add click event to property card
+                propertyCard.addEventListener('click', () => {
+                    openModal(property);
+                    closeMobileMenu(); // Close mobile menu when opening property modal
+                });
+                
+                propertiesContainer.appendChild(propertyCard);
+            });
+        }
+
+        // Open modal with property details
+        function openModal(property) {
+            const modal = document.getElementById('contactModal');
+            const form = document.getElementById('contactForm');
+            
+            // Set the property in the dropdown
+            const propertySelect = document.getElementById('property');
+            const option = document.createElement('option');
+            option.value = property.id;
+            option.textContent = property.title;
+            propertySelect.appendChild(option);
+            propertySelect.value = property.id;
+            
+            // Show modal
+            modal.style.display = 'flex';
+        }
+
+        // Close modal
+        function closeModal() {
+            contactModal.style.display = 'none';
+        }
+
+        // Handle form submission
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const property = document.getElementById('property').value;
+            
+            // In a real app, you would send this data to a server
+            alert(`Thank you ${name}! We'll contact you at ${phone} or ${email} to schedule a viewing for the selected property.`);
+            
+            // Reset form and close modal
+            contactForm.reset();
+            closeModal();
+        }
+
+        // Handle search
+        function handleSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            if (searchTerm.trim() === '') {
+                renderProperties();
+                return;
+            }
+            
+            const filteredProperties = properties.filter(property => 
+                property.title.toLowerCase().includes(searchTerm) ||
+                property.location.toLowerCase().includes(searchTerm) ||
+                property.price.toLowerCase().includes(searchTerm)
+            );
+            
+            // Update the UI with filtered properties
+            propertiesContainer.innerHTML = '';
+            
+            if (filteredProperties.length === 0) {
+                propertiesContainer.innerHTML = `
+                    <div class="glass-card" style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                        <h3>No properties found</h3>
+                        <p>Try adjusting your search criteria</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredProperties.forEach(property => {
+                const propertyCard = document.createElement('div');
+                propertyCard.className = 'property-card glass-card';
+                
+                propertyCard.innerHTML = `
+                    <img src="${property.image}" alt="${property.title}" class="property-image">
+                    <div class="property-info">
+                        <div class="property-header">
+                            <div>
+                                <h3 class="property-title">${property.title}</h3>
+                                <div class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i> ${property.location}
+                                </div>
+                            </div>
+                            <div class="property-price">${property.price}</div>
+                        </div>
+                        <div class="property-features">
+                            <div class="feature">
+                                <i class="fas fa-bed"></i>
+                                <div class="feature-value">${property.bedrooms}</div>
+                                <div class="feature-label">Beds</div>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-bath"></i>
+                                <div class="feature-value">${property.bathrooms}</div>
+                                <div class="feature-label">Baths</div>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-ruler-combined"></i>
+                                <div class="feature-value">${property.sqft}</div>
+                                <div class="feature-label">Sq Ft</div>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-eye"></i>
+                                <div class="feature-value">View</div>
+                                <div class="feature-label">Details</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                propertyCard.addEventListener('click', () => {
+                    openModal(property);
+                });
+                
+                propertiesContainer.appendChild(propertyCard);
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Initialize the page
+        function init() {
+            renderProperties();
+            
+            // Event Listeners
+            contactFeaturedBtn.addEventListener('click', () => {
+                const featuredProperty = {
+                    id: 'featured',
+                    title: 'Brickell Penthouse with Panoramic Views'
+                };
+                openModal(featuredProperty);
+            });
+            
+            closeModalBtn.addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside
+            contactModal.addEventListener('click', (e) => {
+                if (e.target === contactModal) {
+                    closeModal();
+                }
+            });
+            
+            contactForm.addEventListener('submit', handleFormSubmit);
+            
+            searchBtn.addEventListener('click', handleSearch);
+            
+            // Search on Enter key
+            searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+            
+            // Mobile menu event listeners
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            closeMenuBtn.addEventListener('click', closeMobileMenu);
+            mobileNavOverlay.addEventListener('click', closeMobileMenu);
+            
+            // Mobile menu links - close menu when clicking a link
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+            
+            // Mobile menu action buttons
+            scheduleMobileBtn.addEventListener('click', () => {
+                closeMobileMenu();
+                const featuredProperty = {
+                    id: 'featured',
+                    title: 'Brickell Penthouse with Panoramic Views'
+                };
+                openModal(featuredProperty);
+            });
+            
+            contactMobileBtn.addEventListener('click', () => {
+                closeMobileMenu();
+                alert('Connecting you with our top agent...');
+            });
+            
+            // Close mobile menu on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isMobileMenuOpen) {
+                    closeMobileMenu();
+                }
+            });
+            
+            // Setup smooth scrolling
+            setupSmoothScrolling();
+            
+            // Add some animation to cards on load
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.glass-card');
+                cards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 300);
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
