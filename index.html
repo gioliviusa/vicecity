@@ -1478,33 +1478,43 @@
         function init() {
             renderProperties();
             
-            // Event Listeners
-            contactFeaturedBtn.addEventListener('click', () => {
-                openContactModal(featuredProperty);
-            });
-            
-            viewPropertiesBtn.addEventListener('click', () => {
-                const propertiesSection = document.getElementById('properties');
-                window.scrollTo({
-                    top: propertiesSection.offsetTop - 80,
-                    behavior: 'smooth'
+            // Event Listeners with null checks
+            if (contactFeaturedBtn) {
+                contactFeaturedBtn.addEventListener('click', () => {
+                    openContactModal(featuredProperty);
                 });
-            });
+            }
             
-            virtualTourBtn.addEventListener('click', () => {
-                alert('Virtual tour feature would launch here. In a full implementation, this would open a 3D tour of the featured property.');
-            });
+            if (viewPropertiesBtn) {
+                viewPropertiesBtn.addEventListener('click', () => {
+                    const propertiesSection = document.getElementById('properties');
+                    if (propertiesSection) {
+                        window.scrollTo({
+                            top: propertiesSection.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            }
             
-            mobileMenuBtn.addEventListener('click', () => {
-                alert('Mobile menu would open here. Focused on Stories feature for this implementation.');
-            });
+            if (virtualTourBtn) {
+                virtualTourBtn.addEventListener('click', () => {
+                    alert('Virtual tour feature would launch here. In a full implementation, this would open a 3D tour of the featured property.');
+                });
+            }
             
-            // Stories event listeners
-            storyCloseBtn.addEventListener('click', closeStories);
-            storyPrevArea.addEventListener('click', prevStory);
-            storyNextArea.addEventListener('click', nextStory);
-            storyLikeBtn.addEventListener('click', toggleLike);
-            storyContactBtn.addEventListener('click', openContactFromStory);
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    alert('Mobile menu would open here. Focused on Stories feature for this implementation.');
+                });
+            }
+            
+            // Stories event listeners with null checks
+            if (storyCloseBtn) storyCloseBtn.addEventListener('click', closeStories);
+            if (storyPrevArea) storyPrevArea.addEventListener('click', prevStory);
+            if (storyNextArea) storyNextArea.addEventListener('click', nextStory);
+            if (storyLikeBtn) storyLikeBtn.addEventListener('click', toggleLike);
+            if (storyContactBtn) storyContactBtn.addEventListener('click', openContactFromStory);
             
             // Keyboard navigation for stories
             document.addEventListener('keydown', (e) => {
@@ -1520,7 +1530,9 @@
             });
             
             // Touch swipe for stories
-            setupStoriesSwipe();
+            if (storiesOverlay) {
+                setupStoriesSwipe();
+            }
             
             // Setup smooth scrolling
             setupSmoothScrolling();
@@ -1605,9 +1617,11 @@
             });
             
             // Add click event to featured property stories trigger
-            featuredStoriesTrigger.addEventListener('click', () => {
-                openStories(featuredProperty);
-            });
+            if (featuredStoriesTrigger) {
+                featuredStoriesTrigger.addEventListener('click', () => {
+                    openStories(featuredProperty);
+                });
+            }
         }
 
         // Open Instagram Stories-style gallery
@@ -1616,27 +1630,29 @@
             currentStories = property.images;
             currentStoryIndex = 0;
             
-            // Update UI with property info
-            storyUsername.textContent = 'MIAMI LUXE';
-            storyTime.textContent = 'Just now';
-            storyPropertyName.textContent = property.title;
-            storyPropertyPrice.textContent = property.price;
+            // Update UI with property info (with null checks)
+            if (storyUsername) storyUsername.textContent = 'MIAMI LUXE';
+            if (storyTime) storyTime.textContent = 'Just now';
+            if (storyPropertyName) storyPropertyName.textContent = property.title;
+            if (storyPropertyPrice) storyPropertyPrice.textContent = property.price;
             
             // Update property features
-            storyPropertyFeatures.innerHTML = `
-                <div class="story-feature">
-                    <i class="fas fa-bed"></i>
-                    <span>${property.bedrooms} Beds</span>
-                </div>
-                <div class="story-feature">
-                    <i class="fas fa-bath"></i>
-                    <span>${property.bathrooms} Baths</span>
-                </div>
-                <div class="story-feature">
-                    <i class="fas fa-ruler-combined"></i>
-                    <span>${property.sqft} Sq Ft</span>
-                </div>
-            `;
+            if (storyPropertyFeatures) {
+                storyPropertyFeatures.innerHTML = `
+                    <div class="story-feature">
+                        <i class="fas fa-bed"></i>
+                        <span>${property.bedrooms} Beds</span>
+                    </div>
+                    <div class="story-feature">
+                        <i class="fas fa-bath"></i>
+                        <span>${property.bathrooms} Baths</span>
+                    </div>
+                    <div class="story-feature">
+                        <i class="fas fa-ruler-combined"></i>
+                        <span>${property.sqft} Sq Ft</span>
+                    </div>
+                `;
+            }
             
             // Update like button state
             updateLikeButton();
@@ -1651,12 +1667,16 @@
             startAutoAdvance();
             
             // Open stories overlay
-            storiesOverlay.classList.add('active');
-            document.body.classList.add('stories-open');
+            if (storiesOverlay) {
+                storiesOverlay.classList.add('active');
+                document.body.classList.add('stories-open');
+            }
         }
 
         // Create progress bars for each story
         function createProgressBars() {
+            if (!storyProgressContainer) return;
+            
             storyProgressContainer.innerHTML = '';
             
             for (let i = 0; i < currentStories.length; i++) {
@@ -1677,7 +1697,9 @@
             currentStoryIndex = index;
             
             // Update content
-            storyContent.innerHTML = `<img src="${currentStories[index]}" alt="Property image ${index + 1}" class="story-image">`;
+            if (storyContent) {
+                storyContent.innerHTML = `<img src="${currentStories[index]}" alt="Property image ${index + 1}" class="story-image">`;
+            }
             
             // Update progress bars
             document.querySelectorAll('.story-progress-fill').forEach((fill, i) => {
@@ -1692,7 +1714,9 @@
             });
             
             // Update pagination
-            storyPagination.textContent = `${currentStoryIndex + 1} of ${currentStories.length}`;
+            if (storyPagination) {
+                storyPagination.textContent = `${currentStoryIndex + 1} of ${currentStories.length}`;
+            }
         }
 
         // Start auto-advance timer
@@ -1749,8 +1773,10 @@
         // Close stories
         function closeStories() {
             stopAutoAdvance();
-            storiesOverlay.classList.remove('active');
-            document.body.classList.remove('stories-open');
+            if (storiesOverlay) {
+                storiesOverlay.classList.remove('active');
+                document.body.classList.remove('stories-open');
+            }
         }
 
         // Toggle like on current story
@@ -1768,6 +1794,8 @@
 
         // Update like button appearance
         function updateLikeButton() {
+            if (!currentProperty || !storyLikeBtn) return;
+            
             const storyKey = `${currentProperty.id}-${currentStoryIndex}`;
             const isLiked = likedStories.has(storyKey);
             
@@ -1793,6 +1821,8 @@
 
         // Setup swipe gestures for stories
         function setupStoriesSwipe() {
+            if (!storiesOverlay) return;
+            
             let touchStartX = 0;
             let touchStartY = 0;
             let touchEndX = 0;
