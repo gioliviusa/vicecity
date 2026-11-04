@@ -416,6 +416,7 @@ h1 em{
   width:100%;max-height:48vh;object-fit:contain;margin:0 auto 16px;
   -webkit-touch-callout:default;user-select:auto;-webkit-user-select:auto;
 }
+.save-dialog [hidden]{display:none}
 .save-dialog .btn{width:100%}
 
 /* ===== MODAL ===== */
@@ -688,9 +689,10 @@ h1 em{
     <h3 id="saveDialogTitle">Save to Photos or Gallery</h3>
     <form method="dialog"><button class="save-close" aria-label="Close save preview">×</button></form>
   </div>
-  <p>Press and hold the image, then choose <b>Save Image</b> or <b>Add to Photos</b>. You can also download the PNG.</p>
+  <p>Tap <b>Save to Photos / Gallery</b> and choose <b>Save Image</b> or <b>Add to Photos</b>. You can also press and hold the image.</p>
   <img id="savePreview" alt="">
-  <a class="btn btn-primary" id="saveDownload" download>Download PNG</a>
+  <button class="btn btn-primary" id="saveShare" type="button">Save to Photos / Gallery</button>
+  <a class="btn btn-ghost" id="saveDownload" download>Download PNG</a>
 </dialog>
 
 <div class="modal" id="modal" aria-hidden="true">
@@ -1517,21 +1519,45 @@ h1 em{
 
   const saveDialog = $('#saveDialog');
   const savePreview = $('#savePreview');
+  const saveShare = $('#saveShare');
   const saveDownload = $('#saveDownload');
   let savePreviewUrl;
+  let pendingSaveFile;
 
-  function showSavePreview(blob, name, title){
+  function showSavePreview(blob, file, title){
     savePreviewUrl = URL.createObjectURL(blob);
     savePreview.src = savePreviewUrl;
     savePreview.alt = `${title} poster`;
     saveDownload.href = savePreviewUrl;
-    saveDownload.download = name;
+    saveDownload.download = file.name;
+    pendingSaveFile = file;
+    saveShare.hidden = !(navigator.share && navigator.canShare && navigator.canShare({ files:[file] }));
     saveDialog.showModal();
   }
+
+  saveShare.addEventListener('click', async () => {
+    if (!pendingSaveFile || !navigator.share) return;
+    let sharePromise;
+    try {
+      sharePromise = navigator.share({ files:[pendingSaveFile] });
+    } catch(err){
+      toast('Could not open the phone share menu');
+      return;
+    }
+    try {
+      await sharePromise;
+      saveDialog.close();
+      toast('✓ Choose Save Image / Add to Photos');
+    } catch(err){
+      if (err && err.name === 'AbortError') toast('Image save canceled');
+      else toast('Could not open the phone share menu');
+    }
+  });
 
   saveDialog.addEventListener('close', () => {
     if (savePreviewUrl) URL.revokeObjectURL(savePreviewUrl);
     savePreviewUrl = null;
+    pendingSaveFile = null;
     savePreview.removeAttribute('src');
     saveDownload.removeAttribute('href');
   });
@@ -1544,22 +1570,15 @@ h1 em{
 
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try {
-        await navigator.share({
-          files: [file],
-          title: SHAREABLES[i].title,
-          text: SHAREABLES[i].caption
-        });
+        await navigator.share({ files:[file] });
         toast('✓ Choose Save Image / Add to Photos');
         return;
       } catch(err){
-        if (err && err.name === 'AbortError'){
-          toast('Image save canceled');
-          return;
-        }
+        if (err && err.name === 'AbortError') toast('Choose Save to Photos / Gallery below');
       }
     }
 
-    showSavePreview(blob, name, SHAREABLES[i].title);
+    showSavePreview(blob, file, SHAREABLES[i].title);
   }
 
   /* ============================================================
