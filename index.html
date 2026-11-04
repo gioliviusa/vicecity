@@ -1,1908 +1,1623 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MIAMI LUXE | Downtown Miami & Brickell Properties</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-blue: #4fc3f7;
-            --primary-dark: #0a1929;
-            --accent-teal: #00e5ff;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            --stories-gradient: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3);
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: #fff;
-            overflow-x: hidden;
-            min-height: 100vh;
-            background: var(--primary-dark);
-            transition: transform 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
-            display: flex;
-            flex-direction: column;
-        }
-
-        body.menu-open,
-        body.stories-open {
-            overflow: hidden;
-        }
-
-        /* Video Background */
-        #video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: -1;
-            filter: brightness(0.7) saturate(1.2);
-        }
-
-        .video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            z-index: -1;
-        }
-
-        /* Main Container */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            z-index: 1002;
-        }
-
-        .logo i {
-            color: var(--primary-blue);
-            margin-right: 10px;
-        }
-
-        .mobile-menu-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--glass-border);
-            color: #fff;
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            z-index: 1002;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
-
-        .mobile-menu-btn.active {
-            background: var(--primary-blue);
-            color: var(--primary-dark);
-        }
-
-        /* Mobile Navigation Menu */
-        .mobile-nav-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-nav-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .mobile-nav {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 85%;
-            max-width: 400px;
-            height: 100%;
-            background: rgba(16, 42, 67, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 1001;
-            padding: 30px 25px;
-            overflow-y: auto;
-            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.4);
-            border-left: 1px solid var(--glass-border);
-        }
-
-        .mobile-nav.active {
-            right: 0;
-        }
-
-        /* Instagram Stories Style Gallery */
-        .stories-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease;
-        }
-
-        .stories-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .story-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            background: #000;
-        }
-
-        .story-header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            z-index: 2002;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
-        }
-
-        .story-progress-container {
-            position: absolute;
-            top: 10px;
-            left: 0;
-            width: 100%;
-            padding: 0 20px;
-            display: flex;
-            gap: 5px;
-            z-index: 2003;
-        }
-
-        .story-progress-bar {
-            height: 3px;
-            flex: 1;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .story-progress-fill {
-            height: 100%;
-            width: 0%;
-            background: #fff;
-            border-radius: 2px;
-            transition: width 0.1s linear;
-        }
-
-        .story-progress-fill.active {
-            animation: progressFill 5s linear forwards;
-        }
-
-        @keyframes progressFill {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-
-        .story-user-info {
-            display: flex;
-            align-items: center;
-            margin-top: 25px;
-        }
-
-        .story-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--stories-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-        }
-
-        .story-avatar-inner {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: var(--primary-blue);
-        }
-
-        .story-user-details {
-            flex: 1;
-        }
-
-        .story-username {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .story-time {
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-
-        .story-close {
-            background: rgba(255, 255, 255, 0.15);
-            border: none;
-            color: #fff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-left: 15px;
-        }
-
-        .story-close:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .story-content {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .story-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .story-navigation {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-        }
-
-        .story-nav-area {
-            flex: 1;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        .story-nav-area.prev {
-            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='white' d='M20 6L10 16l10 10z'/%3E%3C/svg%3E"), auto;
-        }
-
-        .story-nav-area.next {
-            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='white' d='M12 6l10 10-10 10z'/%3E%3C/svg%3E"), auto;
-        }
-
-        .story-footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 30px 20px 20px;
-            z-index: 2002;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
-        }
-
-        .story-property-info {
-            margin-bottom: 20px;
-        }
-
-        .story-property-name {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-        }
-
-        .story-property-price {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 15px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-        }
-
-        .story-property-features {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .story-feature {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .story-feature i {
-            color: var(--primary-blue);
-            font-size: 1.2rem;
-        }
-
-        .story-feature span {
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .story-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        .story-action-btn {
-            background: rgba(255, 255, 255, 0.15);
-            border: none;
-            color: #fff;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .story-action-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: scale(1.1);
-        }
-
-        .story-action-btn.like.active {
-            background: rgba(255, 50, 50, 0.3);
-            color: #ff6b6b;
-        }
-
-        .story-action-btn.contact {
-            background: var(--primary-blue);
-            color: var(--primary-dark);
-            flex: 1;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .story-action-btn.contact:hover {
-            background: #29b6f6;
-        }
-
-        .story-pagination {
-            position: absolute;
-            bottom: 120px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            z-index: 2002;
-        }
-
-        /* Property Cards with Stories Indicator */
-        .property-card {
-            position: relative;
-        }
-
-        .stories-indicator {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--stories-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .stories-indicator-inner {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 1rem;
-        }
-
-        .stories-indicator i {
-            color: #fff;
-        }
-
-        /* Glassmorphism Card Design */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            border: 1px solid var(--glass-border);
-            padding: 25px;
-            box-shadow: var(--glass-shadow);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .glass-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
-            border-color: rgba(79, 195, 247, 0.3);
-        }
-
-        /* Hero Section */
-        .hero-section {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .hero-title {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            font-size: 2.4rem;
-            margin-bottom: 15px;
-            line-height: 1.2;
-            color: #ffffff;
-        }
-
-        .hero-subtitle {
-            font-weight: 300;
-            font-size: 1.15rem;
-            opacity: 0.9;
-            margin-bottom: 25px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        .primary-btn {
-            background: var(--primary-blue);
-            color: var(--primary-dark);
-            border: none;
-            padding: 16px 30px;
-            border-radius: 15px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.3);
-        }
-
-        .primary-btn:hover {
-            background: #29b6f6;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(79, 195, 247, 0.4);
-        }
-
-        .secondary-btn {
-            background: transparent;
-            border: 2px solid var(--primary-blue);
-            color: var(--primary-blue);
-            padding: 14px 28px;
-            border-radius: 15px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .secondary-btn:hover {
-            background: rgba(79, 195, 247, 0.1);
-            transform: translateY(-3px);
-        }
-
-        /* Property Listings */
-        .section-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-        }
-
-        .section-title i {
-            color: var(--primary-blue);
-            margin-right: 12px;
-        }
-
-        .properties-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .property-image-container {
-            width: 100%;
-            height: 220px;
-            overflow: hidden;
-            border-radius: 18px 18px 0 0;
-            position: relative;
-        }
-
-        .property-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .property-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            z-index: 2;
-        }
-
-        .property-info {
-            padding: 25px;
-        }
-
-        .property-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .property-title {
-            font-weight: 600;
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-        }
-
-        .property-location {
-            font-size: 0.95rem;
-            opacity: 0.8;
-            display: flex;
-            align-items: center;
-        }
-
-        .property-location i {
-            margin-right: 8px;
-            font-size: 0.9rem;
-            color: var(--primary-blue);
-        }
-
-        .property-price {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--primary-blue);
-            text-shadow: 0 2px 10px rgba(79, 195, 247, 0.3);
-        }
-
-        .property-features {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .feature {
-            text-align: center;
-        }
-
-        .feature i {
-            color: var(--primary-blue);
-            margin-bottom: 8px;
-            font-size: 1.2rem;
-        }
-
-        .feature-value {
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .feature-label {
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-
-        /* Featured Property */
-        .featured-property {
-            margin-bottom: 50px;
-        }
-
-        .featured-content {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .featured-image-container {
-            position: relative;
-            width: 100%;
-            height: 300px;
-            border-radius: 20px;
-            overflow: hidden;
-            margin-bottom: 25px;
-            cursor: pointer;
-        }
-
-        .featured-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .featured-image-container:hover .featured-image {
-            transform: scale(1.05);
-        }
-
-        .featured-badge {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 2;
-        }
-
-        .featured-stories-indicator {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--stories-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: pulse 2s infinite;
-        }
-
-        .featured-stories-indicator-inner {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 1.2rem;
-        }
-
-        .featured-details {
-            flex: 1;
-        }
-
-        .featured-price {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 2rem;
-            color: var(--primary-blue);
-            margin: 15px 0;
-            text-shadow: 0 2px 10px rgba(79, 195, 247, 0.3);
-        }
-
-        .featured-description {
-            line-height: 1.7;
-            opacity: 0.9;
-            margin-bottom: 25px;
-            font-size: 1.05rem;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(25px);
-            border-radius: 25px;
-            border: 1px solid var(--glass-border);
-            padding: 35px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .modal-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.6rem;
-            color: var(--primary-blue);
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .close-modal:hover {
-            color: var(--primary-blue);
-        }
-
-        /* Miami Activities Section */
-        .miami-activities {
-            padding: 80px 0;
-        }
-
-        .activities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .activity-card {
-            padding: 40px;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .activity-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(79, 195, 247, 0.15);
-        }
-
-        .activity-icon {
-            font-size: 3rem;
-            color: var(--primary-blue);
-            margin-bottom: 20px;
-            display: inline-block;
-            width: 70px;
-        }
-
-        .activity-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .activity-card p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 25px;
-            flex-grow: 1;
-        }
-
-        .activity-highlights {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .activity-highlights li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(79, 195, 247, 0.2);
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .activity-highlights li:last-child {
-            border-bottom: none;
-        }
-
-        .activity-highlights i {
-            color: var(--primary-blue);
-            margin-right: 12px;
-            font-size: 1.1rem;
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(10, 25, 41, 0.6);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--glass-border);
-            padding: 60px 0;
-            margin-top: auto;
-            border-radius: 30px 30px 0 0;
-        }
-
-        footer p {
-            font-size: 0.95rem;
-            opacity: 0.85;
-            margin-bottom: 8px;
-            line-height: 1.6;
-        }
-
-        footer p:first-child {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            color: var(--primary-blue);
-            font-size: 1rem;
-            margin-bottom: 12px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 20px;
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(79, 195, 247, 0.2);
-        }
-
-        .social-link {
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            background: rgba(79, 195, 247, 0.15);
-            border: 1px solid rgba(79, 195, 247, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-blue);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 1.1rem;
-        }
-
-        .social-link:hover {
-            background: var(--primary-blue);
-            color: var(--primary-dark);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(79, 195, 247, 0.3);
-        }
-
-        /* Enhanced UI/UX Improvements */
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 40px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
-        }
-
-        .section-title i {
-            margin-right: 12px;
-            color: var(--primary-blue);
-        }
-
-        /* Glass Card Enhancement */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(79, 195, 247, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .glass-card:hover {
-            background: rgba(255, 255, 255, 0.09);
-            border-color: rgba(79, 195, 247, 0.4);
-            box-shadow: 0 15px 50px rgba(79, 195, 247, 0.15);
-        }
-
-        /* Button Enhancements */
-        .primary-btn {
-            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
-            color: var(--primary-dark);
-            border: none;
-            padding: 14px 32px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 5px 20px rgba(79, 195, 247, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .primary-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 35px rgba(79, 195, 247, 0.4);
-        }
-
-        .primary-btn:active {
-            transform: translateY(-1px);
-        }
-
-        .secondary-btn {
-            background: rgba(79, 195, 247, 0.1);
-            color: var(--primary-blue);
-            border: 2px solid var(--primary-blue);
-            padding: 12px 30px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .secondary-btn:hover {
-            background: rgba(79, 195, 247, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(79, 195, 247, 0.2);
-        }
-
-        .secondary-btn:active {
-            transform: translateY(-1px);
-        }
-
-        /* Scroll Enhancement */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(79, 195, 247, 0.4);
-            border-radius: 5px;
-            transition: background 0.3s ease;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-blue);
-        }
-
-        /* Responsive */
-        @media (min-width: 768px) {
-            .hero-title {
-                font-size: 3.2rem;
-            }
-
-            .featured-content {
-                flex-direction: row;
-            }
-
-            .featured-image-container {
-                width: 55%;
-                margin-right: 40px;
-                margin-bottom: 0;
-                height: 350px;
-            }
-
-            .mobile-menu-btn {
-                display: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .container {
-                padding: 15px;
-            }
-
-            .property-features {
-                flex-wrap: wrap;
-            }
-
-            .feature {
-                width: 50%;
-                margin-bottom: 15px;
-            }
-
-            .mobile-nav {
-                width: 90%;
-            }
-
-            footer {
-                padding: 30px 15px 0 15px;
-                margin-top: auto;
-                border-radius: 0;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .primary-btn, .secondary-btn {
-                width: 100%;
-                max-width: 300px;
-            }
-
-            .story-property-features {
-                flex-wrap: wrap;
-            }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07030f">
+<title>GTA 6 Giveaway 2026 — Win GTA VI + PS5 Pro + Vice City Merch</title>
+<meta name="description" content="Enter the biggest GTA 6 giveaway of 2026. Win GTA VI Collector's Edition, PS5 Pro console bundle, and the full Vice City merch drop. Small crypto entry fee. Closes Nov 20.">
+<meta property="og:title" content="Win GTA 6 — 2026 Vice City Giveaway">
+<meta property="og:description" content="Win GTA VI Collector's Edition + PS5 Pro + full Vice City merch. Entry via ETH or BNB. Closes Nov 20.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07030f;
+  --text:#f6f1ff;
+  --muted:#a79bc2;
+  --pink:#ff2e88;
+  --cyan:#00e0ff;
+  --amber:#ffc23c;
+  --purple:#8b5cf6;
+  --stroke:rgba(255,255,255,.10);
+  --r:22px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --safe-t:env(safe-area-inset-top,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(120% 70% at 8% -8%, rgba(255,46,136,.30), transparent 60%),
+    radial-gradient(100% 60% at 100% 2%, rgba(0,224,255,.20), transparent 55%),
+    radial-gradient(90% 60% at 50% 108%, rgba(139,92,246,.28), transparent 62%),
+    var(--bg);
+  background-attachment:fixed;
+  overflow-x:hidden;
+  padding-bottom:calc(104px + var(--safe-b));
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:44px 44px;
+  -webkit-mask-image:radial-gradient(circle at 50% 12%,#000 0%,transparent 72%);
+  mask-image:radial-gradient(circle at 50% 12%,#000 0%,transparent 72%);
+}
+body.locked{overflow:hidden}
+img,svg{display:block;max-width:100%}
+button{font-family:inherit;touch-action:manipulation}
+.hidden{display:none !important}
+
+/* ===== TOP BAR ===== */
+.topbar{
+  position:sticky;top:0;z-index:60;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:calc(var(--safe-t) + 10px) 16px 10px;
+  background:linear-gradient(to bottom,rgba(7,3,15,.94),rgba(7,3,15,.55) 68%,transparent);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  font-family:'Anton',Impact,sans-serif;font-size:19px;letter-spacing:.5px;color:#0a0413;
+  background:linear-gradient(135deg,var(--cyan),var(--pink));
+  box-shadow:0 6px 22px rgba(255,46,136,.45);
+}
+.brand-txt{font-size:12px;font-weight:800;letter-spacing:.14em;line-height:1.1}
+.brand-txt small{font-size:9px;font-weight:600;color:var(--muted);letter-spacing:.22em}
+.live{
+  display:flex;align-items:center;gap:6px;
+  font-size:10px;font-weight:800;letter-spacing:.16em;
+  padding:7px 11px;border-radius:999px;
+  border:1px solid rgba(255,46,136,.45);
+  background:rgba(255,46,136,.12);color:#ff8dbd;
+}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 0 rgba(255,46,136,.7);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(255,46,136,0)}100%{box-shadow:0 0 0 0 rgba(255,46,136,0)}}
+
+/* ===== HERO ===== */
+.hero{position:relative;z-index:1;padding:18px 16px 8px;text-align:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;font-weight:800;letter-spacing:.2em;
+  padding:8px 14px;border-radius:999px;
+  border:1px solid rgba(0,224,255,.35);
+  background:rgba(0,224,255,.09);color:#8fe9ff;
+  margin-bottom:16px;
+}
+h1{
+  font-family:'Anton',Impact,sans-serif;
+  font-size:clamp(40px,13.5vw,68px);
+  line-height:.9;margin:0 0 12px;letter-spacing:.01em;
+  text-transform:uppercase;
+}
+h1 em{
+  font-style:normal;
+  background:linear-gradient(100deg,#fff 5%,var(--pink) 42%,var(--cyan) 95%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 26px rgba(255,46,136,.35));
+}
+.lede{color:var(--muted);font-size:14.5px;line-height:1.55;margin:0 auto 16px;max-width:34ch}
+.lede b{color:var(--text)}
+
+.dates{
+  display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;
+  margin:0 auto 18px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#cfc4e8;
+}
+.dates span{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 12px;border-radius:999px;
+  border:1px solid var(--stroke);background:rgba(255,255,255,.05);
+}
+.dates span b{color:#fff;font-weight:800}
+.dates span.hot{border-color:rgba(255,46,136,.45);background:rgba(255,46,136,.12);color:#ffb3d0}
+
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 18px}
+.cd{
+  border-radius:16px;padding:11px 4px 9px;
+  background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.025));
+  border:1px solid var(--stroke);
+}
+.cd b{display:block;font-family:'Anton',Impact,sans-serif;font-size:clamp(22px,7vw,30px);line-height:1;letter-spacing:.02em}
+.cd span{display:block;margin-top:5px;font-size:9px;font-weight:700;letter-spacing:.16em;color:var(--muted)}
+
+.chips{
+  display:flex;gap:9px;overflow-x:auto;padding:2px 16px 18px;margin:0 -16px;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:0 0 auto;scroll-snap-align:center;
+  display:flex;align-items:center;gap:8px;
+  padding:11px 15px;border-radius:999px;font-size:12.5px;font-weight:600;
+  border:1px solid var(--stroke);
+  background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.02));
+  white-space:nowrap;
+}
+.chip i{font-style:normal;font-size:15px}
+
+/* ===== BUTTONS ===== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:52px;padding:0 22px;border-radius:16px;border:0;
+  font-size:15px;font-weight:800;letter-spacing:.01em;
+  cursor:pointer;transition:transform .16s ease,box-shadow .2s ease,filter .2s;
+  width:100%;
+}
+.btn:active{transform:scale(.972)}
+.btn-primary{
+  color:#0a0413;
+  background:linear-gradient(100deg,var(--cyan),#9d8bff 45%,var(--pink));
+  box-shadow:0 10px 30px rgba(255,46,136,.35),0 2px 0 rgba(255,255,255,.28) inset;
+}
+.btn-ghost{
+  color:var(--text);background:rgba(255,255,255,.06);
+  border:1px solid var(--stroke);font-weight:700;
+}
+
+/* ===== SECTIONS ===== */
+.section{position:relative;z-index:1;padding:34px 16px 0}
+.sec-head{margin-bottom:16px}
+.sec-kicker{font-size:10px;font-weight:800;letter-spacing:.22em;color:var(--cyan);margin:0 0 8px}
+.sec-title{
+  font-family:'Anton',Impact,sans-serif;text-transform:uppercase;
+  font-size:clamp(26px,8vw,36px);line-height:1;margin:0 0 8px;letter-spacing:.015em;
+}
+.sec-sub{margin:0;color:var(--muted);font-size:13.5px;line-height:1.55;max-width:40ch}
+.sec-sub b{color:#8fe9ff}
+
+.steps{display:grid;gap:10px}
+.step{
+  display:flex;gap:13px;align-items:flex-start;
+  padding:15px;border-radius:18px;
+  border:1px solid var(--stroke);
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+}
+.step-n{
+  flex:0 0 32px;height:32px;border-radius:11px;display:grid;place-items:center;
+  font-family:'Anton',Impact,sans-serif;font-size:15px;color:#0a0413;
+  background:linear-gradient(135deg,var(--cyan),var(--pink));
+}
+.step h4{margin:0 0 3px;font-size:14px;font-weight:800}
+.step p{margin:0;font-size:12.5px;line-height:1.5;color:var(--muted)}
+.step code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11.5px;color:#8fe9ff;background:rgba(0,224,255,.1);
+  padding:1px 5px;border-radius:5px;
+}
+
+.prizes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prize{
+  padding:15px 13px;border-radius:18px;position:relative;overflow:hidden;
+  border:1px solid var(--stroke);
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+}
+.prize::after{
+  content:'';position:absolute;width:90px;height:90px;right:-34px;top:-34px;border-radius:50%;
+  background:radial-gradient(circle,var(--c,#ff2e88),transparent 70%);opacity:.4;
+}
+.prize i{font-style:normal;font-size:22px;display:block;margin-bottom:9px}
+.prize h4{margin:0 0 3px;font-size:13px;font-weight:800;line-height:1.3}
+.prize p{margin:0;font-size:11px;color:var(--muted);line-height:1.4}
+
+/* ===== FILTER TABS ===== */
+.tabs{
+  display:flex;gap:8px;overflow-x:auto;padding:2px 0 16px;margin:0;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:0 0 auto;min-height:40px;padding:0 16px;border-radius:999px;
+  font-size:12.5px;font-weight:700;letter-spacing:.02em;
+  color:var(--muted);background:rgba(255,255,255,.05);
+  border:1px solid var(--stroke);cursor:pointer;
+  transition:.22s ease;
+}
+.tab.active{
+  color:#0a0413;border-color:transparent;
+  background:linear-gradient(100deg,var(--cyan),var(--pink));
+  box-shadow:0 8px 22px rgba(255,46,136,.3);
+}
+
+/* ===== SHARE CARDS ===== */
+.grid{display:grid;gap:14px}
+.card{
+  position:relative;display:flex;flex-direction:column;
+  border-radius:var(--r);overflow:hidden;
+  border:1px solid var(--stroke);
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+  animation:rise .45s cubic-bezier(.2,.9,.3,1) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;z-index:3;
+  background:linear-gradient(140deg,var(--a1),transparent 42%,transparent 58%,var(--a2));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:.55;
+}
+.media{
+  position:relative;aspect-ratio:4/3;overflow:hidden;
+  background:linear-gradient(160deg,#1a0d2e,#0b0517);
+}
+.media-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;
+  transition:transform .55s cubic-bezier(.2,.9,.3,1);
+  -webkit-user-select:none;user-select:none;
+}
+.card:active .media-img{transform:scale(1.035)}
+.media-scrim{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(to top,
+      rgba(6,2,14,.96) 0%,
+      rgba(6,2,14,.72) 20%,
+      rgba(6,2,14,.18) 44%,
+      rgba(6,2,14,0) 62%,
+      rgba(6,2,14,.42) 100%);
+}
+.media-top{
+  position:absolute;top:10px;left:10px;right:10px;z-index:2;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.plat{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 11px;border-radius:999px;
+  font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:#0a0413;background:linear-gradient(100deg,var(--a1),var(--a2));
+  box-shadow:0 4px 16px rgba(0,0,0,.45);
+}
+.num{
+  font-family:'Anton',Impact,sans-serif;font-size:12px;letter-spacing:.06em;
+  color:rgba(255,255,255,.9);
+  background:rgba(0,0,0,.38);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  padding:5px 10px;border-radius:9px;
+}
+.media-foot{
+  position:absolute;left:14px;right:14px;bottom:12px;z-index:2;
+}
+.media-foot .emoji{
+  font-size:24px;line-height:1;display:block;margin-bottom:7px;
+  filter:drop-shadow(0 3px 12px rgba(0,0,0,.75));
+}
+.media-foot h3{
+  margin:0;font-size:16.5px;font-weight:800;line-height:1.26;letter-spacing:-.012em;
+  text-shadow:0 2px 16px rgba(0,0,0,.85),0 1px 3px rgba(0,0,0,.9);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card-body{padding:13px 14px 14px;display:flex;flex-direction:column;gap:10px}
+.cap{
+  margin:0;font-size:12.5px;line-height:1.5;color:var(--muted);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tags span{
+  font-size:10px;font-weight:700;letter-spacing:.02em;
+  padding:4px 8px;border-radius:8px;
+  background:rgba(255,255,255,.07);color:#cfc4e8;
+  border:1px solid rgba(255,255,255,.06);
+}
+.acts{display:flex;gap:7px;margin-top:2px}
+.act{
+  min-height:46px;border-radius:13px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  font-size:12px;font-weight:800;letter-spacing:.01em;color:var(--text);
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  transition:transform .14s ease,background .2s,border-color .2s;
+  padding:0 12px;
+}
+.act:active{transform:scale(.95)}
+.act:disabled{opacity:.55;cursor:progress}
+.act-copy{flex:1 1 auto;background:linear-gradient(100deg,rgba(0,224,255,.15),rgba(255,46,136,.15));border-color:rgba(255,255,255,.16)}
+.act-save{flex:0 0 auto;background:linear-gradient(100deg,rgba(255,194,60,.16),rgba(255,46,136,.14));border-color:rgba(255,255,255,.16)}
+.act-share{flex:0 0 46px;padding:0;font-size:15px}
+.act.done{background:linear-gradient(100deg,rgba(0,224,255,.34),rgba(139,92,246,.34));border-color:transparent}
+
+/* ===== STICKY CTA ===== */
+.sticky{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px calc(12px + var(--safe-b));
+  background:linear-gradient(to top,rgba(7,3,15,.99),rgba(7,3,15,.82) 55%,transparent);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+}
+.sticky-meta{flex:1;min-width:0;line-height:1.25}
+.sticky-meta b{display:block;font-size:13px;font-weight:800;letter-spacing:-.01em}
+.sticky-meta small{font-size:10.5px;color:var(--muted);letter-spacing:.02em}
+.sticky .btn{width:auto;flex:0 0 auto;padding:0 20px;min-height:50px;font-size:14px}
+
+/* ===== TOAST ===== */
+.toast{
+  position:fixed;left:50%;bottom:calc(112px + var(--safe-b));z-index:90;
+  transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  display:flex;align-items:center;gap:8px;
+  padding:12px 18px;border-radius:14px;max-width:88vw;
+  font-size:13px;font-weight:700;white-space:nowrap;
+  color:#0a0413;background:linear-gradient(100deg,var(--cyan),var(--pink));
+  box-shadow:0 14px 40px rgba(255,46,136,.4);
+  transition:opacity .28s ease,transform .28s cubic-bezier(.2,.9,.3,1);
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ===== MODAL ===== */
+.modal{position:fixed;inset:0;z-index:100;display:flex;align-items:flex-end;justify-content:center}
+.modal[aria-hidden="true"]{pointer-events:none}
+.modal-bg{
+  position:absolute;inset:0;background:rgba(4,1,10,.72);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  opacity:0;transition:opacity .3s;
+}
+.modal[aria-hidden="false"] .modal-bg{opacity:1}
+.sheet{
+  position:relative;width:100%;max-width:520px;
+  border-radius:26px 26px 0 0;
+  padding:10px 20px calc(24px + var(--safe-b));
+  background:linear-gradient(180deg,#160b26,#0b0517);
+  border:1px solid rgba(255,255,255,.1);border-bottom:0;
+  transform:translateY(100%);transition:transform .34s cubic-bezier(.2,.9,.3,1);
+  max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+.modal[aria-hidden="false"] .sheet{transform:none}
+.sheet-handle{width:40px;height:4px;border-radius:99px;background:rgba(255,255,255,.22);margin:0 auto 16px}
+.sheet h3{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;font-size:26px;margin:0 0 6px;letter-spacing:.015em}
+.sheet > div > p{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 18px}
+.sheet p b{color:#fff}
+
+.net-toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.net{
+  min-height:48px;border-radius:14px;cursor:pointer;
+  border:1px solid var(--stroke);background:rgba(255,255,255,.05);
+  color:var(--muted);font-size:12.5px;font-weight:800;letter-spacing:.02em;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  transition:.2s ease;
+}
+.net.active{
+  color:#0a0413;border-color:transparent;
+  background:linear-gradient(100deg,var(--cyan),var(--pink));
+  box-shadow:0 8px 22px rgba(255,46,136,.28);
+}
+.net:active{transform:scale(.97)}
+
+.amount-card{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 16px;border-radius:16px;margin-bottom:12px;
+  border:1px solid var(--stroke);
+  background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.02));
+}
+.amount-label{display:block;font-size:9.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.amount{display:flex;align-items:baseline;gap:6px}
+.amount b{font-family:'Anton',Impact,sans-serif;font-size:26px;letter-spacing:.02em;line-height:1}
+.amount span{font-size:12px;font-weight:800;color:var(--cyan)}
+.amount-usd{font-size:11px;font-weight:700;color:var(--muted);text-align:right;line-height:1.3;max-width:88px}
+
+.addr-box{
+  padding:14px;border-radius:16px;margin-bottom:12px;
+  border:1px dashed rgba(255,255,255,.20);
+  background:rgba(255,255,255,.04);
+}
+.addr-label{
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  font-size:9.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:9px;
+}
+.addr-label em{font-style:normal;color:var(--cyan);letter-spacing:.06em;text-transform:none;font-size:10.5px}
+.addr-box code{
+  display:block;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12.5px;line-height:1.55;word-break:break-all;
+  color:#e9e2ff;background:rgba(0,0,0,.28);
+  padding:10px 11px;border-radius:11px;margin-bottom:10px;
+  transition:background .2s;
+}
+.addr-box .act{width:100%}
+.flash{animation:flash .65s ease}
+@keyframes flash{0%,100%{background:rgba(0,0,0,.28)}35%{background:rgba(0,224,255,.22)}}
+
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--muted);margin-bottom:7px;text-transform:uppercase}
+.field input{
+  width:100%;min-height:52px;padding:0 16px;border-radius:14px;
+  font-size:16px;font-family:inherit;color:var(--text);
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.13);
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.field input::placeholder{color:rgba(255,255,255,.28)}
+.field input:focus{border-color:rgba(0,224,255,.6);box-shadow:0 0 0 3px rgba(0,224,255,.14)}
+.field input.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:-.01em}
+.err{margin:7px 0 0;font-size:11.5px;font-weight:600;color:#ff7aa8}
+.linkish{
+  display:block;width:100%;margin-top:10px;padding:9px;
+  background:none;border:0;cursor:pointer;
+  color:var(--muted);font-size:12.5px;font-weight:700;
+}
+.linkish:active{color:var(--text)}
+.fine{
+  font-size:10.5px!important;line-height:1.55;color:rgba(255,255,255,.34)!important;
+  margin:14px 0 0!important;text-align:center;
+}
+.success{text-align:center;padding:14px 0 6px}
+.success .tick{
+  width:72px;height:72px;border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;
+  font-size:32px;background:linear-gradient(135deg,var(--cyan),var(--pink));
+  box-shadow:0 14px 40px rgba(255,46,136,.4);animation:pop .5s cubic-bezier(.2,1.4,.4,1)
+}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.receipt{
+  display:flex;justify-content:space-between;gap:10px;
+  padding:11px 14px;border-radius:12px;margin:0 0 16px;
+  font-size:11.5px;font-weight:600;color:var(--muted);
+  border:1px solid var(--stroke);background:rgba(255,255,255,.04);
+}
+.receipt b{color:#fff;font-weight:800}
+
+.footer{
+  position:relative;z-index:1;text-align:center;padding:40px 24px 8px;
+  font-size:11px;line-height:1.6;color:rgba(255,255,255,.3);
+}
+.footer b{color:rgba(255,255,255,.55)}
+.footer code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:10px;word-break:break-all;color:rgba(255,255,255,.42);
+}
+
+@media (min-width:600px){
+  .grid{grid-template-columns:1fr 1fr}
+  .prizes{grid-template-columns:repeat(4,1fr)}
+  .steps{grid-template-columns:repeat(3,1fr)}
+  .sticky{justify-content:center}
+  .media{aspect-ratio:16/11}
+}
+@media (min-width:900px){
+  .hero{padding-top:34px}
+  .lede{font-size:15.5px}
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .section,.hero{padding-left:32px;padding-right:32px}
+  .topbar{padding-left:32px;padding-right:32px}
+  .chips{margin:0;padding-left:32px;padding-right:32px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
 </head>
-    <!-- Video Background -->
-    <video autoplay muted loop playsinline id="video-background">
-        <source src="./dd6be5554b734e97a11f627d57acd9.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <div class="video-overlay"></div>
+<body>
 
-    <!-- Instagram Stories Overlay -->
-    <div class="stories-overlay" id="storiesOverlay">
-        <div class="story-container" id="storyContainer">
-            <div class="story-progress-container" id="storyProgressContainer">
-                <!-- Progress bars will be dynamically added here -->
-            </div>
-            
-            <div class="story-header">
-                <div class="story-user-info">
-                    <div class="story-avatar">
-                        <div class="story-avatar-inner">
-                            <i class="fas fa-home"></i>
-                        </div>
-                    </div>
-                    <div class="story-user-details">
-                        <div class="story-username" id="storyUsername">MIAMI LUXE</div>
-                        <div class="story-time" id="storyTime">Just now</div>
-                    </div>
-                </div>
-                <button class="story-close" id="storyCloseBtn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="story-content" id="storyContent">
-                <!-- Story image will be dynamically added here -->
-            </div>
-            
-            <div class="story-navigation">
-                <div class="story-nav-area prev" id="storyPrevArea"></div>
-                <div class="story-nav-area next" id="storyNextArea"></div>
-            </div>
-            
-            <div class="story-pagination" id="storyPagination">
-                <!-- Pagination will be dynamically added here -->
-            </div>
-            
-            <div class="story-footer">
-                <div class="story-property-info">
-                    <h3 class="story-property-name" id="storyPropertyName"></h3>
-                    <div class="story-property-price" id="storyPropertyPrice"></div>
-                    <div class="story-property-features" id="storyPropertyFeatures">
-                        <!-- Features will be dynamically added here -->
-                    </div>
-                </div>
-                <div class="story-actions">
-                    <button class="story-action-btn like" id="storyLikeBtn">
-                        <i class="far fa-heart"></i>
-                    </button>
-                    <button class="story-action-btn contact" id="storyContactBtn">
-                        <i class="fas fa-calendar-alt"></i> Schedule Viewing
-                    </button>
-                </div>
-            </div>
+<header class="topbar">
+  <div class="brand">
+    <span class="mark">VI</span>
+    <span class="brand-txt">VICE CITY<br><small>GIVEAWAY</small></span>
+  </div>
+  <div class="live"><span class="dot"></span>LIVE</div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">🎟️ GIVEAWAY · CLOSES NOV 20</div>
+    <h1>WIN<br><em>GTA VI</em><br>VICE CITY</h1>
+    <p class="lede">Enter the biggest <b>GTA 6 giveaway</b> of 2026 and win the <b>Collector's Edition</b>, a <b>PS5 Pro</b> and the full <b>Vice City merch drop</b>. Small crypto entry fee — paid in ETH or BNB.</p>
+
+    <div class="dates">
+      <span>🎮 Game drops <b>Nov 19</b></span>
+      <span class="hot">⏳ Entries close <b>Nov 20</b></span>
+    </div>
+
+    <div class="countdown" id="countdown" aria-live="polite">
+      <div class="cd"><b id="cd-d">00</b><span>DAYS</span></div>
+      <div class="cd"><b id="cd-h">00</b><span>HRS</span></div>
+      <div class="cd"><b id="cd-m">00</b><span>MIN</span></div>
+      <div class="cd"><b id="cd-s">00</b><span>SEC</span></div>
+    </div>
+
+    <button class="btn btn-primary" data-open-modal>Enter · 0.005 ETH / 0.02 BNB →</button>
+  </section>
+
+  <div class="chips" aria-label="Prize highlights">
+    <div class="chip"><i>🎮</i> PS5 Pro Console</div>
+    <div class="chip"><i>💿</i> GTA VI Collector's Edition</div>
+    <div class="chip"><i>👕</i> Vice City Merch Bundle</div>
+    <div class="chip"><i>💳</i> $500 Rockstar Credit</div>
+  </div>
+
+  <section class="section">
+    <div class="sec-head">
+      <p class="sec-kicker">HOW IT WORKS</p>
+      <h2 class="sec-title">3 steps to enter</h2>
+      <p class="sec-sub">Small entry fee in crypto. Takes less time than a loading screen.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <div>
+          <h4>Send the entry fee</h4>
+          <p><code>0.005 ETH</code> or <code>0.02 BNB</code> to the giveaway wallet — network selector is in the entry sheet.</p>
         </div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div>
+          <h4>Confirm with your tx hash</h4>
+          <p>Drop your email, handle and the transaction hash. That locks in your verified entry.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div>
+          <h4>Share for bonus entries</h4>
+          <p>Every one of the 12 posts you publish gives you +1 extra entry in the draw.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <p class="sec-kicker">THE LOOT</p>
+      <h2 class="sec-title">Prize pool</h2>
+    </div>
+    <div class="prizes">
+      <div class="prize" style="--c:#00e0ff"><i>🎮</i><h4>PS5 Pro</h4><p>1TB console bundle</p></div>
+      <div class="prize" style="--c:#ff2e88"><i>💿</i><h4>Collector's Ed.</h4><p>GTA VI steelbook</p></div>
+      <div class="prize" style="--c:#ffc23c"><i>👕</i><h4>Merch Bundle</h4><p>Tee · hoodie · cap</p></div>
+      <div class="prize" style="--c:#8b5cf6"><i>💳</i><h4>$500 Credit</h4><p>Rockstar Store</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="shares">
+    <div class="sec-head">
+      <p class="sec-kicker">SHARE &amp; UNLOCK</p>
+      <h2 class="sec-title">12 ready-to-post drops</h2>
+      <p class="sec-sub">Tap <b>Save</b> to send the finished poster straight to your camera roll. Tap <b>Copy</b> for the full SEO-optimized caption.</p>
     </div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <div class="logo">
-                <i class="fas fa-building"></i>
-                <span>MIAMI LUXE</span>
-            </div>
-
-            <button class="mobile-menu-btn glass-card" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </header>
-
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <h1 class="hero-title glass-card">Miami's Finest <span style="color: var(--primary-blue);">Luxury Properties</span></h1>
-            <p class="hero-subtitle">Swipe through stunning properties with our Instagram Stories-style gallery. Tap on the colorful circle to view property stories!</p>
-            
-            <div class="cta-buttons">
-                <button class="primary-btn" id="viewPropertiesBtn">
-                    <i class="fas fa-home"></i> View Properties
-                </button>
-                <button class="secondary-btn" id="virtualTourBtn">
-                    <i class="fas fa-vr-cardboard"></i> Virtual Tours
-                </button>
-            </div>
-        </section>
-
-        <!-- Featured Property -->
-        <section class="featured-property">
-            <h2 class="section-title"><i class="fas fa-crown"></i> Featured Property</h2>
-            <div class="glass-card featured-content">
-                <div class="featured-image-container">
-                    <div class="featured-badge">
-                        <i class="fas fa-star"></i> FEATURED
-                    </div>
-                    <div class="featured-stories-indicator" id="featuredStoriesTrigger">
-                        <div class="featured-stories-indicator-inner">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Brickell Penthouse" class="featured-image">
-                </div>
-                <div class="featured-details">
-                    <h3 class="property-title">Brickell Penthouse with Panoramic Views</h3>
-                    <div class="property-location"><i class="fas fa-map-marker-alt"></i> 123 Brickell Ave, Miami, FL</div>
-                    <div class="featured-price">$4,250,000</div>
-                    <p class="featured-description">Stunning 4,200 sq ft penthouse with 360-degree views of Miami skyline and Biscayne Bay. Features 4 bedrooms, 5.5 bathrooms, private rooftop pool, and smart home automation. This exclusive property includes a private elevator, wine cellar, and state-of-the-art chef's kitchen.</p>
-                    <button class="primary-btn" id="contact-featured"><i class="fas fa-phone-alt"></i> Schedule Private Viewing</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Property Listings -->
-        <section class="property-listings" id="properties">
-            <h2 class="section-title"><i class="fas fa-home"></i> Premium Properties</h2>
-            <div class="properties-grid" id="properties-container">
-                <!-- Properties will be loaded by JavaScript -->
-            </div>
-        </section>
-
-        <!-- Miami Activities & Information Section -->
-        <section class="miami-activities">
-            <h2 class="section-title"><i class="fas fa-city"></i> Discover Miami</h2>
-            <div class="activities-grid">
-                <!-- Downtown Miami -->
-                <div class="activity-card glass-card">
-                    <div class="activity-icon">
-                        <i class="fas fa-skyscraper"></i>
-                    </div>
-                    <h3>Downtown Miami</h3>
-                    <p>The vibrant heart of Miami features world-class dining, galleries, and cultural events. Home to museums like the Pérez Art Museum and Adrienne Arsht Center for the Performing Arts. Explore the Miami Riverwalk for scenic views and outdoor recreation.</p>
-                    <ul class="activity-highlights">
-                        <li><i class="fas fa-check-circle"></i> Pérez Art Museum Miami (PAMM)</li>
-                        <li><i class="fas fa-check-circle"></i> Adrienne Arsht Center</li>
-                        <li><i class="fas fa-check-circle"></i> Miami Riverwalk</li>
-                        <li><i class="fas fa-check-circle"></i> Wynwood Walls</li>
-                        <li><i class="fas fa-check-circle"></i> Design District</li>
-                    </ul>
-                </div>
-
-                <!-- Brickell District -->
-                <div class="activity-card glass-card">
-                    <div class="activity-icon">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3>Brickell District</h3>
-                    <p>Miami's financial hub and luxury residential epicenter. Brickell offers high-end shopping, fine dining, and a cosmopolitan lifestyle. The district features modern high-rise condos, exclusive nightlife, and waterfront parks perfect for relaxation.</p>
-                    <ul class="activity-highlights">
-                        <li><i class="fas fa-check-circle"></i> Luxury Shopping & Dining</li>
-                        <li><i class="fas fa-check-circle"></i> Brickell City Centre</li>
-                        <li><i class="fas fa-check-circle"></i> Mary Brickell Village</li>
-                        <li><i class="fas fa-check-circle"></i> Waterfront Parks</li>
-                        <li><i class="fas fa-check-circle"></i> Vibrant Nightlife</li>
-                    </ul>
-                </div>
-
-                <!-- Activities & Entertainment -->
-                <div class="activity-card glass-card">
-                    <div class="activity-icon">
-                        <i class="fas fa-umbrella-beach"></i>
-                    </div>
-                    <h3>Activities & Fun</h3>
-                    <p>Miami offers endless entertainment options year-round. From beautiful beaches and water sports to world-class restaurants and shopping. Experience the vibrant nightlife, cultural festivals, and outdoor activities that make Miami one of America's most dynamic cities.</p>
-                    <ul class="activity-highlights">
-                        <li><i class="fas fa-check-circle"></i> Beaches & Water Sports</li>
-                        <li><i class="fas fa-check-circle"></i> Wynwood Arts District</li>
-                        <li><i class="fas fa-check-circle"></i> Boat Tours & Yachting</li>
-                        <li><i class="fas fa-check-circle"></i> Fine Dining Restaurants</li>
-                        <li><i class="fas fa-check-circle"></i> Art Basel Events</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="glass-card">
-            <div style="text-align: center;">
-                <p><i class="fas fa-building"></i> MIAMI LUXE REAL ESTATE</p>
-                <p>Luxury Properties in Downtown Miami, Brickell, Edgewater & South Beach</p>
-                <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 15px;">
-                    <i class="fas fa-phone"></i> (305) 555-LUXE | 
-                    <i class="fas fa-envelope"></i> hello@miamiluxe.com | 
-                    <i class="fas fa-map-marker-alt"></i> Miami, FL
-                </p>
-                <p style="font-size: 0.85rem; opacity: 0.6; margin-top: 20px;">© 2024 Miami Luxe Real Estate. All rights reserved.</p>
-                <div class="social-links" style="justify-content: center;">
-                    <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-        </footer>
+    <div class="tabs" id="tabs" role="tablist">
+      <button class="tab active" data-filter="all" role="tab" aria-selected="true">All 12</button>
+      <button class="tab" data-filter="tiktok" role="tab" aria-selected="false">TikTok</button>
+      <button class="tab" data-filter="instagram" role="tab" aria-selected="false">Instagram</button>
+      <button class="tab" data-filter="merch" role="tab" aria-selected="false">Merch</button>
     </div>
 
-    <script>
-        // Property data with multiple images for each property
-        const properties = [
-            {
-                id: 1,
-                title: "Brickell Bayview Condo",
-                location: "888 Brickell Bay Drive, Miami, FL",
-                price: "$1,850,000",
-                images: [
-                    "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=958&q=80",
-                    "https://images.unsplash.com/photo-1558036117-15e82a2c9a9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-                    "https://images.unsplash.com/photo-1613977257363-707ba9348227?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
-                ],
-                bedrooms: 3,
-                bathrooms: 3,
-                sqft: 2200,
-                badge: "Waterfront",
-                description: "Luxurious waterfront condo with stunning bay views, modern finishes, and resort-style amenities."
-            },
-            {
-                id: 2,
-                title: "Downtown Miami Loft",
-                location: "200 SE 2nd St, Miami, FL",
-                price: "$2,750,000",
-                images: [
-                    "https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1465&q=80",
-                    "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-                    "https://images.unsplash.com/photo-1556912167-f556f1f39fdf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80",
-                    "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
-                ],
-                bedrooms: 4,
-                bathrooms: 3.5,
-                sqft: 3200,
-                badge: "Penthouse",
-                description: "Industrial chic loft with exposed brick, high ceilings, and panoramic downtown views."
-            },
-            {
-                id: 3,
-                title: "Brickell Financial District",
-                location: "1101 Brickell Ave, Miami, FL",
-                price: "$3,500,000",
-                images: [
-                    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-                    "https://images.unsplash.com/photo-1560448205-4d9b3e6bb6db?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-                    "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-                    "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
-                ],
-                bedrooms: 4,
-                bathrooms: 4,
-                sqft: 3800,
-                badge: "Luxury",
-                description: "Sophisticated residence in the heart of Brickell with designer finishes and concierge service."
-            },
-            {
-                id: 4,
-                title: "South Brickell Residence",
-                location: "55 SW 12th St, Miami, FL",
-                price: "$1,250,000",
-                images: [
-                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=958&q=80",
-                    "https://images.unsplash.com/photo-1556912167-f556f1f39fdf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80",
-                    "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
-                ],
-                bedrooms: 2,
-                bathrooms: 2,
-                sqft: 1600,
-                badge: "Renovated",
-                description: "Completely renovated apartment with premium finishes and South Brickell location."
-            },
-            {
-                id: 5,
-                title: "Miami Riverfront Apartment",
-                location: "77 SE 5th St, Miami, FL",
-                price: "$950,000",
-                images: [
-                    "https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-                    "https://images.unsplash.com/photo-1556912167-f556f1f39fdf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1471&q=80",
-                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=958&q=80",
-                    "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
-                ],
-                bedrooms: 2,
-                bathrooms: 2,
-                sqft: 1400,
-                badge: "River View",
-                description: "Charming apartment with direct river views and walking distance to downtown Miami."
-            }
-        ];
+    <div class="grid" id="grid"></div>
+  </section>
 
-        // Featured property data
-        const featuredProperty = {
-            id: 0,
-            title: "Brickell Penthouse with Panoramic Views",
-            location: "123 Brickell Ave, Miami, FL",
-            price: "$4,250,000",
-            images: [
-                "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80",
-                "https://images.unsplash.com/photo-1560448205-4d9b3e6bb6db?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-                "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-                "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
-            ],
-            bedrooms: 4,
-            bathrooms: 5.5,
-            sqft: 4200,
-            badge: "Featured",
-            description: "Stunning 4,200 sq ft penthouse with 360-degree views of Miami skyline and Biscayne Bay."
-        };
+  <footer class="footer">
+    <b>GTA VI VICE CITY GIVEAWAY</b><br>
+    Entry fee: 0.005 ETH / 0.02 BNB · 18+ · One entry per wallet · Void where prohibited.<br>
+    Wallet: <code>0x03725858F0d8eCC50735463A224530B4B9b335F7</code><br><br>
+    Fan-made promotion. Not affiliated with Rockstar Games or Take-Two Interactive.
+  </footer>
+</main>
 
-        // DOM Elements
-        const propertiesContainer = document.getElementById('properties-container');
-        const contactFeaturedBtn = document.getElementById('contact-featured');
-        const viewPropertiesBtn = document.getElementById('viewPropertiesBtn');
-        const virtualTourBtn = document.getElementById('virtualTourBtn');
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const featuredStoriesTrigger = document.getElementById('featuredStoriesTrigger');
-        
-        // Stories elements
-        const storiesOverlay = document.getElementById('storiesOverlay');
-        const storyProgressContainer = document.getElementById('storyProgressContainer');
-        const storyContent = document.getElementById('storyContent');
-        const storyCloseBtn = document.getElementById('storyCloseBtn');
-        const storyPrevArea = document.getElementById('storyPrevArea');
-        const storyNextArea = document.getElementById('storyNextArea');
-        const storyUsername = document.getElementById('storyUsername');
-        const storyTime = document.getElementById('storyTime');
-        const storyPropertyName = document.getElementById('storyPropertyName');
-        const storyPropertyPrice = document.getElementById('storyPropertyPrice');
-        const storyPropertyFeatures = document.getElementById('storyPropertyFeatures');
-        const storyLikeBtn = document.getElementById('storyLikeBtn');
-        const storyContactBtn = document.getElementById('storyContactBtn');
-        const storyPagination = document.getElementById('storyPagination');
+<div class="sticky">
+  <div class="sticky-meta">
+    <b id="entrants">0 entered</b>
+    <small id="sticky-timer">Closing soon</small>
+  </div>
+  <button class="btn btn-primary" id="stickyBtn" data-open-modal>Enter now</button>
+</div>
 
-        // Stories state
-        let currentStories = [];
-        let currentProperty = null;
-        let currentStoryIndex = 0;
-        let progressInterval = null;
-        let isStoriesPlaying = false;
-        let likedStories = new Set();
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-        // Initialize the page
-        function init() {
-            renderProperties();
-            
-            // Event Listeners with null checks
-            if (contactFeaturedBtn) {
-                contactFeaturedBtn.addEventListener('click', () => {
-                    openContactModal(featuredProperty);
-                });
-            }
-            
-            if (viewPropertiesBtn) {
-                viewPropertiesBtn.addEventListener('click', () => {
-                    const propertiesSection = document.getElementById('properties');
-                    if (propertiesSection) {
-                        window.scrollTo({
-                            top: propertiesSection.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            }
-            
-            if (virtualTourBtn) {
-                virtualTourBtn.addEventListener('click', () => {
-                    alert('Virtual tour feature would launch here. In a full implementation, this would open a 3D tour of the featured property.');
-                });
-            }
-            
-            if (mobileMenuBtn) {
-                mobileMenuBtn.addEventListener('click', () => {
-                    alert('Mobile menu would open here. Focused on Stories feature for this implementation.');
-                });
-            }
-            
-            // Stories event listeners with null checks
-            if (storyCloseBtn) storyCloseBtn.addEventListener('click', closeStories);
-            if (storyPrevArea) storyPrevArea.addEventListener('click', prevStory);
-            if (storyNextArea) storyNextArea.addEventListener('click', nextStory);
-            if (storyLikeBtn) storyLikeBtn.addEventListener('click', toggleLike);
-            if (storyContactBtn) storyContactBtn.addEventListener('click', openContactFromStory);
-            
-            // Keyboard navigation for stories
-            document.addEventListener('keydown', (e) => {
-                if (storiesOverlay.classList.contains('active')) {
-                    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                        prevStory();
-                    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
-                        nextStory();
-                    } else if (e.key === 'Escape') {
-                        closeStories();
-                    }
-                }
-            });
-            
-            // Touch swipe for stories
-            if (storiesOverlay) {
-                setupStoriesSwipe();
-            }
-            
-            // Setup smooth scrolling
-            setupSmoothScrolling();
-            
-            // Add animation to cards on load
-            setTimeout(() => {
-                const cards = document.querySelectorAll('.glass-card');
-                cards.forEach((card, index) => {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(30px)';
-                    
-                    setTimeout(() => {
-                        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, index * 150);
-                });
-            }, 300);
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-bg" data-close></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="sheet-handle"></div>
+
+    <div id="payView">
+      <h3 id="modalTitle">Pay entry fee</h3>
+      <p>Send the exact fee in <b>ETH</b> or <b>BNB</b> to the wallet below, then confirm with your transaction hash.</p>
+
+      <div class="net-toggle" role="tablist" aria-label="Payment network">
+        <button class="net active" type="button" data-net="eth" role="tab" aria-selected="true">Ξ ETH · Ethereum</button>
+        <button class="net" type="button" data-net="bnb" role="tab" aria-selected="false">◆ BNB · BSC</button>
+      </div>
+
+      <div class="amount-card">
+        <div>
+          <span class="amount-label">Entry fee</span>
+          <div class="amount"><b id="feeAmount">0.005</b><span id="feeTicker">ETH</span></div>
+        </div>
+        <span class="amount-usd" id="feeUsd">≈ $16<br>Ethereum mainnet</span>
+      </div>
+
+      <div class="addr-box">
+        <div class="addr-label"><span>Send to this address</span><em id="netName">Ethereum</em></div>
+        <code id="addrVal">0x03725858F0d8eCC50735463A224530B4B9b335F7</code>
+        <button class="act act-copy" id="copyAddr" type="button" style="width:100%">⧉ Copy address</button>
+      </div>
+
+      <button class="btn btn-primary" id="openWallet" type="button">Open in wallet ↗</button>
+      <button class="btn btn-ghost" id="toForm" type="button" style="margin-top:10px">I've sent it — confirm entry</button>
+
+      <p class="fine">Send only on the selected network. Wrong-network transfers can't be recovered.</p>
+    </div>
+
+    <div id="formView" class="hidden">
+      <h3>Confirm your entry</h3>
+      <p>Add your details plus the transaction hash so we can match your payment.</p>
+
+      <form id="entryForm" novalidate>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@vicecity.com" required>
+        </div>
+        <div class="field">
+          <label for="handle">Social handle</label>
+          <input id="handle" type="text" autocomplete="off" placeholder="@yourhandle" required>
+        </div>
+        <div class="field">
+          <label for="txhash">Transaction hash</label>
+          <input id="txhash" type="text" class="mono" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="0x…" required>
+          <p class="err hidden" id="hashErr">Paste the 64-character hash (starts with 0x).</p>
+        </div>
+        <button class="btn btn-primary" type="submit">Confirm my entry 🎟️</button>
+      </form>
+
+      <button class="linkish" id="backToPay" type="button">← Back to payment details</button>
+      <p class="fine">18+ · One entry per wallet · Closes Nov 20.</p>
+    </div>
+
+    <div id="doneView" class="success hidden">
+      <div class="tick">✓</div>
+      <h3>Entry submitted!</h3>
+      <p>Your payment is queued for on-chain verification. Now share any card below for a <b style="color:#8fe9ff">bonus entry</b>.</p>
+      <div class="receipt">
+        <span>Fee</span>
+        <b id="receiptFee">0.005 ETH</b>
+      </div>
+      <button class="btn btn-primary" id="goShare">Browse the 12 shares</button>
+      <button class="linkish" id="againBtn" type="button">Make another entry</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  const ADDRESS = '0x03725858F0d8eCC50735463A224530B4B9b335F7';
+
+  const NET = {
+    eth: { name:'Ethereum',        ticker:'ETH', fee:'0.005', wei:'5000000000000000',  chain:1,  usd:'≈ $16<br>Ethereum mainnet' },
+    bnb: { name:'BNB Smart Chain', ticker:'BNB', fee:'0.02',  wei:'20000000000000000', chain:56, usd:'≈ $12<br>BNB Smart Chain' }
+  };
+
+  let currentNet = 'eth';
+  let entered = false;
+  try { entered = localStorage.getItem('gtavi_entered') === '1'; } catch(e){}
+
+  /* ============================================================
+     🖼️  POSTER IMAGES  —  DROP YOUR GTA VI ART HERE
+     Put images in  assets/gtavi/  and fill in the path below.
+     Leave '' to use the built-in generated Vice City artwork.
+     ⚠️  Remote URLs must be CORS-enabled or "Save" fails.
+     ============================================================ */
+  const IMG = {
+    c01: '', c02: '', c03: '', c04: '',
+    c05: '', c06: '', c07: '', c08: '',
+    c09: '', c10: '', c11: '', c12: ''
+  };
+
+  /* ============================================================
+     DATA — 12 SEO-optimized shareable assets
+     ============================================================ */
+  const PLAT = {
+    tiktok:    { label:'TikTok',    icon:'♪', a1:'#25F4EE', a2:'#FE2C55' },
+    instagram: { label:'Instagram', icon:'◎', a1:'#F9A03F', a2:'#DD2A7B' },
+    merch:     { label:'Merch',     icon:'👕', a1:'#FFC23C', a2:'#FF2E88' }
+  };
+
+  const SHAREABLES = [
+    { platform:'tiktok', emoji:'🎬', img:IMG.c01,
+      title:'POV: You just won GTA 6',
+      caption:"POV: You just won GTA 6 Collector's Edition + PS5 Pro + full Vice City merch 🎮🌴 The biggest GTA VI giveaway of 2026 closes Nov 20 — enter free in 30 seconds before GTA 6 launches. Link in bio.",
+      tags:'#GTA6 #GTAVI #GTA6Giveaway #ViceCity #PS5Pro #GTA6ReleaseDate #RockstarGames #GamingGiveaway' },
+
+    { platform:'tiktok', emoji:'🔥', img:IMG.c02,
+      title:'3 reasons this GTA 6 giveaway is unreal',
+      caption:"3 reasons this GTA 6 giveaway is unreal 👇 1) GTA 6 Collector's Edition steelbook 2) PS5 Pro console 3) Full Vice City merch drop. Entry is a tiny ETH/BNB fee — less than a coffee. GTA VI launches Nov 19, entries close Nov 20.",
+      tags:'#GTA6Giveaway #GTAVI #GTA6 #ViceCity #PS5Pro #CollectorsEdition #Gaming #Rockstar' },
+
+    { platform:'tiktok', emoji:'⏳', img:IMG.c03,
+      title:'GTA 6 launches Nov 19 — entries close Nov 20',
+      caption:"The clock is running ⏳ GTA 6 officially launches November 19, 2026, and this giveaway closes November 20. Every hour you wait is an hour someone else gets closer to winning GTA VI, a PS5 Pro, and the full Vice City merch bundle. Enter now.",
+      tags:'#GTA6ReleaseDate #GTA6 #GTAVI #Countdown #ViceCity #Giveaway #Gaming2026 #Launch' },
+
+    { platform:'tiktok', emoji:'🎯', img:IMG.c04,
+      title:'Duet this to enter the GTA 6 giveaway',
+      caption:"Duet this and tell me your first car in Vice City 🚙 Duets count as a bonus entry in the GTA 6 giveaway. Win GTA VI Collector's Edition + PS5 Pro + merch before the Nov 20 deadline. Tag a friend who needs this — one of you is winning.",
+      tags:'#Duet #GTA6 #GTAVI #ViceCity #GTA6Giveaway #Gaming #FYP #TagAFriend' },
+
+    { platform:'instagram', emoji:'🌀', img:IMG.c05,
+      title:'Reel: Neon transition into Vice City',
+      caption:"Neon lights, palm trees, zero loading screens 🌴 GTA 6 is almost here — use this audio + transition and tag us to enter the GTA VI giveaway. Win a PS5 Pro, GTA 6 Collector's Edition, and full Vice City merch before launch on Nov 19.",
+      tags:'#Reels #GTA6 #GTAVI #ViceCity #GTA6Giveaway #Explore #PS5Pro #Gaming' },
+
+    { platform:'instagram', emoji:'📲', img:IMG.c06,
+      title:'Story: Poll — PS5 Pro or Collector\'s Edition?',
+      caption:"Which would you take first — the PS5 Pro or the GTA 6 Collector's Edition? 👀 Vote in the poll and tap the link sticker to enter the GTA VI giveaway. Closes Nov 20, one day after GTA 6 launches. Don't miss it.",
+      tags:'#Story #GTA6 #GTAVI #Giveaway #Poll #ViceCity #PS5Pro #Gaming' },
+
+    { platform:'instagram', emoji:'🖼️', img:IMG.c07,
+      title:'Carousel: Everything in the GTA 6 prize pool',
+      caption:"Swipe to see everything in the GTA 6 giveaway prize pool ➡️ GTA VI Collector's Edition steelbook, PS5 Pro console bundle, full Vice City merch drop, $500 Rockstar credit, and a surprise bonus. Enter free before Nov 20. Link in bio.",
+      tags:'#Carousel #GTA6 #GTAVI #Giveaway #ViceCity #PS5Pro #RockstarGames #Gaming' },
+
+    { platform:'instagram', emoji:'💬', img:IMG.c08,
+      title:'Tag 3 friends who need this GTA 6 giveaway',
+      caption:"Tag 3 friends who would quit their job for GTA 6 💀 Every friend who enters gives you +1 extra entry. Win GTA VI, a PS5 Pro, and the full Vice City merch bundle. The game drops Nov 19 — entries close Nov 20. Link in bio to enter.",
+      tags:'#TagAFriend #GTA6 #GTAVI #Giveaway #ViceCity #PS5Pro #Gaming #FYP' },
+
+    { platform:'merch', emoji:'👕', img:IMG.c09,
+      title:'Vice City Neon Tee — GTA 6 merch drop',
+      caption:"New drop: the Vice City Neon Tee 🌴 Heavyweight cotton, glow-in-the-dark print, limited run of 500. Win the full GTA 6 merch bundle in this giveaway — or grab one in the shop before they sell out. Entries close Nov 20.",
+      tags:'#GTA6Merch #ViceCity #GTA6 #GTAVI #Streetwear #Drop #Giveaway #Limited' },
+
+    { platform:'merch', emoji:'🧥', img:IMG.c10,
+      title:'GTA 6 Collector Hoodie — numbered edition',
+      caption:"The GTA 6 Collector Hoodie is here 🖤 Oversized fit, embroidered VI crest, individually numbered tag inside. Only 300 made. One is in the giveaway prize bundle. Enter before Nov 20 for your chance to win the full Vice City merch drop.",
+      tags:'#GTA6Merch #Hoodie #GTAVI #Streetwear #Limited #GTA6 #Giveaway #ViceCity' },
+
+    { platform:'merch', emoji:'🔖', img:IMG.c11,
+      title:'Vice City license plate — real metal',
+      caption:"Vice City license plate, straight off the wall 🔖 Real metal build, neon edge, ships worldwide. One is included in the GTA 6 giveaway prize bundle alongside the PS5 Pro and Collector's Edition. Entries close Nov 20 — link in bio.",
+      tags:'#GTA6Merch #ViceCity #GTAVI #Collector #CarCulture #GTA6 #Giveaway #MetalArt' },
+
+    { platform:'merch', emoji:'🧩', img:IMG.c12,
+      title:'Vice City sticker pack — 12 designs',
+      caption:"12 stickers. 12 share cards. Coincidence? 🧩 Every card in this drop gets a sticker in the Vice City sticker pack — collect the whole set. Win the full GTA 6 merch bundle before entries close Nov 20. Link in bio to enter.",
+      tags:'#Stickers #GTA6Merch #GTAVI #ViceCity #Pack #Collect #GTA6Giveaway #Gaming' }
+  ];
+
+  /* ============================================================
+     HELPERS
+     ============================================================ */
+  const $  = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+  let toastTimer;
+  function toast(msg){
+    const el = $('#toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+  }
+
+  function buzz(ms=12){
+    if (navigator.vibrate) { try { navigator.vibrate(ms); } catch(e){} }
+  }
+
+  async function copyText(text){
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+      throw new Error('no clipboard');
+    } catch(e){
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly','');
+      ta.style.cssText = 'position:fixed;top:-9999px;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch(err){}
+      document.body.removeChild(ta);
+      return ok;
+    }
+  }
+
+  function hexA(hex, a){
+    const n = parseInt(hex.slice(1), 16);
+    return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
+  }
+
+  function mulberry32(a){
+    return function(){
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      let t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  function roundRect(ctx, x, y, w, h, r){
+    if (ctx.roundRect){ ctx.beginPath(); ctx.roundRect(x, y, w, h, r); return; }
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.arcTo(x+w, y, x+w, y+h, r);
+    ctx.arcTo(x+w, y+h, x, y+h, r);
+    ctx.arcTo(x, y+h, x, y, r);
+    ctx.arcTo(x, y, x+w, y, r);
+    ctx.closePath();
+  }
+
+  function wrapText(ctx, text, maxW, maxLines){
+    const words = String(text).split(/\s+/);
+    const all = [];
+    let line = '';
+    for (const w of words){
+      const t = line ? line + ' ' + w : w;
+      if (ctx.measureText(t).width > maxW && line){ all.push(line); line = w; }
+      else line = t;
+    }
+    if (line) all.push(line);
+    if (all.length > maxLines){
+      const cut = all.slice(0, maxLines);
+      cut[maxLines-1] = cut[maxLines-1].replace(/[.,!?;:]?$/, '') + '…';
+      return cut;
+    }
+    return all;
+  }
+
+  function drawCover(ctx, src, W, H){
+    const sw = src.naturalWidth  || src.width;
+    const sh = src.naturalHeight || src.height;
+    if (!sw || !sh) return;
+    const scale = Math.max(W / sw, H / sh);
+    const dw = sw * scale, dh = sh * scale;
+    ctx.drawImage(src, (W - dw) / 2, (H - dh) / 2, dw, dh);
+  }
+
+  /* ============================================================
+     GENERATED VICE CITY ARTWORK (fallback)
+     ============================================================ */
+  function drawViceScene(seed, W, H){
+    const c = document.createElement('canvas');
+    c.width = W; c.height = H;
+    const x = c.getContext('2d');
+    const rnd = mulberry32(seed * 7919 + 101);
+    const hue = (seed * 53 + 300) % 360;
+    const horizon = H * 0.615;
+
+    const sky = x.createLinearGradient(0, 0, 0, horizon);
+    sky.addColorStop(0,    `hsl(${hue + 30} 72% 5%)`);
+    sky.addColorStop(0.40, `hsl(${hue} 78% 18%)`);
+    sky.addColorStop(0.70, `hsl(${hue - 22} 90% 40%)`);
+    sky.addColorStop(1,    `hsl(${hue - 42} 96% 60%)`);
+    x.fillStyle = sky;
+    x.fillRect(0, 0, W, horizon);
+
+    for (let i = 0; i < 110; i++){
+      const sx = rnd() * W;
+      const sy = rnd() * horizon * 0.62;
+      x.globalAlpha = (1 - sy / (horizon * 0.62)) * (0.25 + rnd() * 0.75) * 0.85;
+      x.fillStyle = '#fff';
+      x.beginPath();
+      x.arc(sx, sy, 0.6 + rnd() * 1.6, 0, 7);
+      x.fill();
+    }
+    x.globalAlpha = 1;
+
+    const sunR = W * 0.29;
+    const sunX = W * (0.42 + rnd() * 0.16);
+    const sunY = horizon - sunR * 0.20;
+    const sg = x.createLinearGradient(0, sunY - sunR, 0, sunY + sunR);
+    sg.addColorStop(0, '#fff6b0');
+    sg.addColorStop(0.42, '#ffb43c');
+    sg.addColorStop(1, '#ff2e88');
+    x.save();
+    x.beginPath(); x.arc(sunX, sunY, sunR, 0, 7); x.clip();
+    x.fillStyle = sg;
+    x.fillRect(sunX - sunR, sunY - sunR, sunR * 2, sunR * 2);
+    x.globalCompositeOperation = 'destination-out';
+    for (let i = 0; i < 12; i++){
+      const t = i / 12;
+      x.fillRect(sunX - sunR, sunY - sunR * 0.18 + t * sunR * 1.15, sunR * 2, sunR * 0.05 * (0.4 + t * 2.2));
+    }
+    x.restore();
+    x.globalCompositeOperation = 'source-over';
+
+    const gl = x.createRadialGradient(sunX, sunY, sunR * 0.6, sunX, sunY, sunR * 2.4);
+    gl.addColorStop(0, 'rgba(255,90,150,.30)');
+    gl.addColorStop(1, 'rgba(255,90,150,0)');
+    x.fillStyle = gl;
+    x.fillRect(0, 0, W, horizon);
+
+    let bx = -20;
+    while (bx < W + 20){
+      const bw = 24 + rnd() * 78;
+      const bh = 26 + rnd() * (H * 0.10);
+      x.fillStyle = `hsl(${hue + 12} 60% 7%)`;
+      x.fillRect(bx, horizon - bh, bw, bh + 2);
+      if (rnd() > 0.35){
+        x.fillStyle = `hsla(${hue - 30} 100% 72% / ${0.15 + rnd() * 0.4})`;
+        for (let wy = horizon - bh + 8; wy < horizon - 8; wy += 12){
+          for (let wx = bx + 5; wx < bx + bw - 5; wx += 10){
+            if (rnd() > 0.55) x.fillRect(wx, wy, 3, 4);
+          }
         }
+      }
+      bx += bw + 4;
+    }
 
-        // Render properties
-        function renderProperties() {
-            propertiesContainer.innerHTML = '';
-            
-            properties.forEach(property => {
-                const propertyCard = document.createElement('div');
-                propertyCard.className = 'property-card glass-card';
-                
-                propertyCard.innerHTML = `
-                    <div class="stories-indicator" data-property-id="${property.id}">
-                        <div class="stories-indicator-inner">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    </div>
-                    <div class="property-image-container">
-                        ${property.badge ? `<div class="property-badge"><i class="fas fa-tag"></i> ${property.badge}</div>` : ''}
-                        <img src="${property.images[0]}" alt="${property.title}" class="property-image">
-                    </div>
-                    <div class="property-info">
-                        <div class="property-header">
-                            <div>
-                                <h3 class="property-title">${property.title}</h3>
-                                <div class="property-location">
-                                    <i class="fas fa-map-marker-alt"></i> ${property.location}
-                                </div>
-                            </div>
-                            <div class="property-price">${property.price}</div>
-                        </div>
-                        <div class="property-features">
-                            <div class="feature">
-                                <i class="fas fa-bed"></i>
-                                <div class="feature-value">${property.bedrooms}</div>
-                                <div class="feature-label">Beds</div>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-bath"></i>
-                                <div class="feature-value">${property.bathrooms}</div>
-                                <div class="feature-label">Baths</div>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-ruler-combined"></i>
-                                <div class="feature-value">${property.sqft}</div>
-                                <div class="feature-label">Sq Ft</div>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-images"></i>
-                                <div class="feature-value">${property.images.length}</div>
-                                <div class="feature-label">Photos</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                // Add click event to stories indicator
-                const storiesIndicator = propertyCard.querySelector('.stories-indicator');
-                storiesIndicator.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    openStories(property);
-                });
-                
-                propertiesContainer.appendChild(propertyCard);
-            });
-            
-            // Add click event to featured property stories trigger
-            if (featuredStoriesTrigger) {
-                featuredStoriesTrigger.addEventListener('click', () => {
-                    openStories(featuredProperty);
-                });
-            }
+    const gr = x.createLinearGradient(0, horizon, 0, H);
+    gr.addColorStop(0, `hsl(${hue - 35} 55% 9%)`);
+    gr.addColorStop(1, '#04010a');
+    x.fillStyle = gr;
+    x.fillRect(0, horizon, W, H - horizon);
+
+    const ref = x.createLinearGradient(0, horizon, 0, H * 0.9);
+    ref.addColorStop(0, 'rgba(255,110,175,.45)');
+    ref.addColorStop(1, 'rgba(255,46,136,0)');
+    x.fillStyle = ref;
+    x.beginPath();
+    x.moveTo(sunX - sunR * 0.55, horizon);
+    x.lineTo(sunX + sunR * 0.55, horizon);
+    x.lineTo(sunX + sunR * 1.05, H * 0.9);
+    x.lineTo(sunX - sunR * 1.05, H * 0.9);
+    x.closePath(); x.fill();
+
+    x.strokeStyle = 'rgba(0,224,255,.55)';
+    x.lineWidth = Math.max(1, W / 540);
+    for (let i = 1; i <= 15; i++){
+      const t = i / 15;
+      x.globalAlpha = 0.08 + t * 0.42;
+      const y = horizon + Math.pow(t, 2.3) * (H - horizon);
+      x.beginPath(); x.moveTo(0, y); x.lineTo(W, y); x.stroke();
+    }
+    const vpX = W * 0.5;
+    for (let i = -14; i <= 14; i++){
+      const t = i / 14;
+      x.globalAlpha = 0.16;
+      x.beginPath();
+      x.moveTo(vpX + t * W * 0.02, horizon);
+      x.lineTo(vpX + t * W * 2.2, H);
+      x.stroke();
+    }
+    x.globalAlpha = 1;
+
+    const palm = (px, baseY, h, lean, alpha) => {
+      x.save();
+      x.globalAlpha = alpha;
+      x.strokeStyle = '#04010a';
+      x.lineCap = 'round';
+      const topX = px + lean * h * 0.55;
+      const topY = baseY - h;
+      x.lineWidth = h * 0.045;
+      x.beginPath();
+      x.moveTo(px, baseY);
+      x.quadraticCurveTo(px + lean * h * 0.18, baseY - h * 0.55, topX, topY);
+      x.stroke();
+      const n = 8;
+      for (let i = 0; i < n; i++){
+        const a = -Math.PI / 2 + (i - (n - 1) / 2) * 0.40 + (rnd() - 0.5) * 0.14;
+        const len = h * (0.40 + rnd() * 0.22);
+        x.lineWidth = h * 0.016;
+        x.beginPath();
+        x.moveTo(topX, topY);
+        x.quadraticCurveTo(
+          topX + Math.cos(a) * len * 0.55,
+          topY + Math.sin(a) * len * 0.55 - len * 0.14,
+          topX + Math.cos(a) * len,
+          topY + Math.sin(a) * len * 0.62 + len * 0.30
+        );
+        x.stroke();
+      }
+      x.restore();
+    };
+    palm(W * 0.10, horizon + H * 0.035, H * 0.30, -0.14, 0.95);
+    palm(W * 0.90, horizon + H * 0.045, H * 0.36,  0.16, 0.95);
+    palm(W * 0.02, horizon + H * 0.090, H * 0.22,  0.10, 0.55);
+
+    const vg = x.createRadialGradient(W * 0.5, H * 0.45, W * 0.25, W * 0.5, H * 0.5, W * 0.95);
+    vg.addColorStop(0, 'rgba(0,0,0,0)');
+    vg.addColorStop(1, 'rgba(0,0,0,.62)');
+    x.fillStyle = vg;
+    x.fillRect(0, 0, W, H);
+
+    return c;
+  }
+
+  const fallbackCache = new Map();
+  function getFallback(i){
+    if (fallbackCache.has(i)) return fallbackCache.get(i);
+    const canvas = drawViceScene(i, 540, 675);
+    const url = canvas.toDataURL('image/png');
+    const rec = { canvas, url };
+    fallbackCache.set(i, rec);
+    return rec;
+  }
+
+  const mediaPromises = new Map();
+  function loadMedia(i){
+    if (mediaPromises.has(i)) return mediaPromises.get(i);
+    const item = SHAREABLES[i];
+    const p = new Promise(resolve => {
+      if (!item.img) return resolve(getFallback(i).canvas);
+      const im = new Image();
+      im.crossOrigin = 'anonymous';
+      im.decoding = 'async';
+      im.onload  = () => resolve(im);
+      im.onerror = () => resolve(getFallback(i).canvas);
+      im.src = item.img;
+    });
+    mediaPromises.set(i, p);
+    return p;
+  }
+
+  /* ============================================================
+     RENDER CARDS
+     ============================================================ */
+  const grid = $('#grid');
+
+  function cardHTML(item, i){
+    const p = PLAT[item.platform];
+    const tags = item.tags.split(' ').map(t => `<span>${t}</span>`).join('');
+    return `
+      <article class="card" data-platform="${item.platform}"
+               style="--a1:${p.a1};--a2:${p.a2};animation-delay:${Math.min(i*40,360)}ms">
+        <div class="media">
+          <img class="media-img" data-i="${i}" alt="${item.title} — GTA 6 giveaway artwork"
+               loading="lazy" decoding="async" draggable="false">
+          <div class="media-scrim"></div>
+          <div class="media-top">
+            <span class="plat">${p.icon} ${p.label}</span>
+            <span class="num">${String(i+1).padStart(2,'0')}</span>
+          </div>
+          <div class="media-foot">
+            <span class="emoji">${item.emoji}</span>
+            <h3>${item.title}</h3>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="cap">${item.caption}</p>
+          <div class="tags">${tags}</div>
+          <div class="acts">
+            <button class="act act-copy" data-action="copy" data-i="${i}">⧉ Copy caption</button>
+            <button class="act act-save" data-action="save" data-i="${i}">⤓ Save</button>
+            <button class="act act-share" data-action="share" data-i="${i}" aria-label="Share caption">↗</button>
+          </div>
+        </div>
+      </article>`;
+  }
+
+  grid.innerHTML = SHAREABLES.map(cardHTML).join('');
+
+  $$('.media-img', grid).forEach(imgEl => {
+    const i = Number(imgEl.dataset.i);
+    loadMedia(i).then(media => {
+      if (media instanceof HTMLCanvasElement){
+        const entry = fallbackCache.get(i);
+        imgEl.src = entry ? entry.url : media.toDataURL('image/png');
+      } else {
+        imgEl.src = media.src;
+      }
+    });
+  });
+
+  /* ============================================================
+     FILTER TABS
+     ============================================================ */
+  $('#tabs').addEventListener('click', e => {
+    const tab = e.target.closest('.tab');
+    if (!tab) return;
+    $$('.tab').forEach(t => {
+      t.classList.toggle('active', t === tab);
+      t.setAttribute('aria-selected', String(t === tab));
+    });
+    const f = tab.dataset.filter;
+    $$('.card', grid).forEach(card => {
+      const show = f === 'all' || card.dataset.platform === f;
+      card.classList.toggle('hidden', !show);
+      if (show){
+        card.style.animation = 'none';
+        void card.offsetWidth;
+        card.style.animation = '';
+      }
+    });
+    buzz(8);
+  });
+
+  /* ============================================================
+     CARD ACTIONS
+     ============================================================ */
+  grid.addEventListener('click', async e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn || btn.disabled) return;
+
+    const i    = Number(btn.dataset.i);
+    const item = SHAREABLES[i];
+    const full = `${item.caption}\n\n${item.tags}\n\nEnter here → link in bio`;
+
+    if (btn.dataset.action === 'copy'){
+      const ok = await copyText(full);
+      toast(ok ? '✓ Caption copied — paste into TikTok / IG' : 'Copy failed — long-press the caption');
+      if (ok){
+        buzz(14);
+        const old = btn.innerHTML;
+        btn.classList.add('done');
+        btn.innerHTML = '✓ Copied';
+        setTimeout(() => { btn.classList.remove('done'); btn.innerHTML = old; }, 1700);
+      }
+      return;
+    }
+
+    if (btn.dataset.action === 'share'){
+      try {
+        if (navigator.share){
+          await navigator.share({ title: item.title, text: full });
+          buzz(14);
+          return;
         }
+      } catch(err){
+        if (err && err.name === 'AbortError') return;
+      }
+      const ok = await copyText(full);
+      toast(ok ? '✓ Copied — paste it anywhere' : 'Sharing unavailable');
+      return;
+    }
 
-        // Open Instagram Stories-style gallery
-        function openStories(property) {
-            currentProperty = property;
-            currentStories = property.images;
-            currentStoryIndex = 0;
-            
-            // Update UI with property info (with null checks)
-            if (storyUsername) storyUsername.textContent = 'MIAMI LUXE';
-            if (storyTime) storyTime.textContent = 'Just now';
-            if (storyPropertyName) storyPropertyName.textContent = property.title;
-            if (storyPropertyPrice) storyPropertyPrice.textContent = property.price;
-            
-            // Update property features
-            if (storyPropertyFeatures) {
-                storyPropertyFeatures.innerHTML = `
-                    <div class="story-feature">
-                        <i class="fas fa-bed"></i>
-                        <span>${property.bedrooms} Beds</span>
-                    </div>
-                    <div class="story-feature">
-                        <i class="fas fa-bath"></i>
-                        <span>${property.bathrooms} Baths</span>
-                    </div>
-                    <div class="story-feature">
-                        <i class="fas fa-ruler-combined"></i>
-                        <span>${property.sqft} Sq Ft</span>
-                    </div>
-                `;
-            }
-            
-            // Update like button state
-            updateLikeButton();
-            
-            // Create progress bars
-            createProgressBars();
-            
-            // Load first story
-            loadStory(currentStoryIndex);
-            
-            // Start auto-advance
-            startAutoAdvance();
-            
-            // Open stories overlay
-            if (storiesOverlay) {
-                storiesOverlay.classList.add('active');
-                document.body.classList.add('stories-open');
-            }
+    if (btn.dataset.action === 'save'){
+      const old = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '⏳ …';
+      try {
+        await savePoster(i);
+        buzz(16);
+      } catch(err){
+        toast('Could not save image');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = old;
+      }
+    }
+  });
+
+  /* ============================================================
+     POSTER BUILDER  (1080 × 1350) — bottom-anchored, no overlap
+     ============================================================ */
+  const posterBlobs = new Map();
+
+  async function buildPoster(i){
+    const item = SHAREABLES[i];
+    const p = PLAT[item.platform];
+
+    try {
+      await Promise.all([
+        document.fonts.load('64px Anton'),
+        document.fonts.load('46px Anton'),
+        document.fonts.load('400 31px Inter'),
+        document.fonts.load('600 26px Inter'),
+        document.fonts.load('600 22px Inter'),
+        document.fonts.load('800 26px Inter'),
+        document.fonts.load('800 22px Inter')
+      ]);
+    } catch(e){}
+
+    const W = 1080, H = 1350;
+    const c = document.createElement('canvas');
+    c.width = W; c.height = H;
+    const x = c.getContext('2d');
+
+    /* ---- background image ---- */
+    x.fillStyle = '#0a0413';
+    x.fillRect(0, 0, W, H);
+    const src = await loadMedia(i);
+    drawCover(x, src, W, H);
+
+    /* ---- top scrim ---- */
+    const topScrim = x.createLinearGradient(0, 0, 0, H * 0.32);
+    topScrim.addColorStop(0, 'rgba(5,2,12,.88)');
+    topScrim.addColorStop(1, 'rgba(5,2,12,0)');
+    x.fillStyle = topScrim;
+    x.fillRect(0, 0, W, H * 0.32);
+
+    /* ---- bottom scrim (starts higher, darker) ---- */
+    const botScrim = x.createLinearGradient(0, H * 0.20, 0, H);
+    botScrim.addColorStop(0,    'rgba(5,2,12,0)');
+    botScrim.addColorStop(0.18, 'rgba(5,2,12,.35)');
+    botScrim.addColorStop(0.35, 'rgba(5,2,12,.88)');
+    botScrim.addColorStop(0.55, 'rgba(5,2,12,.98)');
+    botScrim.addColorStop(1,    'rgba(5,2,12,.99)');
+    x.fillStyle = botScrim;
+    x.fillRect(0, H * 0.20, W, H * 0.80);
+
+    /* ---- brand glow ---- */
+    const glow = x.createRadialGradient(W * 0.5, H, 0, W * 0.5, H, W * 0.9);
+    glow.addColorStop(0, hexA(p.a2, .18));
+    glow.addColorStop(1, 'rgba(0,0,0,0)');
+    x.fillStyle = glow;
+    x.fillRect(0, H * 0.55, W, H * 0.45);
+
+    const pad = 76;
+
+    /* ---------- TOP BAR ---------- */
+    const pillW = 268, pillH = 64, pillY = 76;
+    const pg = x.createLinearGradient(pad, pillY, pad + pillW, pillY + pillH);
+    pg.addColorStop(0, p.a1);
+    pg.addColorStop(1, p.a2);
+    x.fillStyle = pg;
+    roundRect(x, pad, pillY, pillW, pillH, 32);
+    x.fill();
+
+    x.fillStyle = '#0a0413';
+    x.font = '800 26px Inter, system-ui, sans-serif';
+    x.textAlign = 'center';
+    x.textBaseline = 'middle';
+    x.fillText(p.label.toUpperCase(), pad + pillW / 2, pillY + pillH / 2 + 1);
+
+    // "ENDS NOV 20" pill (top-right)
+    const endW = 264, endH = 64, endX = W - pad - endW;
+    x.fillStyle = 'rgba(0,0,0,.68)';
+    roundRect(x, endX, pillY, endW, endH, 32);
+    x.fill();
+    x.strokeStyle = 'rgba(255,46,136,.60)';
+    x.lineWidth = 2;
+    roundRect(x, endX, pillY, endW, endH, 32);
+    x.stroke();
+    x.fillStyle = '#ff8dbd';
+    x.font = '800 22px Inter, system-ui, sans-serif';
+    x.fillText('ENDS NOV 20', endX + endW / 2, pillY + pillH / 2 + 1);
+
+    /* ---------- BOTTOM BLOCK: measure ---------- */
+    const titleFont = '64px Anton, Impact, sans-serif';
+    const capFont   = '400 31px Inter, system-ui, sans-serif';
+    const tagFont   = '600 22px Inter, system-ui, sans-serif';
+    const brandFont = '46px Anton, Impact, sans-serif';
+    const metaFont  = '600 22px Inter, system-ui, sans-serif';
+    const emojiFont = '84px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",serif';
+
+    const titleLH = 72;
+    const capLH   = 42;
+    const tagLH   = 30;
+    const brandH  = 46;
+    const metaH   = 22;
+    const emojiH  = 84;
+
+    x.textAlign = 'left';
+    x.textBaseline = 'top';
+
+    x.font = titleFont;
+    const titleLines = wrapText(x, item.title, W - pad*2, 2);
+
+    x.font = capFont;
+    const capLines = wrapText(x, item.caption, W - pad*2, 4);
+
+    x.font = tagFont;
+    const tagLines = wrapText(x, item.tags, W - pad*2, 2);
+
+    const titleBlockH = titleLines.length * titleLH;
+    const capBlockH   = capLines.length   * capLH;
+    const tagBlockH   = tagLines.length   * tagLH;
+
+    /* ---------- BOTTOM BLOCK: positions (bottom-anchored) ---------- */
+    const metaY    = H - pad - metaH;
+    const brandY   = metaY    - 18 - brandH;
+    const dividerY = brandY   - 22 - 2;
+    const tagY     = dividerY - 22 - tagBlockH;
+    const capY     = tagY     - 22 - capBlockH;
+    const titleY   = capY     - 18 - titleBlockH;
+    const emojiY   = titleY   - 22 - emojiH;
+
+    /* ---------- BOTTOM BLOCK: draw ---------- */
+
+    // emoji
+    x.font = emojiFont;
+    x.fillStyle = '#fff';
+    x.fillText(item.emoji, pad, emojiY);
+
+    // title
+    x.font = titleFont;
+    x.fillStyle = '#ffffff';
+    titleLines.forEach((l, idx) => x.fillText(l, pad, titleY + idx * titleLH));
+
+    // caption
+    x.font = capFont;
+    x.fillStyle = 'rgba(240,235,255,.88)';
+    capLines.forEach((l, idx) => x.fillText(l, pad, capY + idx * capLH));
+
+    // hashtags
+    x.font = tagFont;
+    x.fillStyle = p.a1;
+    tagLines.forEach((l, idx) => x.fillText(l, pad, tagY + idx * tagLH));
+
+    // divider
+    const grad = x.createLinearGradient(pad, 0, W - pad, 0);
+    grad.addColorStop(0, hexA(p.a1, .80));
+    grad.addColorStop(1, hexA(p.a2, .80));
+    x.fillStyle = grad;
+    x.fillRect(pad, dividerY, W - pad*2, 2);
+
+    // brand line
+    x.font = brandFont;
+    x.fillStyle = '#ffffff';
+    x.fillText('ENTER → LINK IN BIO', pad, brandY);
+
+    // meta line
+    x.font = metaFont;
+    x.fillStyle = 'rgba(255,255,255,.52)';
+    x.fillText('GTA VI · VICE CITY GIVEAWAY · ENDS NOV 20', pad, metaY);
+
+    return c;
+  }
+
+  function canvasToBlob(canvas){
+    return new Promise((resolve, reject) => {
+      if (canvas.toBlob) canvas.toBlob(b => b ? resolve(b) : reject(new Error('blob')), 'image/png');
+      else {
+        try {
+          const data = canvas.toDataURL('image/png').split(',')[1];
+          const bin = atob(data);
+          const buf = new Uint8Array(bin.length);
+          for (let k = 0; k < bin.length; k++) buf[k] = bin.charCodeAt(k);
+          resolve(new Blob([buf], { type:'image/png' }));
+        } catch(err){ reject(err); }
+      }
+    });
+  }
+
+  async function getPosterBlob(i){
+    if (posterBlobs.has(i)) return posterBlobs.get(i);
+    const canvas = await buildPoster(i);
+    const blob = await canvasToBlob(canvas);
+    posterBlobs.set(i, blob);
+    return blob;
+  }
+
+  async function savePoster(i){
+    toast('Preparing your poster…');
+    const blob = await getPosterBlob(i);
+    const name = `gtavi-${String(i + 1).padStart(2,'0')}.png`;
+    const file = new File([blob], name, { type:'image/png' });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: SHAREABLES[i].title,
+          text: SHAREABLES[i].caption
+        });
+        toast('✓ Save it from the share sheet');
+        return;
+      } catch(err){
+        if (err && err.name === 'AbortError') return;
+      }
+    }
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+
+    toast('✓ Saved — check your downloads / gallery');
+  }
+
+  /* ============================================================
+     DATES + COUNTDOWN (game Nov 19 · close Nov 20)
+     ============================================================ */
+  const TARGET = (() => {
+    const now = new Date();
+    let y = now.getUTCFullYear();
+    let end = new Date(Date.UTC(y, 10, 20, 23, 59, 59));
+    if (end.getTime() <= now.getTime()){
+      y++;
+      end = new Date(Date.UTC(y, 10, 20, 23, 59, 59));
+    }
+    return { end, year: y };
+  })();
+
+  const pad2 = n => String(n).padStart(2, '0');
+  const els = { d: $('#cd-d'), h: $('#cd-h'), m: $('#cd-m'), s: $('#cd-s') };
+
+  function tick(){
+    let ms = TARGET.end.getTime() - Date.now();
+    if (ms < 0) ms = 0;
+    const d = Math.floor(ms / 864e5);
+    const h = Math.floor(ms % 864e5 / 36e5);
+    const m = Math.floor(ms % 36e5 / 6e4);
+    const s = Math.floor(ms % 6e4 / 1000);
+    els.d.textContent = pad2(d);
+    els.h.textContent = pad2(h);
+    els.m.textContent = pad2(m);
+    els.s.textContent = pad2(s);
+    const st = $('#sticky-timer');
+    if (st) st.textContent = ms > 0 ? `Closes ${d}d ${pad2(h)}h ${pad2(m)}m` : 'Entries closed';
+    if (ms <= 0) clearInterval(timer);
+  }
+  tick();
+  const timer = setInterval(tick, 1000);
+
+  /* ============================================================
+     ENTRANT COUNTER
+     ============================================================ */
+  (function countUp(){
+    const el = $('#entrants');
+    const target = 48219;
+    const dur = 1600;
+    const t0 = performance.now();
+    function frame(t){
+      const p = Math.min((t - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.floor(target * eased).toLocaleString('en-US') + ' entered';
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+
+  /* ============================================================
+     MODAL + PAYMENT FLOW
+     ============================================================ */
+  const modal    = $('#modal');
+  const payView  = $('#payView');
+  const formView = $('#formView');
+  const doneView = $('#doneView');
+
+  const views = {
+    pay(){  payView.classList.remove('hidden');  formView.classList.add('hidden'); doneView.classList.add('hidden'); },
+    form(){ payView.classList.add('hidden');     formView.classList.remove('hidden'); doneView.classList.add('hidden'); },
+    done(){ payView.classList.add('hidden');     formView.classList.add('hidden'); doneView.classList.remove('hidden'); }
+  };
+
+  function renderNet(){
+    const n = NET[currentNet];
+    $('#feeAmount').textContent = n.fee;
+    $('#feeTicker').textContent = n.ticker;
+    $('#feeUsd').innerHTML = n.usd;
+    $('#netName').textContent = n.name;
+    $('#receiptFee').textContent = `${n.fee} ${n.ticker}`;
+    $$('.net').forEach(b => {
+      const on = b.dataset.net === currentNet;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', String(on));
+    });
+  }
+
+  function walletURI(){
+    const n = NET[currentNet];
+    return `ethereum:${ADDRESS}@${n.chain}?value=${n.wei}`;
+  }
+
+  function openModal(){
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('locked');
+    if (entered){ views.done(); }
+    else {
+      views.pay();
+      renderNet();
+      setTimeout(() => { const s = $('.sheet'); if (s) s.scrollTop = 0; }, 60);
+    }
+  }
+
+  function closeModal(){
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('locked');
+  }
+
+  function syncSticky(){
+    $('#stickyBtn').textContent = entered ? 'Entry sent ✓' : 'Enter now';
+  }
+  syncSticky();
+
+  document.addEventListener('click', e => {
+    if (e.target.closest('[data-open-modal]')){ e.preventDefault(); openModal(); }
+    if (e.target.closest('[data-close]')){ e.preventDefault(); closeModal(); }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') closeModal();
+  });
+
+  $$('.net').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentNet = btn.dataset.net;
+      renderNet();
+      buzz(8);
+    });
+  });
+
+  $('#copyAddr').addEventListener('click', async () => {
+    const ok = await copyText(ADDRESS);
+    const code = $('#addrVal');
+    code.classList.remove('flash');
+    void code.offsetWidth;
+    code.classList.add('flash');
+    toast(ok ? '✓ Wallet address copied' : 'Copy failed — long-press the address');
+    if (ok) buzz(14);
+  });
+
+  $('#openWallet').addEventListener('click', async () => {
+    const uri = walletURI();
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile){
+      try { window.location.href = uri; } catch(e){}
+      setTimeout(() => toast('If nothing opened, copy the address manually'), 900);
+    } else {
+      const ok = await copyText(uri);
+      toast(ok ? '✓ Payment link copied — open it on mobile' : 'Copy the address manually');
+    }
+  });
+
+  $('#toForm').addEventListener('click', () => {
+    views.form();
+    setTimeout(() => { const s = $('.sheet'); if (s) s.scrollTop = 0; }, 40);
+  });
+
+  $('#backToPay').addEventListener('click', () => {
+    views.pay();
+    renderNet();
+    setTimeout(() => { const s = $('.sheet'); if (s) s.scrollTop = 0; }, 40);
+  });
+
+  $('#againBtn').addEventListener('click', () => {
+    views.pay();
+    renderNet();
+  });
+
+  $('#entryForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const email   = $('#email');
+    const handle  = $('#handle');
+    const hash    = $('#txhash');
+    const hashErr = $('#hashErr');
+
+    let ok = true;
+    [email, handle].forEach(input => {
+      const valid = input.value.trim().length > 2 &&
+        (input.type !== 'email' || /^\S+@\S+\.\S+$/.test(input.value.trim()));
+      input.style.borderColor = valid ? '' : 'rgba(255,46,136,.85)';
+      if (!valid) ok = false;
+    });
+
+    const hashValid = /^0x[a-fA-F0-9]{64}$/.test(hash.value.trim());
+    hash.style.borderColor = hashValid ? '' : 'rgba(255,46,136,.85)';
+    hashErr.classList.toggle('hidden', hashValid);
+    if (!hashValid) ok = false;
+
+    if (!ok){ toast('Check the highlighted fields'); buzz(24); return; }
+
+    entered = true;
+    try { localStorage.setItem('gtavi_entered', '1'); } catch(err){}
+    syncSticky();
+    $('#receiptFee').textContent = `${NET[currentNet].fee} ${NET[currentNet].ticker}`;
+    views.done();
+    buzz([12, 60, 12]);
+    toast('🎟️ Entry submitted!');
+  });
+
+  $('#goShare').addEventListener('click', () => {
+    closeModal();
+    setTimeout(() => {
+      $('#shares').scrollIntoView({ behavior:'smooth', block:'start' });
+    }, 260);
+  });
+
+  /* ============================================================
+     SCROLL REVEAL
+     ============================================================ */
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting){
+          en.target.style.animation = 'none';
+          void en.target.offsetWidth;
+          en.target.style.animation = '';
+          io.unobserve(en.target);
         }
-
-        // Create progress bars for each story
-        function createProgressBars() {
-            if (!storyProgressContainer) return;
-            
-            storyProgressContainer.innerHTML = '';
-            
-            for (let i = 0; i < currentStories.length; i++) {
-                const progressBar = document.createElement('div');
-                progressBar.className = 'story-progress-bar';
-                progressBar.innerHTML = `<div class="story-progress-fill ${i === 0 ? 'active' : ''}"></div>`;
-                storyProgressContainer.appendChild(progressBar);
-            }
-            
-            // Update pagination
-            storyPagination.textContent = `${currentStoryIndex + 1} of ${currentStories.length}`;
-        }
-
-        // Load a specific story
-        function loadStory(index) {
-            if (index < 0 || index >= currentStories.length) return;
-            
-            currentStoryIndex = index;
-            
-            // Update content
-            if (storyContent) {
-                storyContent.innerHTML = `<img src="${currentStories[index]}" alt="Property image ${index + 1}" class="story-image">`;
-            }
-            
-            // Update progress bars
-            document.querySelectorAll('.story-progress-fill').forEach((fill, i) => {
-                fill.classList.remove('active');
-                fill.style.width = '0%';
-                
-                if (i < index) {
-                    fill.style.width = '100%';
-                } else if (i === index) {
-                    fill.classList.add('active');
-                }
-            });
-            
-            // Update pagination
-            if (storyPagination) {
-                storyPagination.textContent = `${currentStoryIndex + 1} of ${currentStories.length}`;
-            }
-        }
-
-        // Start auto-advance timer
-        function startAutoAdvance() {
-            stopAutoAdvance();
-            isStoriesPlaying = true;
-            
-            progressInterval = setTimeout(() => {
-                nextStory();
-            }, 5000); // 5 seconds per story
-        }
-
-        // Stop auto-advance timer
-        function stopAutoAdvance() {
-            if (progressInterval) {
-                clearTimeout(progressInterval);
-                progressInterval = null;
-            }
-            isStoriesPlaying = false;
-            
-            // Pause progress bar animation
-            document.querySelectorAll('.story-progress-fill.active').forEach(fill => {
-                const currentWidth = fill.style.width || '0%';
-                fill.style.width = currentWidth;
-                fill.classList.remove('active');
-            });
-        }
-
-        // Resume auto-advance
-        function resumeAutoAdvance() {
-            if (!isStoriesPlaying) {
-                startAutoAdvance();
-            }
-        }
-
-        // Go to next story
-        function nextStory() {
-            if (currentStoryIndex < currentStories.length - 1) {
-                loadStory(currentStoryIndex + 1);
-                startAutoAdvance();
-            } else {
-                closeStories();
-            }
-        }
-
-        // Go to previous story
-        function prevStory() {
-            if (currentStoryIndex > 0) {
-                loadStory(currentStoryIndex - 1);
-                startAutoAdvance();
-            }
-        }
-
-        // Close stories
-        function closeStories() {
-            stopAutoAdvance();
-            if (storiesOverlay) {
-                storiesOverlay.classList.remove('active');
-                document.body.classList.remove('stories-open');
-            }
-        }
-
-        // Toggle like on current story
-        function toggleLike() {
-            const storyKey = `${currentProperty.id}-${currentStoryIndex}`;
-            
-            if (likedStories.has(storyKey)) {
-                likedStories.delete(storyKey);
-            } else {
-                likedStories.add(storyKey);
-            }
-            
-            updateLikeButton();
-        }
-
-        // Update like button appearance
-        function updateLikeButton() {
-            if (!currentProperty || !storyLikeBtn) return;
-            
-            const storyKey = `${currentProperty.id}-${currentStoryIndex}`;
-            const isLiked = likedStories.has(storyKey);
-            
-            if (isLiked) {
-                storyLikeBtn.classList.add('active');
-                storyLikeBtn.innerHTML = '<i class="fas fa-heart"></i>';
-            } else {
-                storyLikeBtn.classList.remove('active');
-                storyLikeBtn.innerHTML = '<i class="far fa-heart"></i>';
-            }
-        }
-
-        // Open contact modal from story
-        function openContactFromStory() {
-            closeStories();
-            openContactModal(currentProperty);
-        }
-
-        // Open contact modal
-        function openContactModal(property) {
-            alert(`Contact form for: ${property.title}\n\nIn a full implementation, this would open a contact form to schedule a viewing for this property.`);
-        }
-
-        // Setup swipe gestures for stories
-        function setupStoriesSwipe() {
-            if (!storiesOverlay) return;
-            
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let touchEndX = 0;
-            let touchEndY = 0;
-            
-            storiesOverlay.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
-                stopAutoAdvance();
-            }, {passive: true});
-            
-            storiesOverlay.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                touchEndY = e.changedTouches[0].screenY;
-                handleSwipe();
-                resumeAutoAdvance();
-            }, {passive: true});
-            
-            function handleSwipe() {
-                const swipeThreshold = 50;
-                const xDiff = touchStartX - touchEndX;
-                const yDiff = touchStartY - touchEndY;
-                
-                // Check if it's primarily a horizontal swipe
-                if (Math.abs(xDiff) > Math.abs(yDiff)) {
-                    if (Math.abs(xDiff) > swipeThreshold) {
-                        if (xDiff > 0) {
-                            // Swipe left - next story
-                            nextStory();
-                        } else {
-                            // Swipe right - previous story
-                            prevStory();
-                        }
-                    }
-                } else {
-                    // Vertical swipe
-                    if (Math.abs(yDiff) > swipeThreshold) {
-                        if (yDiff > 0) {
-                            // Swipe up - close stories
-                            closeStories();
-                        }
-                    }
-                }
-            }
-        }
-
-        // Smooth scrolling for anchor links
-        function setupSmoothScrolling() {
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-        }
-
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+      });
+    }, { rootMargin: '0px 0px -40px 0px' });
+    $$('.card').forEach(c => io.observe(c));
+  }
+})();
+</script>
 </body>
 </html>
