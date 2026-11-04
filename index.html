@@ -397,6 +397,27 @@ h1 em{
 }
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
+/* ===== SAVE IMAGE PREVIEW ===== */
+.save-dialog{
+  width:min(92vw,460px);max-height:90vh;margin:auto;padding:20px;
+  color:var(--text);background:linear-gradient(180deg,#160b26,#0b0517);
+  border:1px solid rgba(255,255,255,.14);border-radius:24px;
+}
+.save-dialog::backdrop{background:rgba(4,1,10,.78);backdrop-filter:blur(6px)}
+.save-dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.save-dialog h3{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;font-size:25px;margin:0 0 6px}
+.save-dialog form{flex:0 0 auto}
+.save-dialog .save-close{
+  width:38px;height:38px;border:1px solid var(--stroke);border-radius:50%;
+  color:var(--text);background:rgba(255,255,255,.07);font-size:23px;cursor:pointer;
+}
+.save-dialog p{color:var(--muted);font-size:13px;line-height:1.5;margin:0 0 14px}
+.save-dialog img{
+  width:100%;max-height:48vh;object-fit:contain;margin:0 auto 16px;
+  -webkit-touch-callout:default;user-select:auto;-webkit-user-select:auto;
+}
+.save-dialog .btn{width:100%}
+
 /* ===== MODAL ===== */
 .modal{position:fixed;inset:0;z-index:100;display:flex;align-items:flex-end;justify-content:center}
 .modal[aria-hidden="true"]{pointer-events:none}
@@ -631,7 +652,7 @@ h1 em{
     <div class="sec-head">
       <p class="sec-kicker">SHARE &amp; UNLOCK</p>
       <h2 class="sec-title">14 ready-to-post drops</h2>
-      <p class="sec-sub">Tap <b>Save image</b> and choose Save Image or Add to Photos in your device menu. If that option is unavailable, the PNG downloads to your device. Tap <b>Copy</b> to copy the caption.</p>
+      <p class="sec-sub">Tap <b>Save to Gallery</b> and choose Save Image or Add to Photos in your device menu. If that option is unavailable, press and hold the preview image to save it, or download the PNG. Tap <b>Copy</b> to copy the caption.</p>
     </div>
 
     <div class="tabs" id="tabs" role="tablist">
@@ -661,6 +682,16 @@ h1 em{
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<dialog class="save-dialog" id="saveDialog" aria-labelledby="saveDialogTitle">
+  <div class="save-dialog-head">
+    <h3 id="saveDialogTitle">Save to Photos or Gallery</h3>
+    <form method="dialog"><button class="save-close" aria-label="Close save preview">×</button></form>
+  </div>
+  <p>Press and hold the image, then choose <b>Save Image</b> or <b>Add to Photos</b>. You can also download the PNG.</p>
+  <img id="savePreview" alt="">
+  <a class="btn btn-primary" id="saveDownload" download>Download PNG</a>
+</dialog>
 
 <div class="modal" id="modal" aria-hidden="true">
   <div class="modal-bg" data-close></div>
@@ -1185,7 +1216,7 @@ h1 em{
           <div class="tags">${tags}</div>
           <div class="acts">
             <button class="act act-copy" data-action="copy" data-i="${i}">⧉ Copy caption</button>
-            <button class="act act-save" data-action="save" data-i="${i}" aria-label="Save ${item.title} image" title="Save image to your device">⤓ Save image</button>
+            <button class="act act-save" data-action="save" data-i="${i}" aria-label="Save ${item.title} image to your gallery" title="Save image to Photos or Gallery">⤓ Save to Gallery</button>
             <button class="act act-share" data-action="share" data-i="${i}" aria-label="Share caption">↗</button>
           </div>
         </div>
@@ -1484,6 +1515,27 @@ h1 em{
     return blob;
   }
 
+  const saveDialog = $('#saveDialog');
+  const savePreview = $('#savePreview');
+  const saveDownload = $('#saveDownload');
+  let savePreviewUrl;
+
+  function showSavePreview(blob, name, title){
+    savePreviewUrl = URL.createObjectURL(blob);
+    savePreview.src = savePreviewUrl;
+    savePreview.alt = `${title} poster`;
+    saveDownload.href = savePreviewUrl;
+    saveDownload.download = name;
+    saveDialog.showModal();
+  }
+
+  saveDialog.addEventListener('close', () => {
+    if (savePreviewUrl) URL.revokeObjectURL(savePreviewUrl);
+    savePreviewUrl = null;
+    savePreview.removeAttribute('src');
+    saveDownload.removeAttribute('href');
+  });
+
   async function savePoster(i){
     toast('Preparing your poster…');
     const blob = await getPosterBlob(i);
@@ -1497,24 +1549,17 @@ h1 em{
           title: SHAREABLES[i].title,
           text: SHAREABLES[i].caption
         });
-        toast('✓ Image sent to your device menu');
+        toast('✓ Choose Save Image / Add to Photos');
         return;
       } catch(err){
-        if (err && err.name === 'AbortError') return;
+        if (err && err.name === 'AbortError'){
+          toast('Image save canceled');
+          return;
+        }
       }
     }
 
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = name;
-    a.rel = 'noopener';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 5000);
-
-    toast('✓ PNG downloaded — open it to save to Photos / Gallery');
+    showSavePreview(blob, name, SHAREABLES[i].title);
   }
 
   /* ============================================================
