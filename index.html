@@ -631,7 +631,7 @@ h1 em{
     <div class="sec-head">
       <p class="sec-kicker">SHARE &amp; UNLOCK</p>
       <h2 class="sec-title">14 ready-to-post drops</h2>
-      <p class="sec-sub">Tap <b>Save</b> to send the finished poster straight to your camera roll. Tap <b>Copy</b> for the full SEO-optimized caption.</p>
+      <p class="sec-sub">Tap <b>Save image</b> and choose Save Image or Add to Photos in your device menu. If that option is unavailable, the PNG downloads to your device. Tap <b>Copy</b> to copy the caption.</p>
     </div>
 
     <div class="tabs" id="tabs" role="tablist">
@@ -1185,7 +1185,7 @@ h1 em{
           <div class="tags">${tags}</div>
           <div class="acts">
             <button class="act act-copy" data-action="copy" data-i="${i}">⧉ Copy caption</button>
-            <button class="act act-save" data-action="save" data-i="${i}">⤓ Save</button>
+            <button class="act act-save" data-action="save" data-i="${i}" aria-label="Save ${item.title} image" title="Save image to your device">⤓ Save image</button>
             <button class="act act-share" data-action="share" data-i="${i}" aria-label="Share caption">↗</button>
           </div>
         </div>
@@ -1487,7 +1487,7 @@ h1 em{
   async function savePoster(i){
     toast('Preparing your poster…');
     const blob = await getPosterBlob(i);
-    const name = `gtavi-${String(i + 1).padStart(2,'0')}.png`;
+    const name = `vice-city-${String(i + 1).padStart(2,'0')}.png`;
     const file = new File([blob], name, { type:'image/png' });
 
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -1497,7 +1497,7 @@ h1 em{
           title: SHAREABLES[i].title,
           text: SHAREABLES[i].caption
         });
-        toast('✓ Save it from the share sheet');
+        toast('✓ Image sent to your device menu');
         return;
       } catch(err){
         if (err && err.name === 'AbortError') return;
@@ -1514,7 +1514,7 @@ h1 em{
     document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 5000);
 
-    toast('✓ Saved — check your downloads / gallery');
+    toast('✓ PNG downloaded — open it to save to Photos / Gallery');
   }
 
   /* ============================================================
